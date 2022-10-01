@@ -1,4 +1,3 @@
 # Yadebs
-Yet another double entry bookkeeping system
-
+Yet another double entry bookkeeping 
 It should at least get some accounts and a ledger
