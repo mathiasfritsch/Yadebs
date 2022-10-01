@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Yadebs/.vscode
+/Yadebs.Api/.vs
+/Yadebs.Api/Yadebs.Api/bin/Debug/net6.0
+/Yadebs.Api/Yadebs.Api/obj
+/Yadebs.Api/Yadebs.Bll/bin/Debug/net6.0
+/Yadebs.Api/Yadebs.Bll/obj
+/Yadebs.Api/Yadebs.Db/bin/Debug/net6.0
+/Yadebs.Api/Yadebs.Db/obj
+/Yadebs.Api/Yadebs.Models/bin/Debug/net6.0
+/Yadebs.Api/Yadebs.Models/obj
