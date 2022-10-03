@@ -3,18 +3,9 @@ import { CommonModule } from '@angular/common';
 
 import { AccountsRoutingModule } from './accounts-routing.module';
 import { AccountListComponent } from './account-list/account-list.component';
-import { StoreModule } from '@ngrx/store';
-import * as fromAccount from '../account.reducer';
-
 
 @NgModule({
-  declarations: [
-    AccountListComponent
-  ],
-  imports: [
-    CommonModule,
-    AccountsRoutingModule,
-    StoreModule.forFeature(fromAccount.accountsFeatureKey, fromAccount.reducer)
-  ]
+  declarations: [AccountListComponent],
+  imports: [CommonModule, AccountsRoutingModule],
 })
-export class AccountsModule { }
+export class AccountsModule {}
