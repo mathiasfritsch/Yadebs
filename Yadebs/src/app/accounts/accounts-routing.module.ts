@@ -4,18 +4,13 @@ import { AccountListComponent } from './account-list/account-list.component';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'list',
-    pathMatch: 'full',
-  },
-  {
     path: ':list',
     component: AccountListComponent,
     pathMatch: 'full',
-  }
+  },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AccountsRoutingModule { }
+export class AccountsRoutingModule {}
