@@ -4,10 +4,15 @@ namespace Yadebs.Db
 {
     public class AccountingContext : DbContext
     {
+        public AccountingContext()
+        {
+        }
+
         public AccountingContext(DbContextOptions options)
             : base(options)
         {
         }
+   
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

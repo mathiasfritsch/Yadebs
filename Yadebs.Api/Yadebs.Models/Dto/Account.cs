@@ -1,6 +1,6 @@
 ﻿namespace Yadebs.Models.Dto
 {
-    public class Account
+    public class AccountDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
