@@ -1,1 +1,17 @@
-<p>account-list works!</p>
+<app-account-edit [show]="true"></app-account-edit>
+
+<div *ngIf="accounts$ | async as accounts; else loading">
+  <div *ngFor="let a of accounts">
+    <div>
+      <div>
+        {{ a.number }}
+        {{ a.name }}
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+  <div>
+    <div>Daten werden geladen...</div>
+  </div>
+</ng-template>
