@@ -1,5 +1,4 @@
-<app-account-edit [show]="true"></app-account-edit>
-
+<button mat-button (click)="addAccountDialog()">Add Account</button>
 <div *ngIf="accounts$ | async as accounts; else loading">
   <div *ngFor="let a of accounts">
     <div>

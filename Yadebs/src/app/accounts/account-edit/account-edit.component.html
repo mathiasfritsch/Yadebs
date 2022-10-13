@@ -1,3 +1,17 @@
-<div>
-  <div>Edit show: {{ show }}</div>
-</div>
+<form [formGroup]="accountForm">
+  <p>
+    <mat-form-field>
+      <mat-label for="name"> Name: </mat-label>
+      <input matInput id="name" type="text" formControlName="name" />
+      <mat-hint>Name</mat-hint>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field>
+      <mat-label for="age">Age: </mat-label>
+      <input matInput id="age" type="text" formControlName="age" />
+      <mat-hint>Age</mat-hint>
+    </mat-form-field>
+  </p>
+</form>
+<button mat-button (click)="setProperty()">Add Account</button>

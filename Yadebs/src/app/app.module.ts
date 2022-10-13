@@ -9,6 +9,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatLabel } from '@angular/material/form-field';
 @NgModule({
   declarations: [AppComponent, HomeComponent],
   imports: [
@@ -22,6 +24,9 @@ import { MatSliderModule } from '@angular/material/slider';
     HttpClientModule,
     BrowserAnimationsModule,
     MatSliderModule,
+
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
