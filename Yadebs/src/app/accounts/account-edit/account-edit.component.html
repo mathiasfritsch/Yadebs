@@ -4,14 +4,16 @@
       <mat-label for="name"> Name: </mat-label>
       <input matInput id="name" type="text" formControlName="name" />
       <mat-hint>Name</mat-hint>
+      <mat-error *ngIf="accountForm.value.name">Name error</mat-error>
     </mat-form-field>
   </p>
   <p>
     <mat-form-field>
-      <mat-label for="age">Age: </mat-label>
-      <input matInput id="age" type="text" formControlName="age" />
-      <mat-hint>Age</mat-hint>
+      <mat-label for="number">Number: </mat-label>
+      <input matInput id="number" type="text" formControlName="number" />
+      <mat-hint>Number</mat-hint>
+      <mat-error *ngIf="accountForm.value.number">Number error</mat-error>
     </mat-form-field>
   </p>
 </form>
-<button mat-button (click)="setProperty()">Add Account</button>
+<button mat-button (click)="submitForm()">Add Account</button>
