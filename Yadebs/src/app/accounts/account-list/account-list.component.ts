@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AccountEditComponent } from '../account-edit/account-edit.component';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { pairwise, take, filter } from 'rxjs/operators';
+import { Router, Event, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-account-list',
@@ -22,8 +24,22 @@ export class AccountListComponent implements OnInit {
   constructor(
     private store: Store,
     private route: ActivatedRoute,
-    public dialog: MatDialog
-  ) {}
+    public dialog: MatDialog,
+    private router: Router
+  ) {
+    router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        console.log(val);
+        if (val.url != '/accounts/list') {
+          let dialogRef = this.dialog.open(AccountEditComponent);
+
+          dialogRef
+            .afterClosed()
+            .subscribe(() => this.router.navigateByUrl('accounts/list'));
+        }
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.loadAccounts();
