@@ -1,16 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Validators, FormBuilder } from '@angular/forms';
 import {
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  FormControl,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
-import { FloatLabelType } from '@angular/material/form-field';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogConfig,
+} from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Account } from 'src/app/shared/account';
 
 @Component({
   selector: 'app-account-edit',
@@ -18,22 +15,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./account-edit.component.css'],
 })
 export class AccountEditComponent implements OnInit {
+  isAdd: boolean = false;
+
   constructor(
-    private _formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<AccountEditComponent>,
-    private router: Router
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) public account: Account
   ) {}
-  accountForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    number: new FormControl('', Validators.required),
+
+  accountForm = this.formBuilder.group({
+    name: [this.account.name, Validators.required],
+    number: [this.account.number, Validators.required],
   });
-  ngOnInit(): void {
-    console.log('init detail');
-  }
+
+  ngOnInit(): void {}
+
   closeForm(): void {
     this.dialogRef.close();
     this.router.navigateByUrl('accounts/list');
   }
+
   submitForm(): void {
     if (this.accountForm.invalid) {
       return;
@@ -41,4 +43,21 @@ export class AccountEditComponent implements OnInit {
     this.dialogRef.close();
     this.router.navigateByUrl('accounts/list');
   }
+}
+
+export function openEditCourseDialog(dialog: MatDialog, account: Account) {
+  const config = new MatDialogConfig();
+
+  config.disableClose = true;
+  config.autoFocus = true;
+  config.panelClass = 'modal-panel';
+  config.backdropClass = 'backdrop-modal-panel';
+
+  config.data = {
+    ...account,
+  };
+
+  const dialogRef = dialog.open(AccountEditComponent, config);
+
+  return dialogRef.afterClosed();
 }

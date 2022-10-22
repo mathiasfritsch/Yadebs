@@ -28,14 +28,15 @@ namespace Yadebs.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public AccountDto Get(int id)
+        public async Task<AccountDto> Get(int id)
         {
-            return accounts[0];
+            return await this.accountingService.GetAccountAsync(id);
         }
 
         [HttpPost]
-        public void Post([FromBody] AccountDto value)
+        public async Task<AccountDto> PostAsync([FromBody] AccountDto value)
         {
+            return await this.accountingService.AddAccountAsync(value);
         }
 
         [HttpPut("{id}")]
@@ -44,8 +45,9 @@ namespace Yadebs.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
+             await this.accountingService.DeleteAccountAsync(id);
         }
     }
 }

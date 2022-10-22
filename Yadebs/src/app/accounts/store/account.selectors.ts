@@ -16,5 +16,8 @@ export const selectAllAccounts = createSelector(
 );
 export const selectAccount = createSelector(
   selectAccountState,
-  (state) => state.entities[1]
+  (state) => state.entities[3]
 );
+
+export const selectEntity = (id: number) =>
+  createSelector(selectAccountState, (state) => state.entities[id]);

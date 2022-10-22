@@ -1,25 +1,25 @@
-import { Action, createReducer, on, createFeatureSelector } from '@ngrx/store';
+import { createReducer, on, createFeatureSelector } from '@ngrx/store';
 import * as AccountActions from './account.actions';
 import { Account } from 'src/app/shared/account';
-import { state } from '@angular/animations';
 export const accountFeatureKey = 'account';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { createSelector } from '@ngrx/store';
-
 export const adapter: EntityAdapter<Account> = createEntityAdapter<Account>({});
 
 export interface State extends EntityState<Account> {
   loading: boolean;
+  editAccount: any;
 }
-const accountFeature = createFeatureSelector(accountFeatureKey);
-
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  editAccount: null,
 });
 
 export const reducer = createReducer(
   initialState,
 
+  on(AccountActions.setEditAccount, (state, action) => {
+    return { ...state, editAccount: action.data };
+  }),
   on(AccountActions.loadAccounts, (state) => {
     return { ...state, loading: true };
   }),
