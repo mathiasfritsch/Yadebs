@@ -20,28 +20,13 @@ import {
   MatTreeFlatDataSource,
   MatTreeFlattener,
 } from '@angular/material/tree';
-interface Family {
+interface AccountNode {
   name: string;
-  children?: Family[];
+  id: number;
+  children?: AccountNode[];
 }
 
-const FAMILY_TREE: Family[] = [
-  {
-    name: 'Joyce',
-    children: [
-      { name: 'Mike' },
-      { name: 'Will' },
-      { name: 'Eleven', children: [{ name: 'Hopper' }] },
-      { name: 'Lucas' },
-      { name: 'Dustin', children: [{ name: 'Winona' }] },
-    ],
-  },
-  {
-    name: 'Jean',
-    children: [{ name: 'Otis' }, { name: 'Maeve' }],
-  },
-];
-interface ExampleFlatNode {
+interface AcccountFlatNode {
   expandable: boolean;
   name: string;
   level: number;
@@ -52,7 +37,7 @@ interface ExampleFlatNode {
   styleUrls: ['./account-list.component.css'],
 })
 export class AccountListComponent implements OnInit {
-  private _transformer = (node: Family, level: number) => {
+  private _transformer = (node: AccountNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
@@ -60,7 +45,7 @@ export class AccountListComponent implements OnInit {
     };
   };
 
-  treeControl = new FlatTreeControl<ExampleFlatNode>(
+  treeControl = new FlatTreeControl<AcccountFlatNode>(
     (node) => node.level,
     (node) => node.expandable
   );
@@ -74,8 +59,9 @@ export class AccountListComponent implements OnInit {
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   accounts$ = this.store.pipe(select(selectAllAccounts));
+
   loading$ = this.store.pipe(select(selectAccountState));
-  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+  hasChild = (_: number, node: AcccountFlatNode) => node.expandable;
 
   constructor(
     private store: Store,
@@ -83,7 +69,11 @@ export class AccountListComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router
   ) {
-    this.dataSource.data = FAMILY_TREE;
+    this.store.pipe(select(selectAllAccounts)).subscribe((accounts) => {
+      this.dataSource.data = accounts;
+    });
+
+    this.dataSource.data = [];
 
     router.events
       .pipe(

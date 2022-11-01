@@ -14,10 +14,11 @@ export const selectAllAccounts = createSelector(
   selectAccountState,
   fromAccount.selectAll
 );
-export const selectAccount = createSelector(
-  selectAccountState,
-  (state) => state.entities[3]
-);
 
 export const selectEntity = (id: number) =>
   createSelector(selectAccountState, (state) => state.entities[id]);
+
+export const selectFilteredAccounts = createSelector(
+  selectAllAccounts,
+  (accounts) => accounts.filter((course) => course.id != 4)
+);
