@@ -1,4 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { Account } from 'src/app/shared/account';
+import { AccountEditComponent } from '../account-edit/account-edit.component';
 import * as fromAccount from './account.reducer';
 
 export const selectAccountState = createFeatureSelector<fromAccount.State>(
@@ -18,7 +20,25 @@ export const selectAllAccounts = createSelector(
 export const selectEntity = (id: number) =>
   createSelector(selectAccountState, (state) => state.entities[id]);
 
-export const selectFilteredAccounts = createSelector(
-  selectAllAccounts,
-  (accounts) => accounts.filter((course) => course.id != 4)
+export const selectAccountTree = createSelector(selectAllAccounts, (accounts) =>
+  getTree(accounts)
 );
+
+function getTree(nodes: Account[]): Account[] {
+  var mutableNodes: Account[] = JSON.parse(JSON.stringify(nodes));
+  var tree = new Array<Account>();
+  mutableNodes
+    .filter((n) => n.parentId === null)
+    .forEach((n) => tree.push(getNodeWithChildren(nodes, n)));
+  return tree;
+}
+
+function getNodeWithChildren(nodes: Account[], node: Account): Account {
+  var children = new Array<Account>();
+  nodes
+    .filter((n) => n.parentId === node.id)
+    .forEach((n) => children.push(getNodeWithChildren(nodes, n)));
+
+  if (children.length > 0) node.children = children;
+  return node;
+}

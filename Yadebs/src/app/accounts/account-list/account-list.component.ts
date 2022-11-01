@@ -5,6 +5,7 @@ import {
   selectAccountState,
   selectAllAccounts,
   selectEntity,
+  selectAccountTree,
 } from '../store/account.selectors';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -69,8 +70,9 @@ export class AccountListComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router
   ) {
-    this.store.pipe(select(selectAllAccounts)).subscribe((accounts) => {
+    this.store.pipe(select(selectAccountTree)).subscribe((accounts) => {
       this.dataSource.data = accounts;
+      this.treeControl.expandAll();
     });
 
     this.dataSource.data = [];
@@ -85,7 +87,14 @@ export class AccountListComponent implements OnInit {
         ),
         switchMap((re) =>
           this.store.pipe(
-            select(selectEntity(Number(re.url.charAt(re.url.length - 1))))
+            select(
+              selectEntity(
+                ((): number => {
+                  var urlParts = re.url.split('/');
+                  return Number(urlParts[urlParts.length - 1]);
+                })()
+              )
+            )
           )
         )
       )
@@ -101,10 +110,6 @@ export class AccountListComponent implements OnInit {
     this.loadAccounts();
   }
   @ViewChild('tree') tree: any;
-
-  ngAfterViewInit() {
-    this.tree.treeControl.expandAll();
-  }
 
   addAccountDialog(): void {
     this.router.navigateByUrl('accounts/list/0');

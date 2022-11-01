@@ -4,4 +4,5 @@ export interface Account {
   number: number;
   parentId: number;
   bookId: number;
+  children: Account[];
 }
