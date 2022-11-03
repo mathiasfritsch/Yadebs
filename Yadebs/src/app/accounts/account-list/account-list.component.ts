@@ -3,19 +3,16 @@ import { Store, select } from '@ngrx/store';
 import { loadAccounts } from '../store/account.actions';
 import {
   selectAccountState,
-  selectAllAccounts,
   selectEntity,
   selectAccountTree,
 } from '../store/account.selectors';
-import { ActivatedRoute } from '@angular/router';
 import {
   AccountEditComponent,
   openEditCourseDialog,
 } from '../account-edit/account-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, NavigationEnd, Event } from '@angular/router';
-import { switchMap, filter } from 'rxjs';
-import { MatIcon } from '@angular/material/icon';
+import { switchMap, filter, Subscription } from 'rxjs';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
   MatTreeFlatDataSource,
@@ -24,6 +21,7 @@ import {
 interface AccountNode {
   name: string;
   id: number;
+  number: number;
   children?: AccountNode[];
 }
 
@@ -31,6 +29,8 @@ interface AcccountFlatNode {
   expandable: boolean;
   name: string;
   level: number;
+  id: number;
+  number: number;
 }
 @Component({
   selector: 'app-account-list',
@@ -43,6 +43,8 @@ export class AccountListComponent implements OnInit {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
       level: level,
+      id: node.id,
+      number: node.number,
     };
   };
 
@@ -59,25 +61,27 @@ export class AccountListComponent implements OnInit {
   );
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  accounts$ = this.store.pipe(select(selectAllAccounts));
-
   loading$ = this.store.pipe(select(selectAccountState));
   hasChild = (_: number, node: AcccountFlatNode) => node.expandable;
+  selectAccountTreeSubscription: Subscription;
+  routerSubscription: Subscription;
+  modalSubscription: Subscription | undefined;
 
   constructor(
     private store: Store,
-    private route: ActivatedRoute,
     public dialog: MatDialog,
     private router: Router
   ) {
-    this.store.pipe(select(selectAccountTree)).subscribe((accounts) => {
-      this.dataSource.data = accounts;
-      this.treeControl.expandAll();
-    });
+    this.selectAccountTreeSubscription = this.store
+      .pipe(select(selectAccountTree))
+      .subscribe((accounts) => {
+        this.dataSource.data = accounts;
+        this.treeControl.expandAll();
+      });
 
     this.dataSource.data = [];
 
-    router.events
+    this.routerSubscription = router.events
       .pipe(
         filter(
           (e: Event): e is NavigationEnd =>
@@ -100,7 +104,10 @@ export class AccountListComponent implements OnInit {
       )
       .subscribe((accountSelected) => {
         if (accountSelected)
-          openEditCourseDialog(this.dialog, accountSelected)
+          this.modalSubscription = openEditCourseDialog(
+            this.dialog,
+            accountSelected
+          )
             .pipe(filter((val) => !!val))
             .subscribe((val) => console.log('new course value:', val));
       });
@@ -110,7 +117,11 @@ export class AccountListComponent implements OnInit {
     this.loadAccounts();
   }
   @ViewChild('tree') tree: any;
-
+  ngOnDestroy() {
+    this.selectAccountTreeSubscription.unsubscribe();
+    this.routerSubscription.unsubscribe();
+    if (this.modalSubscription) this.modalSubscription.unsubscribe();
+  }
   addAccountDialog(): void {
     this.router.navigateByUrl('accounts/list/0');
     let dialogRef = this.dialog.open(AccountEditComponent, {

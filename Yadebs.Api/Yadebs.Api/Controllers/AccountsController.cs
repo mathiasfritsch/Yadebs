@@ -18,10 +18,6 @@ namespace Yadebs.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<AccountDto>> GetAsync() => await this.accountingService.GetAccountsAsync();
 
-        [HttpGet]
-        [Route("AccountTree")]
-        public async Task<IEnumerable<AccountTreeNode>> AccountTreeAsync() => await this.accountingService.GetAccountTreeAsync();
-
         [HttpGet("{id}")]
         public async Task<AccountDto> Get(int id) => await this.accountingService.GetAccountAsync(id);
 

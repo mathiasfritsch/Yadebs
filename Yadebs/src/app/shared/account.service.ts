@@ -12,5 +12,12 @@ export class AccountService {
       'https://localhost:7211/api/Accounts'
     );
   }
+
+  addAccount(account: Account): Observable<Account> {
+    return this.httpClient.post<Account>(
+      'https://localhost:7211/api/Accounts',
+      account
+    );
+  }
   constructor(private httpClient: HttpClient) {}
 }

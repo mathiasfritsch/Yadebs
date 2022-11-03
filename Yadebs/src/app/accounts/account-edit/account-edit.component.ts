@@ -8,7 +8,8 @@ import {
 } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Account } from 'src/app/shared/account';
-
+import { addAccount } from '../store/account.actions';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-account-edit',
   templateUrl: './account-edit.component.html',
@@ -21,6 +22,7 @@ export class AccountEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<AccountEditComponent>,
     private router: Router,
+    private store: Store,
     @Inject(MAT_DIALOG_DATA) public account: Account
   ) {}
 
@@ -35,8 +37,24 @@ export class AccountEditComponent implements OnInit {
     this.dialogRef.close();
     this.router.navigateByUrl('accounts/list');
   }
+  submitAddForm(): void {
+    if (this.accountForm.invalid) {
+      return;
+    }
 
-  submitForm(): void {
+    const account: Account = {
+      id: 0,
+      name: 'asd',
+      number: 123,
+      bookId: 1,
+      parentId: 4,
+      children: [],
+    };
+
+    this.store.dispatch(addAccount({ account }));
+    this.dialogRef.close();
+  }
+  submitUpdateForm(): void {
     if (this.accountForm.invalid) {
       return;
     }
