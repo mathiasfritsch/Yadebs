@@ -16,11 +16,14 @@ export const initialState: State = adapter.getInitialState({
 
 export const reducer = createReducer(
   initialState,
+  on(AccountActions.updateAccountSuccess, (state, action) => {
+    return adapter.updateOne(action.account, state);
+  }),
   on(AccountActions.addAccountSuccess, (state, action) => {
     return adapter.addOne(action.account, state);
   }),
-  on(AccountActions.addAccount, (state, action) => {
-    return adapter.addOne(action.account, state);
+  on(AccountActions.deleteAccountSuccess, (state, action) => {
+    return adapter.removeOne(action.id, state);
   }),
   on(AccountActions.loadAccounts, (state) => {
     return { ...state, loading: true };

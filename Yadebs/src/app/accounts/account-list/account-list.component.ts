@@ -5,10 +5,11 @@ import {
   selectAccountState,
   selectEntity,
   selectAccountTree,
+  selectAllAccounts,
 } from '../store/account.selectors';
 import {
   AccountEditComponent,
-  openEditCourseDialog,
+  openEditAccountDialog,
 } from '../account-edit/account-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, NavigationEnd, Event } from '@angular/router';
@@ -18,6 +19,7 @@ import {
   MatTreeFlatDataSource,
   MatTreeFlattener,
 } from '@angular/material/tree';
+import { Account } from 'src/app/shared/account';
 interface AccountNode {
   name: string;
   id: number;
@@ -60,7 +62,7 @@ export class AccountListComponent implements OnInit {
     (node) => node.children
   );
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
+  accounts: Account[] = [];
   loading$ = this.store.pipe(select(selectAccountState));
   hasChild = (_: number, node: AcccountFlatNode) => node.expandable;
   selectAccountTreeSubscription: Subscription;
@@ -74,9 +76,15 @@ export class AccountListComponent implements OnInit {
   ) {
     this.selectAccountTreeSubscription = this.store
       .pipe(select(selectAccountTree))
-      .subscribe((accounts) => {
-        this.dataSource.data = accounts;
+      .subscribe((accountsAsTree) => {
+        this.dataSource.data = accountsAsTree;
         this.treeControl.expandAll();
+      });
+
+    this.selectAccountTreeSubscription = this.store
+      .pipe(select(selectAllAccounts))
+      .subscribe((accounts) => {
+        this.accounts = accounts;
       });
 
     this.dataSource.data = [];
@@ -104,9 +112,10 @@ export class AccountListComponent implements OnInit {
       )
       .subscribe((accountSelected) => {
         if (accountSelected)
-          this.modalSubscription = openEditCourseDialog(
+          this.modalSubscription = openEditAccountDialog(
             this.dialog,
-            accountSelected
+            accountSelected,
+            this.accounts
           )
             .pipe(filter((val) => !!val))
             .subscribe((val) => console.log('new course value:', val));

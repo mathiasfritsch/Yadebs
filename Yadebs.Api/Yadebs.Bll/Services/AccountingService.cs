@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Principal;
 using Yadebs.Db;
 using Yadebs.Models.Dto;
 
@@ -24,6 +25,18 @@ namespace Yadebs.Bll.Services
             this.context.Accounts.Add(account);
             await this.context.SaveChangesAsync();
             return await GetAccountAsync(account.Id);
+        }
+
+        public async Task UpdateAccountAsync(int id, AccountDto accountDto)
+        {
+            var accountToUpdate =  await this.context.Accounts.SingleAsync(a => a.Id == id);
+
+            accountToUpdate.BookId = accountDto.BookId;
+            accountToUpdate.Name = accountDto.Name;
+            accountToUpdate.Number = accountDto.Number;
+            accountToUpdate.ParentId = accountDto.ParentId;
+
+            await this.context.SaveChangesAsync();
         }
 
         public async Task<AccountDto> GetAccountAsync(int id)
@@ -57,6 +70,10 @@ namespace Yadebs.Bll.Services
         public async Task DeleteAccountAsync(int id)
         {
             var account = await this.context.Accounts.SingleAsync(a => a.Id == id);
+
+            var childAccounts = await this.context.Accounts.Where(a => a.ParentId == id ).ToListAsync();
+            childAccounts.ForEach(a => a.ParentId = account.ParentId);
+
             this.context.Accounts.Remove(account);
             await this.context.SaveChangesAsync();
         }

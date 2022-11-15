@@ -1,5 +1,21 @@
 <form [formGroup]="accountForm">
   <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Parent account</mat-label>
+      <mat-select
+        [(ngModel)]="selectedValue"
+        [ngModelOptions]="{ standalone: true }"
+      >
+        <mat-option
+          *ngFor="let accountListItem of accountList"
+          [value]="accountListItem.id"
+        >
+          {{ accountListItem.number }} - {{ accountListItem.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </p>
+  <p>
     <mat-form-field>
       <mat-label for="name"> Name: </mat-label>
       <input matInput id="name" type="text" formControlName="name" />
@@ -17,6 +33,9 @@
   </p>
 </form>
 <div class="modal-footer">
+  <button mat-raised-button color="warn" (click)="submitDeleteForm()">
+    Delete Account
+  </button>
   <button mat-raised-button (click)="submitAddForm()">Add Account</button>
   <button mat-raised-button (click)="submitUpdateForm()">Update Account</button>
   <button mat-raised-button (click)="closeForm()">Close</button>

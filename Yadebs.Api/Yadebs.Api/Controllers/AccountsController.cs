@@ -15,6 +15,9 @@ namespace Yadebs.Api.Controllers
             this.accountingService = accountingService;
         }
 
+        [HttpDelete("{id}")]
+        public async Task Delete(int id) => await this.accountingService.DeleteAccountAsync(id);
+
         [HttpGet]
         public async Task<IEnumerable<AccountDto>> GetAsync() => await this.accountingService.GetAccountsAsync();
 
@@ -25,9 +28,6 @@ namespace Yadebs.Api.Controllers
         public async Task<AccountDto> PostAsync([FromBody] AccountDto value) => await this.accountingService.AddAccountAsync(value);
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] AccountDto value) => throw new NotImplementedException();
-
-        [HttpDelete("{id}")]
-        public async Task Delete(int id) => await this.accountingService.DeleteAccountAsync(id);
+        public async Task PutAsync(int id, [FromBody] AccountDto value) => await this.accountingService.UpdateAccountAsync(id, value);
     }
 }

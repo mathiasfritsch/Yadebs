@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -8,8 +8,13 @@ import {
 } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Account } from 'src/app/shared/account';
-import { addAccount } from '../store/account.actions';
+import {
+  addAccount,
+  updateAccount,
+  deleteAccount,
+} from '../store/account.actions';
 import { Store } from '@ngrx/store';
+
 @Component({
   selector: 'app-account-edit',
   templateUrl: './account-edit.component.html',
@@ -17,19 +22,31 @@ import { Store } from '@ngrx/store';
 })
 export class AccountEditComponent implements OnInit {
   isAdd: boolean = false;
+  account: Account;
+  accountForm: FormGroup;
+
+  accountList: Account[];
+  selectedValue: Number;
 
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<AccountEditComponent>,
     private router: Router,
     private store: Store,
-    @Inject(MAT_DIALOG_DATA) public account: Account
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public modalData: any
+  ) {
+    this.account = modalData.account;
 
-  accountForm = this.formBuilder.group({
-    name: [this.account.name, Validators.required],
-    number: [this.account.number, Validators.required],
-  });
+    this.accountForm = this.formBuilder.group({
+      name: [this.account.name, Validators.required],
+      number: [this.account.number, Validators.required],
+    });
+
+    this.accountList = modalData.accountList.filter(
+      (a: Account) => a.id != this.account.id
+    );
+    this.selectedValue = this.account.parentId;
+  }
 
   ngOnInit(): void {}
 
@@ -37,6 +54,12 @@ export class AccountEditComponent implements OnInit {
     this.dialogRef.close();
     this.router.navigateByUrl('accounts/list');
   }
+
+  submitDeleteForm(): void {
+    this.store.dispatch(deleteAccount({ id: this.account.id.toString() }));
+    this.dialogRef.close();
+  }
+
   submitAddForm(): void {
     if (this.accountForm.invalid) {
       return;
@@ -44,8 +67,8 @@ export class AccountEditComponent implements OnInit {
 
     const account: Account = {
       id: 0,
-      name: 'asd',
-      number: 123,
+      name: this.accountForm.value.name ?? '',
+      number: this.accountForm.value.number ?? 0,
       bookId: 1,
       parentId: 4,
       children: [],
@@ -58,12 +81,25 @@ export class AccountEditComponent implements OnInit {
     if (this.accountForm.invalid) {
       return;
     }
+    const account: Account = {
+      id: this.account.id,
+      name: this.accountForm.value.name ?? '',
+      number: this.accountForm.value.number ?? 0,
+      bookId: this.account.bookId,
+      parentId: this.account.parentId,
+      children: [],
+    };
+
+    this.store.dispatch(updateAccount({ account }));
     this.dialogRef.close();
-    this.router.navigateByUrl('accounts/list');
   }
 }
 
-export function openEditCourseDialog(dialog: MatDialog, account: Account) {
+export function openEditAccountDialog(
+  dialog: MatDialog,
+  account: Account,
+  accountList: Account[]
+) {
   const config = new MatDialogConfig();
 
   config.disableClose = true;
@@ -71,8 +107,12 @@ export function openEditCourseDialog(dialog: MatDialog, account: Account) {
   config.panelClass = 'modal-panel';
   config.backdropClass = 'backdrop-modal-panel';
 
+  let modalData = {
+    account: account,
+    accountList: accountList,
+  };
   config.data = {
-    ...account,
+    ...modalData,
   };
 
   const dialogRef = dialog.open(AccountEditComponent, config);
