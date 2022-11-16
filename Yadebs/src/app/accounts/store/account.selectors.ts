@@ -29,7 +29,7 @@ function getTree(nodes: Account[]): Account[] {
   var tree = new Array<Account>();
   mutableNodes
     .filter((n) => n.parentId === null)
-    .forEach((n) => tree.push(getNodeWithChildren(nodes, n)));
+    .forEach((n) => tree.push(getNodeWithChildren(mutableNodes, n)));
   return tree;
 }
 
@@ -39,6 +39,9 @@ function getNodeWithChildren(nodes: Account[], node: Account): Account {
     .filter((n) => n.parentId === node.id)
     .forEach((n) => children.push(getNodeWithChildren(nodes, n)));
 
-  if (children.length > 0) node.children = children;
+  if (children.length > 0) {
+    node.children = children;
+  }
+
   return node;
 }

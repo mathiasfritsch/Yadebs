@@ -26,7 +26,7 @@ export class AccountEditComponent implements OnInit {
   accountForm: FormGroup;
 
   accountList: Account[];
-  selectedValue: Number;
+  selectedValue: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -86,7 +86,7 @@ export class AccountEditComponent implements OnInit {
       name: this.accountForm.value.name ?? '',
       number: this.accountForm.value.number ?? 0,
       bookId: this.account.bookId,
-      parentId: this.account.parentId,
+      parentId: this.selectedValue,
       children: [],
     };
 
