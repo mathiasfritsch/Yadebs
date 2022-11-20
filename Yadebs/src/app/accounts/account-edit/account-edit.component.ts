@@ -69,14 +69,15 @@ export class AccountEditComponent implements OnInit {
       id: 0,
       name: this.accountForm.value.name ?? '',
       number: this.accountForm.value.number ?? 0,
-      bookId: 1,
-      parentId: 4,
+      bookId: 0,
+      parentId: 0,
       children: [],
     };
 
     this.store.dispatch(addAccount({ account }));
     this.dialogRef.close();
   }
+
   submitUpdateForm(): void {
     if (this.accountForm.invalid) {
       return;
@@ -89,7 +90,6 @@ export class AccountEditComponent implements OnInit {
       parentId: this.selectedValue,
       children: [],
     };
-
     this.store.dispatch(updateAccount({ account }));
     this.dialogRef.close();
   }
@@ -116,6 +116,5 @@ export function openEditAccountDialog(
   };
 
   const dialogRef = dialog.open(AccountEditComponent, config);
-
   return dialogRef.afterClosed();
 }

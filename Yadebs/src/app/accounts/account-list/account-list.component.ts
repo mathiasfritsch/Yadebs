@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { loadAccounts } from '../store/account.actions';
+import { loadAccounts, updateAccount } from '../store/account.actions';
 import {
   selectAccountState,
   selectEntity,
@@ -12,6 +12,7 @@ import {
   openEditAccountDialog,
 } from '../account-edit/account-edit.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatCard } from '@angular/material/card';
 import { Router, NavigationEnd, Event } from '@angular/router';
 import { switchMap, filter, Subscription } from 'rxjs';
 import { FlatTreeControl } from '@angular/cdk/tree';
@@ -49,7 +50,14 @@ export class AccountListComponent implements OnInit {
       number: node.number,
     };
   };
-
+  editAccount: Account = {
+    id: 0,
+    name: '',
+    number: 0,
+    bookId: 0,
+    parentId: 0,
+    children: [],
+  };
   treeControl = new FlatTreeControl<AcccountFlatNode>(
     (node) => node.level,
     (node) => node.expandable
@@ -66,7 +74,7 @@ export class AccountListComponent implements OnInit {
   loading$ = this.store.pipe(select(selectAccountState));
   hasChild = (_: number, node: AcccountFlatNode) => node.expandable;
   selectAccountTreeSubscription: Subscription;
-  routerSubscription: Subscription;
+  // routerSubscription: Subscription;
   modalSubscription: Subscription | undefined;
 
   constructor(
@@ -89,37 +97,35 @@ export class AccountListComponent implements OnInit {
 
     this.dataSource.data = [];
 
-    this.routerSubscription = router.events
-      .pipe(
-        filter(
-          (e: Event): e is NavigationEnd =>
-            e instanceof NavigationEnd &&
-            e.url != '/accounts/list' &&
-            e.url != '/accounts/list/0'
-        ),
-        switchMap((re) =>
-          this.store.pipe(
-            select(
-              selectEntity(
-                ((): number => {
-                  var urlParts = re.url.split('/');
-                  return Number(urlParts[urlParts.length - 1]);
-                })()
-              )
-            )
-          )
-        )
-      )
-      .subscribe((accountSelected) => {
-        if (accountSelected)
-          this.modalSubscription = openEditAccountDialog(
-            this.dialog,
-            accountSelected,
-            this.accounts
-          )
-            .pipe(filter((val) => !!val))
-            .subscribe((val) => console.log('new course value:', val));
-      });
+    // this.routerSubscription = router.events
+    //   .pipe(
+    //     filter(
+    //       (e: Event): e is NavigationEnd =>
+    //         e instanceof NavigationEnd &&
+    //         e.url != '/accounts/list' &&
+    //         e.url != '/accounts/list/0'
+    //     ),
+    //     switchMap((re) =>
+    //       this.store.pipe(
+    //         select(
+    //           selectEntity(
+    //             ((): number => {
+    //               var urlParts = re.url.split('/');
+    //               return Number(urlParts[urlParts.length - 1]);
+    //             })()
+    //           )
+    //         )
+    //       )
+    //     )
+    //   )
+    //   .subscribe((accountSelected) => {
+    //     if (accountSelected)
+    //       this.modalSubscription = openEditAccountDialog(
+    //         this.dialog,
+    //         accountSelected,
+    //         this.accounts
+    //       ).subscribe(() => this.router.navigateByUrl('accounts/list'));
+    //   });
   }
 
   ngOnInit(): void {
@@ -128,9 +134,51 @@ export class AccountListComponent implements OnInit {
   @ViewChild('tree') tree: any;
   ngOnDestroy() {
     this.selectAccountTreeSubscription.unsubscribe();
-    this.routerSubscription.unsubscribe();
+    // this.routerSubscription.unsubscribe();
     if (this.modalSubscription) this.modalSubscription.unsubscribe();
   }
+  edit(id: number): void {
+    this.store
+      .pipe(
+        select(
+          selectEntity(
+            ((): number => {
+              return id;
+            })()
+          )
+        )
+      )
+      .subscribe((selectedAccount) => {
+        this.editAccount = Object.assign({}, selectedAccount);
+      });
+  }
+  cancel() {
+    this.reset();
+  }
+  reset() {
+    this.editAccount = {
+      id: 0,
+      name: '',
+      number: 0,
+      bookId: 0,
+      parentId: 0,
+      children: [],
+    };
+  }
+  update() {
+    const account: Account = {
+      id: this.editAccount.id,
+      name: this.editAccount.name,
+      number: this.editAccount.number,
+      bookId: this.editAccount.bookId,
+      parentId: this.editAccount.parentId,
+      children: [],
+    };
+
+    this.store.dispatch(updateAccount({ account }));
+    this.reset();
+  }
+
   addAccountDialog(): void {
     this.router.navigateByUrl('accounts/list/0');
     let dialogRef = this.dialog.open(AccountEditComponent, {

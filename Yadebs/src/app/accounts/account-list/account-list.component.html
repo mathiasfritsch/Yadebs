@@ -1,10 +1,15 @@
 <button mat-raised-button (click)="addAccountDialog()">Add Account</button>
+
 <mat-tree #tree [dataSource]="dataSource" [treeControl]="treeControl">
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-    <a [routerLink]="['/accounts', node.id]" style="padding-left: 20px">
+    <a
+      [routerLink]="['/accounts', node.id]"
+      style="padding-left: 20px; margin-right: 10px"
+    >
       {{ node.number }} -
       {{ node.name }}
     </a>
+    <button mat-raised-button (click)="edit(node.id)">edit</button>
   </mat-tree-node>
 
   <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
@@ -17,9 +22,30 @@
         {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
       </mat-icon>
     </button>
-    <a [routerLink]="['/accounts', node.id]">
+    <a [routerLink]="['/accounts', node.id]" style="margin-right: 10px">
       {{ node.number }} -
       {{ node.name }}
     </a>
+    <button mat-raised-button (click)="edit(node.id)">edit</button>
   </mat-tree-node>
 </mat-tree>
+<mat-card *ngIf="editAccount.id != 0" style="max-width: 500px">
+  <mat-card-header>
+    <mat-card-title>edit account</mat-card-title>
+    <mat-card-subtitle>{{ editAccount.name }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-form-field class="account-form-field">
+    <mat-label>Name input</mat-label>
+    <input matInput type="text" [(ngModel)]="editAccount.name" />
+  </mat-form-field>
+  <mat-form-field class="account-form-field">
+    <mat-label>Number input</mat-label>
+    <input matInput type="text" [(ngModel)]="editAccount.number" />
+  </mat-form-field>
+
+  <mat-card-actions align="end">
+    <button mat-raised-button (click)="update()" color="primary">Save</button>
+    <button mat-raised-button (click)="cancel()">Cancel</button>
+  </mat-card-actions>
+</mat-card>

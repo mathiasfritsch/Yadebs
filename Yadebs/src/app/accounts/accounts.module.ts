@@ -15,8 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
-import {MatSelectModule} from '@angular/material/select';
-
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 @NgModule({
   declarations: [AccountListComponent, AccountEditComponent],
   imports: [
@@ -33,7 +33,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatButtonModule,
     MatTreeModule,
     MatIconModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCardModule,
   ],
 })
 export class AccountsModule {}
