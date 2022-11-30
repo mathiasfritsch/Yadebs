@@ -13,7 +13,14 @@ import {
 } from '../account-edit/account-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, NavigationEnd, Event } from '@angular/router';
-import { switchMap, filter, Subscription } from 'rxjs';
+import {
+  switchMap,
+  filter,
+  Subscription,
+  withLatestFrom,
+  map,
+  tap,
+} from 'rxjs';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
   MatTreeFlatDataSource,
@@ -66,8 +73,8 @@ export class AccountListComponent implements OnInit {
   loading$ = this.store.pipe(select(selectAccountState));
   hasChild = (_: number, node: AcccountFlatNode) => node.expandable;
   selectAccountTreeSubscription: Subscription;
-  routerSubscription: Subscription;
   modalSubscription: Subscription | undefined;
+  selectAllAccountSubscription: Subscription;
 
   constructor(
     private store: Store,
@@ -81,7 +88,7 @@ export class AccountListComponent implements OnInit {
         this.treeControl.expandAll();
       });
 
-    this.selectAccountTreeSubscription = this.store
+    this.selectAllAccountSubscription = this.store
       .pipe(select(selectAllAccounts))
       .subscribe((accounts) => {
         this.accounts = accounts;
@@ -89,37 +96,28 @@ export class AccountListComponent implements OnInit {
 
     this.dataSource.data = [];
 
-    this.routerSubscription = router.events
-      .pipe(
-        filter(
-          (e: Event): e is NavigationEnd =>
-            e instanceof NavigationEnd &&
-            e.url != '/accounts/list' &&
-            e.url != '/accounts/list/0'
-        ),
-        switchMap((re) =>
-          this.store.pipe(
-            select(
-              selectEntity(
-                ((): number => {
-                  var urlParts = re.url.split('/');
-                  return Number(urlParts[urlParts.length - 1]);
-                })()
-              )
-            )
-          )
-        )
+    const navigationEvent$ = router.events.pipe(
+      filter(
+        (e: Event): e is NavigationEnd =>
+          e instanceof NavigationEnd &&
+          e.url != '/accounts/list' &&
+          e.url != '/accounts/list/0'
       )
-      .subscribe((accountSelected) => {
-        if (accountSelected)
-          this.modalSubscription = openEditAccountDialog(
-            this.dialog,
-            accountSelected,
-            this.accounts
-          )
-            .pipe(filter((val) => !!val))
-            .subscribe((val) => console.log('new course value:', val));
-      });
+    );
+
+    navigationEvent$.subscribe((ne) => {
+      if (this.accounts.length > 0) {
+        var id = Number(ne.url.split('/')[2]);
+        var accounToEdit = this.accounts.find((a) => a.id === id);
+        this.modalSubscription = openEditAccountDialog(
+          this.dialog,
+          accounToEdit!,
+          this.accounts
+        )
+          .pipe(filter((val) => !!val))
+          .subscribe((val) => console.log('window cölosed', val));
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -128,8 +126,8 @@ export class AccountListComponent implements OnInit {
   @ViewChild('tree') tree: any;
   ngOnDestroy() {
     this.selectAccountTreeSubscription.unsubscribe();
-    this.routerSubscription.unsubscribe();
     if (this.modalSubscription) this.modalSubscription.unsubscribe();
+    this.selectAllAccountSubscription.unsubscribe();
   }
   addAccountDialog(): void {
     this.router.navigateByUrl('accounts/list/0');
