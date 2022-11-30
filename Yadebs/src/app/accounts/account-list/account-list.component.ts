@@ -17,9 +17,11 @@ import {
   switchMap,
   filter,
   Subscription,
+  Subject,
   withLatestFrom,
   map,
   tap,
+  takeUntil,
 } from 'rxjs';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
@@ -56,7 +58,7 @@ export class AccountListComponent implements OnInit {
       number: node.number,
     };
   };
-
+  private ngUnsubscribe = new Subject<void>();
   treeControl = new FlatTreeControl<AcccountFlatNode>(
     (node) => node.level,
     (node) => node.expandable
@@ -72,25 +74,21 @@ export class AccountListComponent implements OnInit {
   accounts: Account[] = [];
   loading$ = this.store.pipe(select(selectAccountState));
   hasChild = (_: number, node: AcccountFlatNode) => node.expandable;
-  selectAccountTreeSubscription: Subscription;
-  modalSubscription: Subscription | undefined;
-  selectAllAccountSubscription: Subscription;
-  navigationEventSubscription: Subscription;
 
   constructor(
     private store: Store,
     public dialog: MatDialog,
     private router: Router
   ) {
-    this.selectAccountTreeSubscription = this.store
-      .pipe(select(selectAccountTree))
+    this.store
+      .pipe(select(selectAccountTree), takeUntil(this.ngUnsubscribe))
       .subscribe((accountsAsTree) => {
         this.dataSource.data = accountsAsTree;
         this.treeControl.expandAll();
       });
 
-    this.selectAllAccountSubscription = this.store
-      .pipe(select(selectAllAccounts))
+    this.store
+      .pipe(select(selectAllAccounts), takeUntil(this.ngUnsubscribe))
       .subscribe((accounts) => {
         this.accounts = accounts;
       });
@@ -103,18 +101,17 @@ export class AccountListComponent implements OnInit {
           e instanceof NavigationEnd &&
           e.url != '/accounts/list' &&
           e.url != '/accounts/list/0'
-      )
+      ),
+      takeUntil(this.ngUnsubscribe)
     );
 
-    this.navigationEventSubscription = navigationEvent$.subscribe((ne) => {
+    navigationEvent$.subscribe((ne) => {
       if (this.accounts.length > 0) {
         var id = Number(ne.url.split('/')[2]);
         var accounToEdit = this.accounts.find((a) => a.id === id);
-        this.modalSubscription = openEditAccountDialog(
-          this.dialog,
-          accounToEdit!,
-          this.accounts
-        ).subscribe(() => this.router.navigateByUrl('accounts/list'));
+        openEditAccountDialog(this.dialog, accounToEdit!, this.accounts)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(() => this.router.navigateByUrl('accounts/list'));
       }
     });
   }
@@ -124,10 +121,8 @@ export class AccountListComponent implements OnInit {
   }
   @ViewChild('tree') tree: any;
   ngOnDestroy() {
-    this.selectAccountTreeSubscription.unsubscribe();
-    if (this.modalSubscription) this.modalSubscription.unsubscribe();
-    this.selectAllAccountSubscription.unsubscribe();
-    this.navigationEventSubscription.unsubscribe();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
   addAccountDialog(): void {
     this.router.navigateByUrl('accounts/list/0');
@@ -136,6 +131,7 @@ export class AccountListComponent implements OnInit {
     });
     dialogRef
       .afterClosed()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => this.router.navigateByUrl('accounts/list'));
   }
   loadAccounts(): void {
