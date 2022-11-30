@@ -75,6 +75,7 @@ export class AccountListComponent implements OnInit {
   selectAccountTreeSubscription: Subscription;
   modalSubscription: Subscription | undefined;
   selectAllAccountSubscription: Subscription;
+  navigationEventSubscription: Subscription;
 
   constructor(
     private store: Store,
@@ -105,7 +106,7 @@ export class AccountListComponent implements OnInit {
       )
     );
 
-    navigationEvent$.subscribe((ne) => {
+    this.navigationEventSubscription = navigationEvent$.subscribe((ne) => {
       if (this.accounts.length > 0) {
         var id = Number(ne.url.split('/')[2]);
         var accounToEdit = this.accounts.find((a) => a.id === id);
@@ -113,9 +114,7 @@ export class AccountListComponent implements OnInit {
           this.dialog,
           accounToEdit!,
           this.accounts
-        )
-          .pipe(filter((val) => !!val))
-          .subscribe((val) => console.log('window cölosed', val));
+        ).subscribe(() => this.router.navigateByUrl('accounts/list'));
       }
     });
   }
@@ -128,6 +127,7 @@ export class AccountListComponent implements OnInit {
     this.selectAccountTreeSubscription.unsubscribe();
     if (this.modalSubscription) this.modalSubscription.unsubscribe();
     this.selectAllAccountSubscription.unsubscribe();
+    this.navigationEventSubscription.unsubscribe();
   }
   addAccountDialog(): void {
     this.router.navigateByUrl('accounts/list/0');
