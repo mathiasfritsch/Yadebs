@@ -74,6 +74,7 @@ export class AccountListComponent implements OnInit {
   hasChild = (_: number, node: AcccountFlatNode) => node.expandable;
   selectAccountTreeSubscription: Subscription;
   modalSubscription: Subscription | undefined;
+  selectAllAccountSubscription: Subscription;
 
   constructor(
     private store: Store,
@@ -87,7 +88,7 @@ export class AccountListComponent implements OnInit {
         this.treeControl.expandAll();
       });
 
-    this.selectAccountTreeSubscription = this.store
+    this.selectAllAccountSubscription = this.store
       .pipe(select(selectAllAccounts))
       .subscribe((accounts) => {
         this.accounts = accounts;
@@ -126,6 +127,7 @@ export class AccountListComponent implements OnInit {
   ngOnDestroy() {
     this.selectAccountTreeSubscription.unsubscribe();
     if (this.modalSubscription) this.modalSubscription.unsubscribe();
+    this.selectAllAccountSubscription.unsubscribe();
   }
   addAccountDialog(): void {
     this.router.navigateByUrl('accounts/list/0');
