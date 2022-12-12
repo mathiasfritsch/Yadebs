@@ -35,6 +35,7 @@ export class AccountEditComponent implements OnInit {
     private store: Store,
     @Inject(MAT_DIALOG_DATA) public modalData: any
   ) {
+    this.isAdd = modalData.isAdd;
     this.account = modalData.account;
 
     this.accountForm = this.formBuilder.group({
@@ -69,8 +70,8 @@ export class AccountEditComponent implements OnInit {
       id: 0,
       name: this.accountForm.value.name ?? '',
       number: this.accountForm.value.number ?? 0,
-      bookId: 1,
-      parentId: 4,
+      bookId: this.account.bookId,
+      parentId: this.selectedValue,
       children: [],
     };
 
@@ -98,7 +99,8 @@ export class AccountEditComponent implements OnInit {
 export function openEditAccountDialog(
   dialog: MatDialog,
   account: Account,
-  accountList: Account[]
+  accountList: Account[],
+  isAdd: boolean
 ) {
   const config = new MatDialogConfig();
 
@@ -110,6 +112,7 @@ export function openEditAccountDialog(
   let modalData = {
     account: account,
     accountList: accountList,
+    isAdd: isAdd,
   };
   config.data = {
     ...modalData,
