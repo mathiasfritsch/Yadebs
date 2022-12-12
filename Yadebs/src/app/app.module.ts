@@ -11,6 +11,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatLabel } from '@angular/material/form-field';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
+
 @NgModule({
   declarations: [AppComponent, HomeComponent],
   imports: [
@@ -24,9 +30,13 @@ import { MatLabel } from '@angular/material/form-field';
     HttpClientModule,
     BrowserAnimationsModule,
     MatSliderModule,
-
+    MatSidenavModule,
     ReactiveFormsModule,
     FormsModule,
+    MatIconModule,
+    MatListModule,
+    MatToolbarModule,
+    MatMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
