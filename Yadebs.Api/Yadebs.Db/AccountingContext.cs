@@ -12,7 +12,6 @@ namespace Yadebs.Db
             : base(options)
         {
         }
-   
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,9 +25,16 @@ namespace Yadebs.Db
                     .IsRequired(false)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+
+            modelBuilder.Entity<Transaction>(entity =>
+            {
+                entity.Property(x => x.Amount).HasPrecision(10, 2);
+            });
         }
 
         public DbSet<Book> Books { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Journal> Journals { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
     }
 }

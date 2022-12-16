@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Yadebs.Bll;
+using Yadebs.Bll.Interfaces;
 using Yadebs.Bll.Services;
 using Yadebs.Db;
 
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<AccountingContext>(options => options.UseSqlServer
 builder.Services.AddCors();
 
 builder.Services.AddScoped<IAccountingService, AccountingService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.RegisterMapsterConfiguration();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

@@ -15,11 +15,21 @@ namespace Yadebs.Db
         [MaxLength(100)]
         public string Name { get; set; }
 
-        public int Number { get; set; }
+        public int? Number { get; set; }
 
         public Account Parent { get; set; }
 
         public int? ParentId { get; set; }
+
+        /// <summary>
+        /// Just a node in the chart of accounts
+        /// </summary>
+        public bool IsPlaceholder { get; set; }
+
+        /// <summary>
+        /// also for Children
+        /// </summary>
+        public bool IncreasesWhenMoneyAdded { get; set; }
 
         public IEnumerable<Account> Children { get; set; }
     }
