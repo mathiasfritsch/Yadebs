@@ -1,4 +1,4 @@
 <p>journal-list works!</p>
 <div>
-  <p *ngFor="let journal of journals">{{ journal | json }}</p>
+  <p *ngFor="let journal of journals$ | async">{{ journal | json }}</p>
 </div>

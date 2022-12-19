@@ -17,6 +17,11 @@ namespace Yadebs.Api.Controllers
             this.transactionService = accountingService;
         }
 
+
+        [HttpGet()]
+        public async Task<List<JournalDto>> Get() => await this.transactionService.GetJournalsAsync();
+
+
         [HttpGet("{id}")]
         public async Task<JournalDto> Get(int id) => await this.transactionService.GetJournalAsync(id);
 

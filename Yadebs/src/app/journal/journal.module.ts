@@ -6,6 +6,7 @@ import * as journalReducer from './store/journal.reducer';
 import { JournalEffects } from './store/journal.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+
 @NgModule({
   declarations: [JournalListComponent],
   imports: [

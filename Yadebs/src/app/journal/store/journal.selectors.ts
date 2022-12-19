@@ -1,9 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Journal } from 'src/app/shared/journal';
-import * as journalReducer from './journal.reducer';
+import * as fromJournal from './journal.reducer';
 
-export const selectJournalState = createFeatureSelector<journalReducer.State>(
-  journalReducer.journalFeatureKey
+export const selectJournalState = createFeatureSelector<fromJournal.State>(
+  fromJournal.journalFeatureKey
 );
 
 export const selectSelectorsLoading = createSelector(
@@ -13,8 +12,9 @@ export const selectSelectorsLoading = createSelector(
 
 export const selectAllJournals = createSelector(
   selectJournalState,
-  journalReducer.selectAll
+  fromJournal.selectAll
 );
-
-export const selectEntity = (id: number) =>
-  createSelector(selectJournalState, (state) => state.entities[id]);
+export const selectJournal = createSelector(
+  selectJournalState,
+  (state) => state.entities[1]
+);
