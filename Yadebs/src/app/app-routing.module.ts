@@ -18,6 +18,11 @@ const routes: Routes = [
       import('./accounts/accounts.module').then((m) => m.AccountsModule),
   },
   {
+    path: 'journal',
+    loadChildren: () =>
+      import('./journal/journal.module').then((m) => m.JournalModule),
+  },
+  {
     path: 'products',
     loadChildren: () =>
       import('./products/products.module').then((m) => m.ProductsModule),

@@ -5,7 +5,6 @@ import { of } from 'rxjs';
 import * as AccountActions from './account.actions';
 import { AccountService } from 'src/app/shared/account.service';
 import { Update } from '@ngrx/entity';
-import { Account } from 'src/app/account.model';
 import { AccountUpdate } from 'src/app/shared/AccountUpdate';
 
 @Injectable()

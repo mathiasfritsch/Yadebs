@@ -15,6 +15,21 @@ namespace Yadebs.Bll.Services
             this.context = context;
         }
 
+
+        public async Task DeleteJournalAsync(int id)
+        {
+            var journal = await this.context.Journals.SingleAsync(a => a.Id == id);
+            this.context.Journals.Remove(journal);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task<List<JournalDto>> GetJournalsAsync() =>
+            await this.context
+                .Journals
+                .OrderBy(a => a.Date)
+                .ProjectToType<JournalDto>()
+                .ToListAsync();
+
         public async Task<JournalDto> AddJournalAsync(JournalDto journal)
         {
             await this.context.SaveChangesAsync();

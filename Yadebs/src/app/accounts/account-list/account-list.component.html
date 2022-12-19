@@ -1,7 +1,7 @@
 <button mat-raised-button (click)="addAccountDialog()">Add Account</button>
 <mat-tree #tree [dataSource]="dataSource" [treeControl]="treeControl">
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-    <a [routerLink]="['/accounts', node.id]" style="padding-left: 20px">
+    <a [routerLink]="['/accounts/list', node.id]" style="padding-left: 20px">
       {{ node.number }} -
       {{ node.name }}
     </a>
@@ -17,7 +17,7 @@
         {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
       </mat-icon>
     </button>
-    <a [routerLink]="['/accounts', node.id]">
+    <a [routerLink]="['/accounts/list', node.id]">
       {{ node.number }} -
       {{ node.name }}
     </a>

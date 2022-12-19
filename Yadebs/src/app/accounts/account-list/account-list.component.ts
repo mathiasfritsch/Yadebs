@@ -91,10 +91,10 @@ export class AccountListComponent implements OnInit {
           (e: Event): e is NavigationEnd =>
             e instanceof NavigationEnd &&
             e.url != '/accounts/list' &&
-            e.url != '/accounts/0'
+            e.url != '/accounts/list/0'
         ),
         filter(() => this.accounts.length > 0),
-        map((ne) => Number(ne.url.split('/')[2])),
+        map((ne) => Number(ne.url.split('/')[3])),
         map((id) => this.accounts.find((a) => a.id === id)!),
         switchMap((a: Account) =>
           openEditAccountDialog(this.dialog, a, this.accounts, false)

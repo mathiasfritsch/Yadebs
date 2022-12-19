@@ -1,1 +1,19 @@
-<p>product-list works!</p>
+<div class="ui middle aligned selection divided list">
+  <ng-container *ngIf="products$ | async as products; else loading">
+    <div class="item" *ngFor="let p of products">
+      <div>{{ p.id }}</div>
+      <div>{{ p.name }}</div>
+      <a routerLink="../details/{{ p.id }}">
+        <span class="badge">{{ p.id }}</span> {{ p.name }}
+      </a>
+    </div>
+
+    <p *ngIf="!products.length">Es wurden noch keine Bücher eingetragen.</p>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="ui active dimmer">
+      <div class="ui large text loader">Daten werden geladen...</div>
+    </div>
+  </ng-template>
+</div>

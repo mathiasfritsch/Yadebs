@@ -8,7 +8,9 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProductService {
   getProducts(): Observable<Product[]> {
-    return this.httpClient.get<Product[]>('https://localhost:7002/Products');
+    return this.httpClient.get<Product[]>(
+      'https://localhost:7211/api/Accounts'
+    );
   }
   constructor(private httpClient: HttpClient) {}
 }

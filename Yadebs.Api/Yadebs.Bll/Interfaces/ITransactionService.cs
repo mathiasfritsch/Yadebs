@@ -4,6 +4,12 @@ namespace Yadebs.Bll.Interfaces
 {
     public interface ITransactionService
     {
-        public  Task<JournalDto> GetJournalAsync(int id);
+        public Task<JournalDto> GetJournalAsync(int id);
+
+        public Task DeleteJournalAsync(int id);
+
+        public Task<List<JournalDto>> GetJournalsAsync();
+
+        public Task<JournalDto> AddJournalAsync(JournalDto journal);
     }
 }

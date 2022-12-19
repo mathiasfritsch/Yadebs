@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AccountEditComponent } from './account-edit/account-edit.component';
-import { AccountListComponent } from './account-list/account-list.component';
+import { JournalListComponent } from './journal-list/journal-list.component';
 
 const routes: Routes = [
   {
     path: 'list/:id',
-    component: AccountListComponent,
+    component: JournalListComponent,
     pathMatch: 'full',
   },
   {
     path: 'list',
-    component: AccountListComponent,
+    component: JournalListComponent,
     pathMatch: 'full',
   },
 ];
@@ -20,4 +19,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AccountsRoutingModule {}
+export class JounrnalRoutingModule {}
