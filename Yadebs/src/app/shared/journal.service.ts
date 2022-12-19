@@ -8,23 +8,25 @@ import { HttpClient } from '@angular/common/http';
 })
 export class JournalService {
   getJournals(): Observable<Journal[]> {
-    return this.httpClient.get<Journal[]>('https://localhost:7211/api/Journal');
+    return this.httpClient.get<Journal[]>(
+      'https://localhost:7211/api/Journals'
+    );
   }
 
   addJournal(journal: Journal): Observable<Journal> {
     return this.httpClient.post<Journal>(
-      'https://localhost:7211/api/Journal',
+      'https://localhost:7211/api/Journals',
       journal
     );
   }
 
   deleteJournal(id: string) {
-    return this.httpClient.delete(`https://localhost:7211/api/Journal/${id}`);
+    return this.httpClient.delete(`https://localhost:7211/api/Journals/${id}`);
   }
 
   updateJournal(journal: Journal): Observable<Journal> {
     return this.httpClient.put<Journal>(
-      `https://localhost:7211/api/Journal/${journal.id}`,
+      `https://localhost:7211/api/Journals/${journal.id}`,
       journal
     );
   }
