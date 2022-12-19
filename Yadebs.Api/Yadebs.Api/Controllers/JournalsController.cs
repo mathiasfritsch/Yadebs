@@ -7,12 +7,12 @@ namespace Yadebs.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class JournalController : ControllerBase
+    public class JournalsController : ControllerBase
     {
         private ITransactionService transactionService;
 
 
-        public JournalController(ITransactionService accountingService)
+        public JournalsController(ITransactionService accountingService)
         {
             this.transactionService = accountingService;
         }
