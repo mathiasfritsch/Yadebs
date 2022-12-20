@@ -11,15 +11,21 @@ export const adapter: EntityAdapter<Journal> = createEntityAdapter<Journal>({});
 export interface State extends EntityState<Journal> {
   loading: boolean;
 }
-const journalFeature = createFeatureSelector(journalFeatureKey);
-
 export const initialState: State = adapter.getInitialState({
   loading: false,
 });
 
 export const reducer = createReducer(
   initialState,
-
+  on(JournalActions.updateJournalSuccess, (state, action) => {
+    return adapter.updateOne(action.journal, state);
+  }),
+  on(JournalActions.addJournalSuccess, (state, action) => {
+    return adapter.addOne(action.journal, state);
+  }),
+  on(JournalActions.deleteJournalSuccess, (state, action) => {
+    return adapter.removeOne(action.id, state);
+  }),
   on(JournalActions.loadJournals, (state) => {
     return { ...state, loading: true };
   }),

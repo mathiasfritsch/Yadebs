@@ -6,7 +6,7 @@ import * as journalReducer from './store/journal.reducer';
 import { JournalEffects } from './store/journal.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
   declarations: [JournalListComponent],
   imports: [
@@ -17,6 +17,7 @@ import { StoreModule } from '@ngrx/store';
       journalReducer.reducer
     ),
     EffectsModule.forFeature([JournalEffects]),
+    MatTableModule,
   ],
 })
 export class JournalModule {}

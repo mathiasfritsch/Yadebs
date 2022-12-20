@@ -8,6 +8,7 @@ import {
 } from '../store/journal.selectors';
 
 import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
+import { Journal } from 'src/app/shared/journal';
 
 @Component({
   selector: 'app-journal-list',
@@ -15,9 +16,18 @@ import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
   styleUrls: ['./journal-list.component.css'],
 })
 export class JournalListComponent implements OnInit {
+  displayedColumns: string[] = ['id', 'date', 'debit', 'credit'];
+
   private ngUnsubscribe = new Subject<void>();
-  journals$ = this.store.pipe(select(selectAllJournals));
-  constructor(private store: Store) {}
+  journals: Journal[] = [];
+
+  constructor(private store: Store) {
+    this.store
+      .pipe(select(selectAllJournals), takeUntil(this.ngUnsubscribe))
+      .subscribe((journals) => {
+        this.journals = journals;
+      });
+  }
 
   ngOnInit(): void {
     this.loadJournals();

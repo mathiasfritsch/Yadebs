@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as JournalActions from './journal.actions';
 import { JournalService } from 'src/app/shared/journal.service';
+import { JournalUpdate } from 'src/app/shared/JournalUpdate';
+import { Update } from '@ngrx/entity';
 
 @Injectable()
 export class JournalEffects {
@@ -14,8 +16,10 @@ export class JournalEffects {
         console.log('loadJournals called');
       }),
       switchMap(() =>
-        this.ps.getJournals().pipe(
-          map((books) => JournalActions.loadJournalsSuccess({ data: books })),
+        this.journalService.getJournals().pipe(
+          map((journals) =>
+            JournalActions.loadJournalsSuccess({ data: journals })
+          ),
           catchError((error) =>
             of(JournalActions.loadJournalsFailure({ error }))
           )
@@ -24,5 +28,57 @@ export class JournalEffects {
     );
   });
 
-  constructor(private actions$: Actions, private ps: JournalService) {}
+  deleteJournal$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(JournalActions.deleteJournal),
+      mergeMap((action) => {
+        return this.journalService.deleteJournal(action.id).pipe(
+          map((data) => {
+            return JournalActions.deleteJournalSuccess({ id: action.id });
+          })
+        );
+      })
+    );
+  });
+
+  addJournal$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(JournalActions.addJournal),
+      mergeMap((action) => {
+        return this.journalService.addJournal(action.journal).pipe(
+          map((data) => {
+            const journal = { ...action.journal, id: data.id };
+            return JournalActions.addJournalSuccess({ journal });
+          })
+        );
+      })
+    );
+  });
+
+  updateJournal$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(JournalActions.updateJournal),
+      mergeMap((action) => {
+        return this.journalService.updateJournal(action.journal).pipe(
+          map((data) => {
+            const updateJournal: Update<JournalUpdate> = {
+              id: action.journal.id,
+              changes: {
+                ...action.journal,
+              },
+            };
+
+            return JournalActions.updateJournalSuccess({
+              journal: updateJournal,
+            });
+          })
+        );
+      })
+    );
+  });
+
+  constructor(
+    private actions$: Actions,
+    private journalService: JournalService
+  ) {}
 }

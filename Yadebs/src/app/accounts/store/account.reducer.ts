@@ -7,11 +7,9 @@ export const adapter: EntityAdapter<Account> = createEntityAdapter<Account>({});
 
 export interface State extends EntityState<Account> {
   loading: boolean;
-  editAccount: any;
 }
 export const initialState: State = adapter.getInitialState({
   loading: false,
-  editAccount: null,
 });
 
 export const reducer = createReducer(
