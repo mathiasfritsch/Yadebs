@@ -7,6 +7,6 @@
         public int Number { get; set; }
         public int BookId { get; set; }
         public int? ParentId { get; set; }
-        public bool IsDebit { get; set; }
+        public bool IncreasesDebitWhenMoneyAdded { get; set; }
     }
 }

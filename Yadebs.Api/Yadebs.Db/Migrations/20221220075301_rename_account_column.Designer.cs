@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Yadebs.Db;
 
@@ -11,9 +12,10 @@ using Yadebs.Db;
 namespace Yadebs.Db.Migrations
 {
     [DbContext(typeof(AccountingContext))]
-    partial class AccountingContextModelSnapshot : ModelSnapshot
+    [Migration("20221220075301_rename_account_column")]
+    partial class rename_account_column
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

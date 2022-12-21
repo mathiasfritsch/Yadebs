@@ -27,9 +27,21 @@ namespace Yadebs.Db
         public bool IsPlaceholder { get; set; }
 
         /// <summary>
-        /// also for Children
+        /// also for children
+        /// Zugänge  auf  Sollseite
+        /// zB true für Aktivkonto 
+        ///     - Betriebsaausstattung (Laptop)
+        ///     - Bankkonto
+        /// zB false für Passivkonto 
+        ///     - Verbindlichkeiten aus Lieferungen und Leistungen
+        ///     - Umsatzsteuer
+        /// zB true für Aufwandskonten
+        ///     - Versicherungen
+        ///     - Bürobedarf
+        /// zB false für Ertragskonten
+        ///     - Erlöse (zB Forderung 3000 an Erlöse 3000)
         /// </summary>
-        public bool IncreasesWhenMoneyAdded { get; set; }
+        public bool IncreasesDebitWhenMoneyAdded { get; set; }
 
         public IEnumerable<Account> Children { get; set; }
     }
