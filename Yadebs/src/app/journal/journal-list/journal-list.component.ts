@@ -16,7 +16,7 @@ import { Journal } from 'src/app/shared/journal';
   styleUrls: ['./journal-list.component.css'],
 })
 export class JournalListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'date', 'debit', 'credit'];
+  displayedColumns: string[] = ['id', 'edit', 'date', 'debit', 'credit'];
 
   private ngUnsubscribe = new Subject<void>();
   journals: Journal[] = [];
@@ -28,7 +28,9 @@ export class JournalListComponent implements OnInit {
         this.journals = journals;
       });
   }
-
+  editJournal(id: number) {
+    console.log('edit' + id);
+  }
   ngOnInit(): void {
     this.loadJournals();
   }
