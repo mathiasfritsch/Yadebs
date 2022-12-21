@@ -7,8 +7,12 @@ import { JournalEffects } from './store/journal.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { JournalEditComponent } from './journal-edit/journal-edit.component';
+
 @NgModule({
-  declarations: [JournalListComponent],
+  declarations: [JournalListComponent, JournalEditComponent],
   imports: [
     CommonModule,
     JounrnalRoutingModule,
@@ -18,6 +22,8 @@ import { MatTableModule } from '@angular/material/table';
     ),
     EffectsModule.forFeature([JournalEffects]),
     MatTableModule,
+    MatIconModule,
+    MatButtonModule,
   ],
 })
 export class JournalModule {}

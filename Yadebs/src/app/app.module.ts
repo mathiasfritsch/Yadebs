@@ -16,6 +16,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -38,6 +39,7 @@ import { MatTableModule } from '@angular/material/table';
     MatToolbarModule,
     MatMenuModule,
     MatTableModule,
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
