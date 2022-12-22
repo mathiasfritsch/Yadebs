@@ -5,7 +5,7 @@ import { JournalEditComponent } from './journal-edit/journal-edit.component';
 const routes: Routes = [
   {
     path: 'list/:id',
-    component: JournalEditComponent,
+    component: JournalListComponent,
     pathMatch: 'full',
   },
   {

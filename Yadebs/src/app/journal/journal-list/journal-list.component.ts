@@ -5,11 +5,15 @@ import { loadJournals, loadJournalsSuccess } from '../store/journal.actions';
 import {
   selectJournalState,
   selectAllJournals,
+  selectAllJournalsWithAccounts,
 } from '../store/journal.selectors';
 
 import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
 import { Journal } from 'src/app/shared/journal';
-
+import { Router, NavigationEnd, Event } from '@angular/router';
+import { Account } from 'src/app/shared/account';
+import { openEditDialog } from '../journal-edit/journal-edit.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-journal-list',
   templateUrl: './journal-list.component.html',
@@ -21,15 +25,30 @@ export class JournalListComponent implements OnInit {
   private ngUnsubscribe = new Subject<void>();
   journals: Journal[] = [];
 
-  constructor(private store: Store) {
+  constructor(
+    private store: Store,
+    private router: Router,
+    public dialog: MatDialog
+  ) {
     this.store
       .pipe(select(selectAllJournals), takeUntil(this.ngUnsubscribe))
       .subscribe((journals) => {
         this.journals = journals;
       });
+
+    router.events
+      .pipe(
+        filter(
+          (e: Event): e is NavigationEnd =>
+            e instanceof NavigationEnd &&
+            e.url != '/journal/list' &&
+            e.url != '/journal/list/0'
+        )
+      )
+      .subscribe((re) => openEditDialog(this.dialog));
   }
   editJournal(id: number) {
-    console.log('edit' + id);
+    openEditDialog(this.dialog);
   }
   ngOnInit(): void {
     this.loadJournals();

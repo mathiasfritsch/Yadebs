@@ -10,7 +10,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { JournalEditComponent } from './journal-edit/journal-edit.component';
-
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [JournalListComponent, JournalEditComponent],
   imports: [
@@ -24,6 +24,7 @@ import { JournalEditComponent } from './journal-edit/journal-edit.component';
     MatTableModule,
     MatIconModule,
     MatButtonModule,
+    MatDialogModule,
   ],
 })
 export class JournalModule {}
