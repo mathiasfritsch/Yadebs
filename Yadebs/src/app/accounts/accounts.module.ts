@@ -7,15 +7,8 @@ import * as fromAccount from './store/account.reducer';
 import { AccountEffects } from './store/account.effects';
 import { AccountEditComponent } from './account-edit/account-edit.component';
 import { EffectsModule } from '@ngrx/effects';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTreeModule } from '@angular/material/tree';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
+import { MaterialModule } from '../shared/material.module';
 
 @NgModule({
   declarations: [AccountListComponent, AccountEditComponent],
@@ -24,16 +17,9 @@ import { MatSelectModule } from '@angular/material/select';
     AccountsRoutingModule,
     StoreModule.forFeature(fromAccount.accountFeatureKey, fromAccount.reducer),
     EffectsModule.forFeature([AccountEffects]),
-    MatSliderModule,
-    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatTreeModule,
-    MatIconModule,
-    MatSelectModule,
+    MaterialModule,
   ],
 })
 export class AccountsModule {}

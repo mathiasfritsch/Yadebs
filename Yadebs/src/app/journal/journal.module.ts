@@ -5,12 +5,10 @@ import { JounrnalRoutingModule } from './journal-routing.module';
 import * as journalReducer from './store/journal.reducer';
 import { JournalEffects } from './store/journal.effects';
 import { EffectsModule } from '@ngrx/effects';
+import { MaterialModule } from './../shared/material.module';
 import { StoreModule } from '@ngrx/store';
-import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { JournalEditComponent } from './journal-edit/journal-edit.component';
-import { MatDialogModule } from '@angular/material/dialog';
+
 @NgModule({
   declarations: [JournalListComponent, JournalEditComponent],
   imports: [
@@ -21,10 +19,7 @@ import { MatDialogModule } from '@angular/material/dialog';
       journalReducer.reducer
     ),
     EffectsModule.forFeature([JournalEffects]),
-    MatTableModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
+    MaterialModule,
   ],
 })
 export class JournalModule {}
