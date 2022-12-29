@@ -1,3 +1,28 @@
+<form [formGroup]="journalForm">
+  <p>
+    <mat-form-field>
+      <mat-label for="name"> Name: </mat-label>
+      <input matInput id="name" type="text" formControlName="name" />
+      <mat-hint>Name</mat-hint>
+      <mat-error *ngIf="journalForm.value.name"> Name error </mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" />
+      <mat-hint>DD.MM.YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="journalForm.value.date">Date error</mat-error>
+    </mat-form-field>
+  </p>
+</form>
+
 <div class="modal-footer">
   <button
     mat-raised-button

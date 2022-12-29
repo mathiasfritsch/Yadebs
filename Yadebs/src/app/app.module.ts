@@ -8,16 +8,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSliderModule } from '@angular/material/slider';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-
+import { MaterialModule } from './shared/material.module';
 @NgModule({
   declarations: [AppComponent, HomeComponent],
   imports: [
@@ -30,16 +22,10 @@ import { MatButtonModule } from '@angular/material/button';
     EffectsModule.forRoot([]),
     HttpClientModule,
     BrowserAnimationsModule,
-    MatSliderModule,
-    MatSidenavModule,
+
     ReactiveFormsModule,
     FormsModule,
-    MatIconModule,
-    MatListModule,
-    MatToolbarModule,
-    MatMenuModule,
-    MatTableModule,
-    MatButtonModule,
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

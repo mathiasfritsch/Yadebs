@@ -23,8 +23,19 @@ export class JournalEditComponent implements OnInit {
     private router: Router,
     private store: Store,
     @Inject(MAT_DIALOG_DATA) public modalData: any
-  ) {}
+  ) {
+    this.isAdd = modalData.isAdd;
+    this.journal = modalData.journal;
+    this.journalForm = this.formBuilder.group({
+      date: [this.journal.date, Validators.required],
+      name: [this.journal.name, Validators.required],
+    });
+  }
   isAdd: boolean = false;
+
+  journal: Journal;
+  journalForm: FormGroup;
+
   ngOnInit(): void {}
   closeForm(): void {
     this.dialogRef.close();
@@ -48,11 +59,17 @@ export function openEditDialog(
 ) {
   const config = new MatDialogConfig();
 
+  let modalData = {
+    journal: journal,
+    isAdd: isAdd,
+  };
+
   config.disableClose = true;
   config.autoFocus = true;
   config.panelClass = 'modal-panel';
-  config.backdropClass = 'backdrop-modal-panel';
-
+  config.data = {
+    ...modalData,
+  };
   const dialogRef = dialog.open(JournalEditComponent, config);
 
   return dialogRef.afterClosed();
