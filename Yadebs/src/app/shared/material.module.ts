@@ -14,6 +14,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogConfig,
+} from '@angular/material/dialog';
 @NgModule({
   declarations: [],
   imports: [CommonModule],

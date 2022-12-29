@@ -43,12 +43,17 @@ export class JournalListComponent implements OnInit {
             e instanceof NavigationEnd &&
             e.url != '/journal/list' &&
             e.url != '/journal/list/0'
-        )
+        ),
+        filter(() => this.journals.length > 0),
+        map((ne) => Number(ne.url.split('/')[3])),
+        map((id) => this.journals.find((a) => a.id === id)!),
+        switchMap((j: Journal) => openEditDialog(this.dialog, j, false)),
+        takeUntil(this.ngUnsubscribe)
       )
-      .subscribe((re) => openEditDialog(this.dialog));
+      .subscribe(() => this.router.navigateByUrl('journal/list'));
   }
   editJournal(id: number) {
-    openEditDialog(this.dialog);
+    this.router.navigateByUrl(`journal/list/${id}`);
   }
   ngOnInit(): void {
     this.loadJournals();
