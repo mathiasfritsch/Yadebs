@@ -10,6 +10,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from './shared/material.module';
+
+import { LayoutModule } from '@angular/cdk/layout';
+
+//import { AddressComponent } from './address/address.component';
+
 @NgModule({
   declarations: [AppComponent, HomeComponent],
   imports: [
@@ -26,6 +31,7 @@ import { MaterialModule } from './shared/material.module';
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
+    LayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

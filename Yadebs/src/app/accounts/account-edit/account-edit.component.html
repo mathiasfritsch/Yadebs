@@ -1,38 +1,40 @@
-<form [formGroup]="accountForm">
-  <p>
-    <mat-form-field appearance="fill">
-      <mat-label>Parent account</mat-label>
-      <mat-select
-        [(ngModel)]="selectedValue"
-        [ngModelOptions]="{ standalone: true }"
-      >
-        <mat-option
-          *ngFor="let accountListItem of accountList"
-          [value]="accountListItem.id"
+<div mat-dialog-content>
+  <form [formGroup]="accountForm">
+    <p>
+      <mat-form-field appearance="fill">
+        <mat-label>Parent account</mat-label>
+        <mat-select
+          [(ngModel)]="selectedValue"
+          [ngModelOptions]="{ standalone: true }"
         >
-          {{ accountListItem.number }} - {{ accountListItem.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field>
-      <mat-label for="name"> Name: </mat-label>
-      <input matInput id="name" type="text" formControlName="name" />
-      <mat-hint>Name</mat-hint>
-      <mat-error *ngIf="accountForm.value.name">Name error</mat-error>
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field>
-      <mat-label for="number">Number: </mat-label>
-      <input matInput id="number" type="text" formControlName="number" />
-      <mat-hint>Number</mat-hint>
-      <mat-error *ngIf="accountForm.value.number">Number error</mat-error>
-    </mat-form-field>
-  </p>
-</form>
-<div class="modal-footer">
+          <mat-option
+            *ngFor="let accountListItem of accountList"
+            [value]="accountListItem.id"
+          >
+            {{ accountListItem.number }} - {{ accountListItem.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label for="name"> Name: </mat-label>
+        <input matInput id="name" type="text" formControlName="name" />
+        <mat-hint>Name</mat-hint>
+        <mat-error *ngIf="accountForm.value.name">Name error</mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label for="number">Number: </mat-label>
+        <input matInput id="number" type="text" formControlName="number" />
+        <mat-hint>Number</mat-hint>
+        <mat-error *ngIf="accountForm.value.number">Number error</mat-error>
+      </mat-form-field>
+    </p>
+  </form>
+</div>
+<div mat-dialog-actions>
   <button
     mat-raised-button
     color="warn"
