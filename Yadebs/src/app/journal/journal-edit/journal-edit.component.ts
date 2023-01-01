@@ -7,9 +7,14 @@ import {
 } from '@angular/material/dialog';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { MaterialModule } from '../../shared/material.module';
 import { Journal } from 'src/app/shared/journal';
+
+import {
+  addJournal,
+  updateJournal,
+  deleteJournal,
+} from '../store/journal.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-journal-edit',
@@ -42,12 +47,36 @@ export class JournalEditComponent implements OnInit {
     this.router.navigateByUrl('journal/list');
   }
   submitDeleteForm(): void {
+    this.store.dispatch(deleteJournal({ id: this.journal.id.toString() }));
     this.dialogRef.close();
   }
   submitAddForm(): void {
+    if (this.journalForm.invalid) {
+      return;
+    }
+    const journal: Journal = {
+      id: this.journal.id,
+      name: this.journalForm.value.name ?? '',
+      date: this.journalForm.value.date,
+      bookId: 1,
+      transactions: [],
+    };
+    this.store.dispatch(addJournal({ journal }));
     this.dialogRef.close();
   }
   submitUpdateForm(): void {
+    if (this.journalForm.invalid) {
+      return;
+    }
+
+    const journal: Journal = {
+      id: this.journal.id,
+      name: this.journalForm.value.name ?? '',
+      date: this.journalForm.value.date,
+      bookId: 1,
+      transactions: [],
+    };
+    this.store.dispatch(updateJournal({ journal }));
     this.dialogRef.close();
   }
 }

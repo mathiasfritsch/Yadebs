@@ -52,6 +52,15 @@ export class JournalListComponent implements OnInit {
       )
       .subscribe(() => this.router.navigateByUrl('journal/list'));
   }
+  addJournal() {
+    this.router.navigateByUrl(`journal/list/0`);
+
+    openEditDialog(
+      this.dialog,
+      { id: 0, name: '', date: new Date(), bookId: 1, transactions: [] },
+      true
+    );
+  }
   editJournal(id: number) {
     this.router.navigateByUrl(`journal/list/${id}`);
   }
