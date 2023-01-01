@@ -16,7 +16,8 @@ namespace Yadebs.Api.Controllers
         {
             this.transactionService = accountingService;
         }
-
+        [HttpPut("{id}")]
+        public async Task PutAsync(int id, [FromBody] JournalDto value) => await this.transactionService.UpdateJournalAsync(id, value);
 
         [HttpGet()]
         public async Task<List<JournalDto>> Get() => await this.transactionService.GetJournalsAsync();

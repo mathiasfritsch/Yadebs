@@ -9,8 +9,15 @@ import { MaterialModule } from './../shared/material.module';
 import { StoreModule } from '@ngrx/store';
 import { JournalEditComponent } from './journal-edit/journal-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
-
+import {
+  MAT_DATE_LOCALE,
+  MAT_DATE_FORMATS,
+  DateAdapter,
+} from '@angular/material/core';
+import {
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
 const DE_DATE_FORMAT = {
   parse: {
     dateInput: 'DD.MM.YYYY',
@@ -38,8 +45,13 @@ const DE_DATE_FORMAT = {
     ReactiveFormsModule,
   ],
   providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
     { provide: MAT_DATE_FORMATS, useValue: DE_DATE_FORMAT },
-    { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
   ],
 })
 export class JournalModule {}

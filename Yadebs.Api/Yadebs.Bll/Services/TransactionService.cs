@@ -35,7 +35,11 @@ namespace Yadebs.Bll.Services
             await this.context.SaveChangesAsync();
             return await GetJournalAsync(1);
         }
-
+        public async Task<JournalDto> UpdateJournalAsync(int id, JournalDto journal)
+        {
+            await this.context.SaveChangesAsync();
+            return await GetJournalAsync(1);
+        }
         public async Task<JournalDto> GetJournalAsync(int id)
         {
             var journal = await this.context.Journals

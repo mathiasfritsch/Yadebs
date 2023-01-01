@@ -12,7 +12,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from './shared/material.module';
 
 import { LayoutModule } from '@angular/cdk/layout';
-
+import {
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
 //import { AddressComponent } from './address/address.component';
 
 @NgModule({
