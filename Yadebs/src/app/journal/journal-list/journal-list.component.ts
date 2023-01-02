@@ -14,6 +14,7 @@ import { Router, NavigationEnd, Event } from '@angular/router';
 import { Account } from 'src/app/shared/account';
 import { openEditDialog } from '../journal-edit/journal-edit.component';
 import { MatDialog } from '@angular/material/dialog';
+import { loadAccounts } from 'src/app/accounts/store/account.actions';
 @Component({
   selector: 'app-journal-list',
   templateUrl: './journal-list.component.html',
@@ -64,12 +65,8 @@ export class JournalListComponent implements OnInit {
   editJournal(id: number) {
     this.router.navigateByUrl(`journal/list/${id}`);
   }
-  ngOnInit(): void {
-    this.loadJournals();
-  }
-  loadJournals(): void {
-    this.store.dispatch(loadJournals());
-  }
+  ngOnInit(): void {}
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
