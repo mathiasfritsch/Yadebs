@@ -65,7 +65,9 @@ export class JournalListComponent implements OnInit {
   editJournal(id: number) {
     this.router.navigateByUrl(`journal/list/${id}`);
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.dispatch(loadJournals());
+  }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
