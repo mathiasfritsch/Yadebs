@@ -16,6 +16,8 @@ import {
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
+import { reducers } from './store';
+
 //import { AddressComponent } from './address/address.component';
 
 @NgModule({
@@ -23,11 +25,11 @@ import {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot(),
     HttpClientModule,
     BrowserAnimationsModule,
 
