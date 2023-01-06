@@ -3,9 +3,10 @@ import { Account } from 'src/app/shared/account';
 import { AccountEditComponent } from '../account-edit/account-edit.component';
 import * as fromAccount from './account.reducer';
 
-export const selectAccountState = createFeatureSelector<fromAccount.State>(
-  fromAccount.accountFeatureKey
-);
+export const selectAccountState =
+  createFeatureSelector<fromAccount.AccountState>(
+    fromAccount.accountFeatureKey
+  );
 
 export const selectSelectorsLoading = createSelector(
   selectAccountState,

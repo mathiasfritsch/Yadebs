@@ -5,10 +5,10 @@ export const accountFeatureKey = 'account';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 export const adapter: EntityAdapter<Account> = createEntityAdapter<Account>({});
 
-export interface State extends EntityState<Account> {
+export interface AccountState extends EntityState<Account> {
   loading: boolean;
 }
-export const initialState: State = adapter.getInitialState({
+export const initialState: AccountState = adapter.getInitialState({
   loading: false,
 });
 

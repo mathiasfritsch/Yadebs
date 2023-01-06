@@ -17,6 +17,7 @@ import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
 import { reducers } from './store';
+import { AccountEffects } from './accounts/store/account.effects';
 
 //import { AddressComponent } from './address/address.component';
 
@@ -29,7 +30,7 @@ import { reducers } from './store';
     StoreDevtoolsModule.instrument({
       maxAge: 25,
     }),
-    EffectsModule.forRoot(),
+    EffectsModule.forRoot([AccountEffects]),
     HttpClientModule,
     BrowserAnimationsModule,
 
