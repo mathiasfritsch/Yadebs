@@ -1,6 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Account } from 'src/app/shared/account';
-import { AccountEditComponent } from '../account-edit/account-edit.component';
 import * as fromAccount from './account.reducer';
 
 export const selectAccountState =

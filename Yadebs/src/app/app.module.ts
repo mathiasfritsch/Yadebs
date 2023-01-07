@@ -17,8 +17,8 @@ import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
 import { reducers } from './store';
-import { AccountEffects } from './accounts/store/account.effects';
-import { JournalEffects } from './journal/store/journal.effects';
+import { AccountEffects } from './store/account/account.effects';
+import { JournalEffects } from './store/journal/journal.effects';
 
 import { JournalEditComponent } from './journal/journal-edit/journal-edit.component';
 import { JournalListComponent } from './journal/journal-list/journal-list.component';

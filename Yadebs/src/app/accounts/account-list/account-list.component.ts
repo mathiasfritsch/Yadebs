@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { loadAccounts } from '../store/account.actions';
+
 import {
   selectAccountState,
   selectAccountTree,
   selectAllAccounts,
-} from '../store/account.selectors';
+} from '../../store/account/account.selectors';
 import {
   AccountEditComponent,
   openEditAccountDialog,
@@ -19,6 +19,7 @@ import {
   MatTreeFlattener,
 } from '@angular/material/tree';
 import { Account } from 'src/app/shared/account';
+import { loadAccounts } from '../../store/account/account.actions';
 interface AccountNode {
   name: string;
   id: number;

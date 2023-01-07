@@ -13,11 +13,11 @@ import {
   addJournal,
   updateJournal,
   deleteJournal,
-} from '../store/journal.actions';
+} from '../../store/journal/journal.actions';
 import { Store, select } from '@ngrx/store';
 import { Account } from 'src/app/shared/account';
-import { selectAllAccounts } from '../../accounts/store/account.selectors';
-import { loadAccounts } from '../../accounts/store/account.actions';
+import { selectAllAccounts } from '../../store/account/account.selectors';
+import { loadAccounts } from '../../store/account/account.actions';
 import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
 
 @Component({

@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { loadJournals, loadJournalsSuccess } from '../store/journal.actions';
+import {
+  loadJournals,
+  loadJournalsSuccess,
+} from '../../store/journal/journal.actions';
 
 import {
   selectJournalState,
   selectAllJournals,
   selectAllJournalsWithAccounts,
-} from '../store/journal.selectors';
+} from '../../store/journal/journal.selectors';
 
 import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
 import { Journal } from 'src/app/shared/journal';
@@ -14,7 +17,7 @@ import { Router, NavigationEnd, Event } from '@angular/router';
 import { Account } from 'src/app/shared/account';
 import { openEditDialog } from '../journal-edit/journal-edit.component';
 import { MatDialog } from '@angular/material/dialog';
-import { loadAccounts } from 'src/app/accounts/store/account.actions';
+import { loadAccounts } from 'src/app/store/account/account.actions';
 @Component({
   selector: 'app-journal-list',
   templateUrl: './journal-list.component.html',

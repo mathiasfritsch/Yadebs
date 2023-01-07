@@ -1,11 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { selectAllAccounts } from '../account/account.selectors';
 import * as fromJournal from './journal.reducer';
-
-import {
-  selectAccountState,
-  selectAccountTree,
-  selectAllAccounts,
-} from './../../accounts/store/account.selectors';
 
 export const selectAllJournalsWithAccounts = createSelector(
   fromJournal.selectAll,

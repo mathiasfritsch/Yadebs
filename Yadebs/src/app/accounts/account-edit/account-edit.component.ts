@@ -12,7 +12,7 @@ import {
   addAccount,
   updateAccount,
   deleteAccount,
-} from '../store/account.actions';
+} from '../../store/account/account.actions';
 import { Store } from '@ngrx/store';
 
 @Component({

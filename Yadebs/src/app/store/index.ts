@@ -10,13 +10,13 @@ import {
   accountFeatureKey,
   AccountState,
   reducer as AccountReducer,
-} from '../accounts/store/account.reducer';
+} from './account/account.reducer';
 
 import {
   journalFeatureKey,
   JournalState,
   reducer as JournalReducer,
-} from '../journal/store/journal.reducer';
+} from './journal/journal.reducer';
 
 export interface AppState {
   [accountFeatureKey]: AccountState;
