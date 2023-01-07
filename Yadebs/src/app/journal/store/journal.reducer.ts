@@ -8,10 +8,10 @@ import { createSelector } from '@ngrx/store';
 
 export const adapter: EntityAdapter<Journal> = createEntityAdapter<Journal>({});
 
-export interface State extends EntityState<Journal> {
+export interface JournalState extends EntityState<Journal> {
   loading: boolean;
 }
-export const initialState: State = adapter.getInitialState({
+export const initialState: JournalState = adapter.getInitialState({
   loading: false,
 });
 

@@ -113,7 +113,7 @@ export class AccountListComponent implements OnInit {
     this.ngUnsubscribe.complete();
   }
   addAccountDialog(): void {
-    this.router.navigateByUrl('accounts/0');
+    this.router.navigateByUrl('accounts/list/0');
     openEditAccountDialog(
       this.dialog,
       { id: 0, name: '', number: 0, parentId: 0, bookId: 1, children: [] },

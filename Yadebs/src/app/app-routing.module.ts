@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AccountListComponent } from './accounts/account-list/account-list.component';
 import { HomeComponent } from './home/home.component';
+import { JournalListComponent } from './journal/journal-list/journal-list.component';
 
 const routes: Routes = [
   {
@@ -13,14 +15,24 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'accounts',
-    loadChildren: () =>
-      import('./accounts/accounts.module').then((m) => m.AccountsModule),
+    path: 'accounts/list/:id',
+    component: AccountListComponent,
+    pathMatch: 'full',
   },
   {
-    path: 'journal',
-    loadChildren: () =>
-      import('./journal/journal.module').then((m) => m.JournalModule),
+    path: 'accounts/list',
+    component: AccountListComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'journal/list/:id',
+    component: JournalListComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'journal/list',
+    component: JournalListComponent,
+    pathMatch: 'full',
   },
 ];
 

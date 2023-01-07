@@ -18,6 +18,7 @@ import {
 } from '@angular/material-moment-adapter';
 import { reducers } from './store';
 import { AccountEffects } from './accounts/store/account.effects';
+import { JournalEffects } from './journal/store/journal.effects';
 
 //import { AddressComponent } from './address/address.component';
 
@@ -30,7 +31,7 @@ import { AccountEffects } from './accounts/store/account.effects';
     StoreDevtoolsModule.instrument({
       maxAge: 25,
     }),
-    EffectsModule.forRoot([AccountEffects]),
+    EffectsModule.forRoot([AccountEffects, JournalEffects]),
     HttpClientModule,
     BrowserAnimationsModule,
 

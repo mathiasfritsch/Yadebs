@@ -15,9 +15,10 @@ export const selectAllJournalsWithAccounts = createSelector(
   }
 );
 
-export const selectJournalState = createFeatureSelector<fromJournal.State>(
-  fromJournal.journalFeatureKey
-);
+export const selectJournalState =
+  createFeatureSelector<fromJournal.JournalState>(
+    fromJournal.journalFeatureKey
+  );
 
 export const selectSelectorsLoading = createSelector(
   selectJournalState,
