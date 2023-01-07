@@ -20,10 +20,36 @@ import { reducers } from './store';
 import { AccountEffects } from './accounts/store/account.effects';
 import { JournalEffects } from './journal/store/journal.effects';
 
-//import { AddressComponent } from './address/address.component';
+import { JournalEditComponent } from './journal/journal-edit/journal-edit.component';
+import { JournalListComponent } from './journal/journal-list/journal-list.component';
+import { AccountListComponent } from './accounts/account-list/account-list.component';
+import { AccountEditComponent } from './accounts/account-edit/account-edit.component';
+import {
+  DateAdapter,
+  MAT_DATE_LOCALE,
+  MAT_DATE_FORMATS,
+} from '@angular/material/core';
 
+const DE_DATE_FORMAT = {
+  parse: {
+    dateInput: 'DD.MM.YYYY',
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    JournalListComponent,
+    JournalEditComponent,
+    AccountListComponent,
+    AccountEditComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -40,7 +66,15 @@ import { JournalEffects } from './journal/store/journal.effects';
     MaterialModule,
     LayoutModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: DE_DATE_FORMAT },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

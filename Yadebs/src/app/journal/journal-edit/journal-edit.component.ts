@@ -19,7 +19,7 @@ import { Account } from 'src/app/shared/account';
 import { selectAllAccounts } from '../../accounts/store/account.selectors';
 import { loadAccounts } from '../../accounts/store/account.actions';
 import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-journal-edit',
   templateUrl: './journal-edit.component.html',
