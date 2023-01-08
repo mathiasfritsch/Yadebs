@@ -8,7 +8,9 @@ import {
 import {
   selectJournalState,
   selectAllJournals,
-  selectAllJournalsWithAccounts,
+  selectJournalsWithAccounts,
+  selectJournalListViewModel,
+  JournalListViewModel,
 } from '../../store/journal/journal.selectors';
 
 import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
@@ -27,6 +29,8 @@ export class JournalListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'edit', 'date', 'debit', 'credit'];
 
   private ngUnsubscribe = new Subject<void>();
+
+  journalItems: JournalListViewModel[] = [];
   journals: Journal[] = [];
 
   constructor(
@@ -34,6 +38,12 @@ export class JournalListComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog
   ) {
+    this.store
+      .pipe(select(selectJournalListViewModel), takeUntil(this.ngUnsubscribe))
+      .subscribe((journalListViewModel) => {
+        this.journalItems = journalListViewModel;
+      });
+
     this.store
       .pipe(select(selectAllJournals), takeUntil(this.ngUnsubscribe))
       .subscribe((journals) => {
@@ -48,7 +58,7 @@ export class JournalListComponent implements OnInit {
             e.url != '/journal/list' &&
             e.url != '/journal/list/0'
         ),
-        filter(() => this.journals.length > 0),
+        filter(() => this.journalItems.length > 0),
         map((ne) => Number(ne.url.split('/')[3])),
         map((id) => this.journals.find((a) => a.id === id)!),
         switchMap((j: Journal) => openEditDialog(this.dialog, j, false)),
@@ -68,7 +78,9 @@ export class JournalListComponent implements OnInit {
   editJournal(id: number) {
     this.router.navigateByUrl(`journal/list/${id}`);
   }
+
   ngOnInit(): void {
+    this.store.dispatch(loadAccounts());
     this.store.dispatch(loadJournals());
   }
 
