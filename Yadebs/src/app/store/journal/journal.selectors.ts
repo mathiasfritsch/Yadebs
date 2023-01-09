@@ -58,12 +58,12 @@ function mapJournalListViewModel(
     name: journal.name,
     bookId: journal.bookId,
     debitAmount: journal.transactions[0].amount,
-    debitAccountName: accounts.find(
+    debitAccountName: accounts?.find(
       (a) => a.id === journal.transactions[0].account.id
-    )!.name,
+    )?.name!,
     creditAmount: journal.transactions[1].amount,
-    creditAccountName: accounts.find(
+    creditAccountName: accounts?.find(
       (a) => a.id === journal.transactions[1].account.id
-    )!.name,
+    )?.name!,
   };
 }
