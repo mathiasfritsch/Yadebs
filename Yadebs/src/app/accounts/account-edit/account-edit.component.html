@@ -43,10 +43,20 @@
   >
     Delete Account
   </button>
-  <button mat-raised-button (click)="submitAddForm()" *ngIf="isAdd">
+  <button
+    mat-raised-button
+    (click)="submitAddForm()"
+    *ngIf="isAdd"
+    color="primary"
+  >
     Add Account
   </button>
-  <button mat-raised-button (click)="submitUpdateForm()" *ngIf="!isAdd">
+  <button
+    mat-raised-button
+    (click)="submitUpdateForm()"
+    *ngIf="!isAdd"
+    color="primary"
+  >
     Update Account
   </button>
   <button mat-raised-button (click)="closeForm()">Close</button>

@@ -1,5 +1,7 @@
 <div ng-if="journalItems">
-  <button mat-raised-button (click)="addJournal()">Add Booking</button>
+  <button mat-raised-button (click)="addJournal()" color="accent">
+    Add Booking
+  </button>
 
   <table mat-table [dataSource]="journalItems" class="mat-elevation-z4">
     <ng-container matColumnDef="edit">

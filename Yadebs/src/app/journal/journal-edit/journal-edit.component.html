@@ -74,10 +74,20 @@
   >
     Delete Booking
   </button>
-  <button mat-raised-button (click)="submitAddForm()" *ngIf="isAdd">
+  <button
+    mat-raised-button
+    (click)="submitAddForm()"
+    *ngIf="isAdd"
+    color="primary"
+  >
     Add Booking
   </button>
-  <button mat-raised-button (click)="submitUpdateForm()" *ngIf="!isAdd">
+  <button
+    mat-raised-button
+    (click)="submitUpdateForm()"
+    *ngIf="!isAdd"
+    color="primary"
+  >
     Update Booking
   </button>
   <button mat-raised-button (click)="closeForm()">Close</button>
