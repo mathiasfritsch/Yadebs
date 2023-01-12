@@ -27,7 +27,8 @@ import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
 })
 export class JournalEditComponent {
   accountList: Account[] = [];
-
+  public sourceAccountId: number = 0;
+  public targetAccountId: number = 0;
   private ngUnsubscribe = new Subject<void>();
 
   constructor(
@@ -43,21 +44,16 @@ export class JournalEditComponent {
       .subscribe((accounts) => {
         this.accountList = accounts;
       });
-
     this.isAdd = modalData.isAdd;
     this.journal = modalData.journal;
+
+    this.sourceAccountId = this.journal.transactions[0].account.id;
+    this.targetAccountId = this.journal.transactions[1].account.id;
+
     this.journalForm = this.formBuilder.group({
       date: [this.journal.date, Validators.required],
       name: [this.journal.name, Validators.required],
-      sourceAccountId: [
-        this.journal.transactions[0].accountId,
-        Validators.required,
-      ],
       amount: [this.journal.transactions[0].amount, Validators.required],
-      targetAccountId: [
-        this.journal.transactions[1].accountId,
-        Validators.required,
-      ],
     });
   }
   isAdd: boolean = false;

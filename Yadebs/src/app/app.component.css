@@ -1,4 +1,14 @@
-.main-container
+#container {
+    top: 64px !important;
+}
+
+@media(max-width: 599px) {
+    #container {
+        top: 56px !important;
+    }
+}
+
+#sidenav-content
 {
     margin: 10px;
 }

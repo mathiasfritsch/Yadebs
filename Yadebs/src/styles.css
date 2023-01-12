@@ -4,8 +4,9 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .padding-header{ padding-left: 10px;padding-right: 10px;}
 
-.button{margin:20px!important;}
-
 mat-form-field {
     width: 100%;
+}
+.mat-mdc-button-base {
+    margin: 8px 8px 8px 0;
 }

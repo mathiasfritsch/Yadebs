@@ -31,6 +31,38 @@
         <mat-error *ngIf="journalForm.value.amount">Amount error</mat-error>
       </mat-form-field>
     </p>
+    <p>
+      <mat-form-field appearance="fill">
+        <mat-label>Source:</mat-label>
+        <mat-select
+          [(ngModel)]="sourceAccountId"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          <mat-option
+            *ngFor="let accountListItem of accountList"
+            [value]="accountListItem.id"
+          >
+            {{ accountListItem.number }} - {{ accountListItem.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="fill">
+        <mat-label>Target:</mat-label>
+        <mat-select
+          [(ngModel)]="targetAccountId"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          <mat-option
+            *ngFor="let accountListItem of accountList"
+            [value]="accountListItem.id"
+          >
+            {{ accountListItem.number }} - {{ accountListItem.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
   </form>
 </div>
 <div mat-dialog-actions>

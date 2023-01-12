@@ -1,4 +1,10 @@
-<mat-sidenav-container fullscreen>
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="sidenav.open()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <h1 class="padding-header">Yadebs</h1>
+</mat-toolbar>
+<mat-sidenav-container id="container" fullscreen>
   <mat-sidenav #sidenav>
     <mat-nav-list (click)="sidenav.close()">
       <a mat-list-item routerLink="/accounts/list">
@@ -12,13 +18,7 @@
       </a>
     </mat-nav-list>
   </mat-sidenav>
-
-  <mat-toolbar color="primary">
-    <button mat-icon-button (click)="sidenav.open()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <h1 class="padding-header">Yadebs</h1>
-  </mat-toolbar>
-
-  <router-outlet></router-outlet>
+  <mat-sidenav-content id="sidenav-content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
 </mat-sidenav-container>

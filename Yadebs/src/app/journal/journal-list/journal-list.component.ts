@@ -26,7 +26,15 @@ import { loadAccounts } from 'src/app/store/account/account.actions';
   styleUrls: ['./journal-list.component.css'],
 })
 export class JournalListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'edit', 'date', 'debit', 'credit'];
+  displayedColumns: string[] = [
+    'id',
+    'edit',
+    'date',
+    'debit-amount',
+    'debit-account',
+    'credit-amount',
+    'credit-account',
+  ];
 
   private ngUnsubscribe = new Subject<void>();
 
