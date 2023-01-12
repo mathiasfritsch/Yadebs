@@ -23,7 +23,7 @@ import { loadAccounts } from 'src/app/store/account/account.actions';
 @Component({
   selector: 'app-journal-list',
   templateUrl: './journal-list.component.html',
-  styleUrls: ['./journal-list.component.css'],
+  styleUrls: ['./journal-list.component.scss'],
 })
 export class JournalListComponent implements OnInit {
   displayedColumns: string[] = [

@@ -37,7 +37,7 @@ interface AcccountFlatNode {
 @Component({
   selector: 'app-account-list',
   templateUrl: './account-list.component.html',
-  styleUrls: ['./account-list.component.css'],
+  styleUrls: ['./account-list.component.scss'],
 })
 export class AccountListComponent implements OnInit {
   private _transformer = (node: AccountNode, level: number) => {

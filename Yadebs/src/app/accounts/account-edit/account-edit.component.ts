@@ -18,7 +18,7 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-account-edit',
   templateUrl: './account-edit.component.html',
-  styleUrls: ['./account-edit.component.css'],
+  styleUrls: ['./account-edit.component.scss'],
 })
 export class AccountEditComponent implements OnInit {
   isAdd: boolean = false;

@@ -23,7 +23,7 @@ import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-journal-edit',
   templateUrl: './journal-edit.component.html',
-  styleUrls: ['./journal-edit.component.css'],
+  styleUrls: ['./journal-edit.component.scss'],
 })
 export class JournalEditComponent {
   accountList: Account[] = [];
