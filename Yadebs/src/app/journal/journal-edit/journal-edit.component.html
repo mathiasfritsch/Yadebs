@@ -2,10 +2,17 @@
   <form [formGroup]="journalForm">
     <p>
       <mat-form-field>
-        <mat-label for="name"> Name: </mat-label>
-        <input matInput id="name" type="text" formControlName="name" />
-        <mat-hint>Name</mat-hint>
-        <mat-error *ngIf="journalForm.value.name"> Name error </mat-error>
+        <mat-label for="description"> Beschreibung: </mat-label>
+        <input
+          matInput
+          id="description"
+          type="text"
+          formControlName="description"
+        />
+        <mat-hint>Beschreibung</mat-hint>
+        <mat-error *ngIf="journalForm.value.description">
+          Beschreibung error
+        </mat-error>
       </mat-form-field>
     </p>
 
@@ -32,35 +39,32 @@
       </mat-form-field>
     </p>
     <p>
-      <mat-form-field appearance="fill">
-        <mat-label>Source:</mat-label>
-        <mat-select
-          [(ngModel)]="sourceAccountId"
-          [ngModelOptions]="{ standalone: true }"
-        >
+      <mat-form-field>
+        <mat-label for="sourceAccountId"> Source: </mat-label>
+        <mat-select formControlName="sourceAccountId">
           <mat-option
             *ngFor="let accountListItem of accountList"
             [value]="accountListItem.id"
           >
-            {{ accountListItem.number }} - {{ accountListItem.name }}
+            {{ accountListItem.name }}
           </mat-option>
         </mat-select>
+        <mat-hint>Source</mat-hint>
       </mat-form-field>
     </p>
+
     <p>
-      <mat-form-field appearance="fill">
-        <mat-label>Target:</mat-label>
-        <mat-select
-          [(ngModel)]="targetAccountId"
-          [ngModelOptions]="{ standalone: true }"
-        >
+      <mat-form-field>
+        <mat-label for="targetAccountId"> Target: </mat-label>
+        <mat-select formControlName="targetAccountId">
           <mat-option
             *ngFor="let accountListItem of accountList"
             [value]="accountListItem.id"
           >
-            {{ accountListItem.number }} - {{ accountListItem.name }}
+            {{ accountListItem.name }}
           </mat-option>
         </mat-select>
+        <mat-hint>Target</mat-hint>
       </mat-form-field>
     </p>
   </form>

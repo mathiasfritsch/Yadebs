@@ -1,4 +1,4 @@
-﻿using Yadebs.Models.Dto;
+﻿using Yadebs.Models.Dto.Journal;
 
 namespace Yadebs.Bll.Interfaces
 {
@@ -12,6 +12,6 @@ namespace Yadebs.Bll.Interfaces
 
         public Task<JournalDto> AddJournalAsync(JournalDto journal);
 
-        public Task<JournalDto> UpdateJournalAsync(int id,JournalDto journal);
+        public Task<JournalDto> UpdateJournalAsync(int id,JournalUpdateDto journal);
     }
 }

@@ -30,6 +30,7 @@ export class JournalListComponent implements OnInit {
     'id',
     'edit',
     'date',
+    'description',
     'debit-amount',
     'debit-account',
     'credit-amount',
@@ -79,7 +80,7 @@ export class JournalListComponent implements OnInit {
 
     openEditDialog(
       this.dialog,
-      { id: 0, name: '', date: new Date(), bookId: 1, transactions: [] },
+      { id: 0, description: '', date: new Date(), bookId: 1, transactions: [] },
       true
     );
   }

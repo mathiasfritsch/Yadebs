@@ -32,7 +32,6 @@ export const reducer = createReducer(
   on(JournalActions.loadJournalsSuccess, (state, action) => {
     return {
       ...adapter.setAll(action.data, state),
-      journals: action.data,
       loading: false,
     };
   }),

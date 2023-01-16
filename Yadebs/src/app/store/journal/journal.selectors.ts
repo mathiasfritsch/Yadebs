@@ -40,7 +40,7 @@ export const selectJournalListViewModel = createSelector(
 export interface JournalListViewModel {
   id: number;
   date: Date;
-  name: string;
+  description: string;
   bookId: number;
   debitAmount: number;
   debitAccountName: string;
@@ -55,7 +55,7 @@ function mapJournalListViewModel(
   return {
     id: journal.id,
     date: journal.date,
-    name: journal.name,
+    description: journal.description,
     bookId: journal.bookId,
     debitAmount: journal.transactions[0].amount,
     debitAccountName: accounts?.find(

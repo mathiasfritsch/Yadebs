@@ -1,11 +1,14 @@
-﻿namespace Yadebs.Models.Dto
+﻿namespace Yadebs.Models.Dto.Journal
 {
     public class JournalDto
     {
         public int Id { get; set; }
 
 
-        public string  Name { get => "SomeString"; }
+        public string Description
+        {
+            get; set;
+        }
 
         public DateTime Date { get; set; }
         public List<TransactionDto> Transactions { get; set; }

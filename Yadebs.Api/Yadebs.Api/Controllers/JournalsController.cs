@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Yadebs.Bll;
 using Yadebs.Bll.Interfaces;
-using Yadebs.Models.Dto;
+using Yadebs.Models.Dto.Journal;
 
 namespace Yadebs.Api.Controllers
 {
@@ -17,7 +17,10 @@ namespace Yadebs.Api.Controllers
             this.transactionService = accountingService;
         }
         [HttpPut("{id}")]
-        public async Task PutAsync(int id, [FromBody] JournalDto value) => await this.transactionService.UpdateJournalAsync(id, value);
+        public async Task PutAsync(int id, [FromBody] JournalUpdateDto value)
+        {
+            await this.transactionService.UpdateJournalAsync(id, value);
+        }
 
         [HttpGet()]
         public async Task<List<JournalDto>> Get() => await this.transactionService.GetJournalsAsync();

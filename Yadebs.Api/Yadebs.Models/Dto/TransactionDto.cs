@@ -1,4 +1,6 @@
-﻿namespace Yadebs.Models.Dto
+﻿using Yadebs.Models.Dto.Journal;
+
+namespace Yadebs.Models.Dto
 {
     public class TransactionDto
     {

@@ -27,7 +27,22 @@ export class JournalService {
   updateJournal(journal: Journal): Observable<Journal> {
     return this.httpClient.put<Journal>(
       `https://localhost:7211/api/Journals/${journal.id}`,
-      journal
+      {
+        id: journal.id,
+        description: journal.description,
+        transactions: [
+          {
+            id: journal.transactions[0].id,
+            amount: journal.transactions[0].amount,
+            accountId: journal.transactions[0].accountId,
+          },
+          {
+            id: journal.transactions[1].id,
+            amount: journal.transactions[1].amount,
+            accountId: journal.transactions[1].accountId,
+          },
+        ],
+      }
     );
   }
   constructor(private httpClient: HttpClient) {}

@@ -29,7 +29,6 @@ export const reducer = createReducer(
   on(AccountActions.loadAccountsSuccess, (state, action) => {
     return {
       ...adapter.setAll(action.data, state),
-      accounts: action.data,
       loading: false,
     };
   }),

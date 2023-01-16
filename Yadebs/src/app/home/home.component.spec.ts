@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HomeComponent } from './home.component';
-
+import { getTestScheduler, cold } from 'jasmine-marbles';
+import { map } from 'rxjs/operators';
+import { merge } from 'rxjs';
 let component: HomeComponent;
 let fixture: ComponentFixture<HomeComponent>;
 let h1: HTMLElement;
