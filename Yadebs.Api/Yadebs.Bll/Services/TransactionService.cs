@@ -45,13 +45,13 @@ namespace Yadebs.Bll.Services
 
             journal.Adapt(journalToUpdate);
 
-            for (int i = 0; i <= 1; i++)
-            {
-                var tranTarget = journalToUpdate.Transactions.ToArray()[i];
-                var transSource = journal.Transactions[i];
-                tranTarget.Amount = transSource.Amount;
-                tranTarget.AccountId = transSource.AccountId;
-            }
+            //for (int i = 0; i <= 1; i++)
+            //{
+            //    var tranTarget = journalToUpdate.Transactions.ToArray()[i];
+            //    var transSource = journal.Transactions[i];
+            //    tranTarget.Amount = transSource.Amount;
+            //    tranTarget.AccountId = transSource.AccountId;
+            //}
 
             await this.context.SaveChangesAsync();
 

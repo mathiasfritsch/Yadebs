@@ -34,9 +34,10 @@ export const selectJournalListViewModel = createSelector(
   selectAllJournals,
   selectAllAccounts,
   (journals, accounts) =>
-    journals.map((j) => mapJournalListViewModel(j, accounts))
+    journals && accounts
+      ? journals.map((j) => mapJournalListViewModel(j, accounts))
+      : []
 );
-
 export interface JournalListViewModel {
   id: number;
   date: Date;
@@ -58,12 +59,12 @@ function mapJournalListViewModel(
     description: journal.description,
     bookId: journal.bookId,
     debitAmount: journal.transactions[0].amount,
-    debitAccountName: accounts?.find(
+    debitAccountName: accounts.find(
       (a) => a.id === journal.transactions[0].account.id
-    )?.name!,
+    )!.name,
     creditAmount: journal.transactions[1].amount,
-    creditAccountName: accounts?.find(
+    creditAccountName: accounts.find(
       (a) => a.id === journal.transactions[1].account.id
-    )?.name!,
+    )!.name,
   };
 }
