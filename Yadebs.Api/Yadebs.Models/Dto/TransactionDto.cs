@@ -10,5 +10,6 @@ namespace Yadebs.Models.Dto
         public int JournalId { get; set; }
         public JournalDto Journal { get; set; }
         public bool IsDebit { get; set; }
+        public int AccountId { get; set; }
     }
 }

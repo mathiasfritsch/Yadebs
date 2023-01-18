@@ -11,6 +11,6 @@ namespace Yadebs.Db
 
         public DateTime Date { get; set; }
 
-        public IEnumerable<Transaction> Transactions { get; set; }
+        public IList<Transaction> Transactions { get; set; }
     }
 }

@@ -17,10 +17,9 @@ namespace Yadebs.Bll.Services
         public async Task<AccountDto> AddAccountAsync(AccountDto accountDto)
         {
             var account = accountDto.Adapt<Account>();
-
-            this.context.Accounts.Add(account);
+            await this.context.Accounts.AddAsync(account);
             await this.context.SaveChangesAsync();
-            return await GetAccountAsync(account.Id);
+            return await this.GetAccountAsync(account.Id);
         }
 
         public async Task UpdateAccountAsync(int id, AccountDto accountDto)

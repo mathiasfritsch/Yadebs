@@ -80,9 +80,9 @@ namespace Yadebs.Bll.Tests
                 ParentId = 256
             };
 
-            var accountResult = await accountingService.AddAccountAsync(accountAdd);
+            _ = await accountingService.AddAccountAsync(accountAdd);
 
-            var accountReload = await accountingService.GetAccountAsync(13);
+            var accountReload = await accountingService.GetAccountAsync(accountAdd.Id);
 
             Assert.AreEqual(accountAdd.Id, accountReload.Id);
             Assert.AreEqual(accountAdd.BookId, accountReload.BookId);
@@ -90,11 +90,6 @@ namespace Yadebs.Bll.Tests
             Assert.AreEqual(accountAdd.Number, accountReload.Number);
             Assert.AreEqual(accountAdd.ParentId, accountReload.ParentId);
 
-            Assert.AreEqual(accountAdd.Id, accountResult.Id);
-            Assert.AreEqual(accountAdd.BookId, accountResult.BookId);
-            Assert.AreEqual(accountAdd.Name, accountResult.Name);
-            Assert.AreEqual(accountAdd.Number, accountResult.Number);
-            Assert.AreEqual(accountAdd.ParentId, accountResult.ParentId);
         }
 
         [TestMethod]

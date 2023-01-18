@@ -15,8 +15,10 @@ builder.Services.AddCors();
 
 builder.Services.AddScoped<IAccountingService, AccountingService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
-builder.Services.RegisterMapsterConfiguration();
+
 var app = builder.Build();
+
+MapsterConfig.ConfigureMapster();
 
 if (app.Environment.IsDevelopment())
 {

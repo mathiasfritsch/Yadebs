@@ -7,7 +7,7 @@ namespace Yadebs.Bll
 {
     public static class MapsterConfig
     {
-        public static void RegisterMapsterConfiguration(this IServiceCollection services)
+        public static void ConfigureMapster()
         {
             TypeAdapterConfig<Journal, JournalDto>.NewConfig().MaxDepth(3);
             TypeAdapterConfig<JournalUpdateDto, Journal>.NewConfig();
