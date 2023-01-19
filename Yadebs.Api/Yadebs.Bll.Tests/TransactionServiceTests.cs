@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Mapster;
+using Microsoft.EntityFrameworkCore;
 using Yadebs.Bll.Services;
 using Yadebs.Db;
 using Yadebs.Models.Dto;
@@ -39,49 +40,77 @@ namespace Yadebs.Bll.Tests
 
             Assert.AreEqual(2, journals.Count());
         }
+        [TestMethod]
+        public async Task UpdateJournalAsyncUpdatesJournal()
+        {
+            var context = InMemoryContext.GetContext();
+            MapsterConfig.ConfigureMapster();
 
+            Journal journalInStore;
+            Account accountInStore1, accountInStore2;
+            Transaction transactionInStore1, transactionInStore2;
+            CreateJournal(
+                context,
+                out journalInStore,
+                out accountInStore1,
+                out accountInStore2,
+                out transactionInStore1,
+                out transactionInStore2);
+
+            context.Add(journalInStore);
+
+            await context.SaveChangesAsync();
+            var transactionService = new TransactionService(context);
+
+
+            var journalFromStoree = await transactionService.GetJournalAsync(journalInStore.Id);
+
+            var journalUpdate = journalFromStoree.Adapt<JournalUpdateDto>();
+
+
+            journalUpdate.Description = "Updated Description";
+            journalUpdate.Date = new DateTime(2020,4,13);
+
+            journalUpdate.Transactions[0].AccountId = 4235;
+            journalUpdate.Transactions[0].Amount = (decimal)56.34;
+
+            journalUpdate.Transactions[1].AccountId = 343;
+            journalUpdate.Transactions[1].Amount = (decimal)321.78;
+
+            var journalUpdated = await transactionService.UpdateJournalAsync(journalInStore.Id, journalUpdate);
+
+            var trans = await context.Transactions.ToListAsync();
+
+            Assert.AreEqual(journalUpdate.Id, journalUpdated.Id);
+            Assert.AreEqual(journalUpdate.Description, journalUpdated.Description);
+            Assert.AreEqual(journalUpdate.Date, journalUpdated.Date);
+
+            Assert.AreEqual(2, journalUpdated.Transactions.Count());
+
+            Assert.AreEqual(journalUpdate.Transactions[0].AccountId, journalUpdated.Transactions[0].AccountId);
+            Assert.AreEqual(journalUpdate.Transactions[0].Amount, journalUpdated.Transactions[0].Amount);
+
+            Assert.AreEqual(journalUpdate.Transactions[1].AccountId, journalUpdated.Transactions[1].AccountId);
+            Assert.AreEqual(journalUpdate.Transactions[1].Amount, journalUpdated.Transactions[1].Amount);
+
+        }
         [TestMethod]
         public async Task GetJournalAsyncGetsJournal()
         {
             var context = InMemoryContext.GetContext();
             MapsterConfig.ConfigureMapster();
 
-            var journalInStore = new Journal
-            {
-                Id = 13,
-                Description = "SomeDescription1",
-                Date = new DateTime(2020, 10, 15)
-            };
-            var accountInStore1 = new Account
-            {
-                Id = 254,
-                Number = 658,
-                Name = "Account1",
-                IncreasesDebitWhenMoneyAdded = true
-            };
-            var accountInStore2 = new Account
-            {
-                Id = 98,
-                Number = 235,
-                Name = "Account2",
-                IncreasesDebitWhenMoneyAdded = false
-            };
-            var transactionInStore1 = new Transaction
-            {
-                Id = 458,
-                JournalId = journalInStore.Id,
-                AccountId = accountInStore1.Id,
-                Amount = (decimal)205.25
-            };
-            var transactionInStore2 = new Transaction
-            {
-                Id = 987,
-                JournalId = journalInStore.Id,
-                AccountId = accountInStore2.Id,
-                Amount = (decimal)587.15
-            };
-            context.AddRange(new[] { accountInStore1, accountInStore2 });
-            context.AddRange(new[] { transactionInStore1, transactionInStore2 });
+            Journal journalInStore;
+            Account accountInStore1, accountInStore2;
+            Transaction transactionInStore1, transactionInStore2;
+            CreateJournal(
+                context,
+                out journalInStore,
+                out accountInStore1,
+                out accountInStore2,
+                out transactionInStore1,
+                out transactionInStore2);
+
             context.Add(journalInStore);
 
             await context.SaveChangesAsync();
@@ -101,6 +130,52 @@ namespace Yadebs.Bll.Tests
 
             Assert.AreEqual(accountInStore2.Id, journal.Transactions[1].Account.Id);
             Assert.AreEqual(transactionInStore2.Amount, journal.Transactions[1].Amount);
+        }
+
+        private static void CreateJournal(
+            AccountingContext context,
+            out Journal journalInStore,
+            out Account accountInStore1,
+            out Account accountInStore2,
+            out Transaction transactionInStore1,
+            out Transaction transactionInStore2)
+        {
+            journalInStore = new Journal
+            {
+                Id = 13,
+                Description = "SomeDescription1",
+                Date = new DateTime(2020, 10, 15)
+            };
+            accountInStore1 = new Account
+            {
+                Id = 254,
+                Number = 658,
+                Name = "Account1",
+                IncreasesDebitWhenMoneyAdded = true
+            };
+            accountInStore2 = new Account
+            {
+                Id = 98,
+                Number = 235,
+                Name = "Account2",
+                IncreasesDebitWhenMoneyAdded = false
+            };
+            transactionInStore1 = new Transaction
+            {
+                Id = 458,
+                JournalId = journalInStore.Id,
+                AccountId = accountInStore1.Id,
+                Amount = (decimal)205.25
+            };
+            transactionInStore2 = new Transaction
+            {
+                Id = 987,
+                JournalId = journalInStore.Id,
+                AccountId = accountInStore2.Id,
+                Amount = (decimal)587.15
+            };
+            context.AddRange(new[] { accountInStore1, accountInStore2 });
+            context.AddRange(new[] { transactionInStore1, transactionInStore2 });
         }
 
         [TestMethod]

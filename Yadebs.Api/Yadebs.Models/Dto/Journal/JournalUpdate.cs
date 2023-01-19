@@ -11,6 +11,8 @@ namespace Yadebs.Models.Dto.Journal
             get; set;
         }
 
+        public DateTime Date { get; set; }
+
         [AdaptIgnore(MemberSide.Source)]
         public TransactionUpdateDto[] Transactions
         {

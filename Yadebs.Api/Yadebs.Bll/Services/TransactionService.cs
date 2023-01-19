@@ -48,9 +48,14 @@ namespace Yadebs.Bll.Services
 
             journal.Adapt(journalToUpdate);
 
+            journalToUpdate.Transactions[0].Amount = journal.Transactions[0].Amount;
+            journalToUpdate.Transactions[1].Amount = journal.Transactions[1].Amount;
+            journalToUpdate.Transactions[0].AccountId = journal.Transactions[0].AccountId;
+            journalToUpdate.Transactions[1].AccountId = journal.Transactions[1].AccountId;
+
             await this.context.SaveChangesAsync();
 
-            return await GetJournalAsync(1);
+            return await GetJournalAsync(id);
         }
 
         public async Task<JournalDto> GetJournalAsync(int id)
