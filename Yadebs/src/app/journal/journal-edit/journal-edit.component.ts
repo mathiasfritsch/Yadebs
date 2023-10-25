@@ -53,17 +53,29 @@ export class JournalEditComponent {
     this.isAdd = modalData.isAdd;
     this.journal = modalData.journal;
     this.state = 'WA';
-
-    this.journalForm = this.formBuilder.group({
-      state: [this.state],
-      sourceAccountId: [this.journal.transactions[0].account.id],
-      targetAccountId: [this.journal.transactions[1].account.id],
-      sourceTransactionId: [this.journal.transactions[0].id],
-      targetTransactionId: [this.journal.transactions[1].id],
-      date: [this.journal.date, Validators.required],
-      description: [this.journal.description, Validators.required],
-      amount: [this.journal.transactions[0].amount, Validators.required],
-    });
+    if (!this.isAdd) {
+      this.journalForm = this.formBuilder.group({
+        state: [this.state],
+        sourceAccountId: [this.journal.transactions[0].account.id],
+        targetAccountId: [this.journal.transactions[1].account.id],
+        sourceTransactionId: [this.journal.transactions[0].id],
+        targetTransactionId: [this.journal.transactions[1].id],
+        date: [this.journal.date, Validators.required],
+        description: [this.journal.description, Validators.required],
+        amount: [this.journal.transactions[0].amount, Validators.required],
+      });
+    } else {
+      this.journalForm = this.formBuilder.group({
+        state: [this.state],
+        sourceAccountId: this.accountList[0].id,
+        targetAccountId: this.accountList[0].id,
+        sourceTransactionId: null,
+        targetTransactionId: null,
+        date: null,
+        description: '',
+        amount: 0,
+      });
+    }
   }
   isAdd: boolean = false;
 
@@ -88,7 +100,22 @@ export class JournalEditComponent {
       description: this.journalForm.value.description ?? '',
       date: this.journalForm.value.date,
       bookId: 1,
-      transactions: [],
+      transactions: [
+        {
+          id: 0,
+          journalId: this.journal.id,
+          accountId: this.journalForm.value.sourceAccountId,
+          amount: this.journalForm.value.amount,
+          account: this.accountList[0],
+        },
+        {
+          id: 0,
+          journalId: this.journal.id,
+          accountId: this.journalForm.value.targetAccountId,
+          amount: this.journalForm.value.amount,
+          account: this.accountList[1],
+        },
+      ],
     };
     this.store.dispatch(addJournal({ journal }));
     this.dialogRef.close();
