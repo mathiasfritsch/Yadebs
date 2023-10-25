@@ -27,10 +27,10 @@ import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
 })
 export class JournalEditComponent {
   accountList: Account[] = [];
-  public sourceAccountId: number = 0;
-  public targetAccountId: number = 0;
+  public sourceAccountId = 0;
+  public targetAccountId = 0;
   private ngUnsubscribe = new Subject<void>();
-  public state: string = 'NY';
+  public state = 'NY';
 
   options = [
     { value: 'NY', label: 'Option NY' },
@@ -77,7 +77,7 @@ export class JournalEditComponent {
       });
     }
   }
-  isAdd: boolean = false;
+  isAdd = false;
 
   journal: Journal;
   journalForm: FormGroup;
@@ -159,7 +159,7 @@ export function openEditDialog(
 ) {
   const config = new MatDialogConfig();
 
-  let modalData = {
+  const modalData = {
     journal: journal,
     isAdd: isAdd,
   };

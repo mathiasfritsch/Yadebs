@@ -21,7 +21,7 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./account-edit.component.scss'],
 })
 export class AccountEditComponent implements OnInit {
-  isAdd: boolean = false;
+  isAdd = false;
   account: Account;
   accountForm: FormGroup;
 
@@ -109,7 +109,7 @@ export function openEditAccountDialog(
   config.panelClass = 'modal-panel';
   config.backdropClass = 'backdrop-modal-panel';
 
-  let modalData = {
+  const modalData = {
     account: account,
     accountList: accountList,
     isAdd: isAdd,

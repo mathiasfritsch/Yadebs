@@ -25,8 +25,8 @@ export const selectAccountTree = createSelector(selectAllAccounts, accounts =>
 );
 
 function getTree(nodes: Account[]): Account[] {
-  var mutableNodes: Account[] = JSON.parse(JSON.stringify(nodes));
-  var tree = new Array<Account>();
+  const mutableNodes: Account[] = JSON.parse(JSON.stringify(nodes));
+  const tree = new Array<Account>();
   mutableNodes
     .filter(n => n.parentId === null)
     .forEach(n => tree.push(getNodeWithChildren(mutableNodes, n)));
@@ -34,7 +34,7 @@ function getTree(nodes: Account[]): Account[] {
 }
 
 function getNodeWithChildren(nodes: Account[], node: Account): Account {
-  var children = new Array<Account>();
+  const children = new Array<Account>();
   nodes
     .filter(n => n.parentId === node.id)
     .forEach(n => children.push(getNodeWithChildren(nodes, n)));
