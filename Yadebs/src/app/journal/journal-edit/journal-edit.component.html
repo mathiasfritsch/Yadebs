@@ -7,8 +7,7 @@
           matInput
           id="description"
           type="text"
-          formControlName="description"
-        />
+          formControlName="description" />
         <mat-hint>Beschreibung</mat-hint>
         <mat-error *ngIf="journalForm.value.description">
           Beschreibung error
@@ -23,8 +22,7 @@
         <mat-hint>DD.MM.YYYY</mat-hint>
         <mat-datepicker-toggle
           matIconSuffix
-          [for]="picker"
-        ></mat-datepicker-toggle>
+          [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error *ngIf="journalForm.value.date">Date error</mat-error>
       </mat-form-field>
@@ -44,8 +42,7 @@
         <mat-select formControlName="sourceAccountId">
           <mat-option
             *ngFor="let accountListItem of accountList"
-            [value]="accountListItem.id"
-          >
+            [value]="accountListItem.id">
             {{ accountListItem.name }}
           </mat-option>
         </mat-select>
@@ -59,8 +56,7 @@
         <mat-select formControlName="targetAccountId">
           <mat-option
             *ngFor="let accountListItem of accountList"
-            [value]="accountListItem.id"
-          >
+            [value]="accountListItem.id">
             {{ accountListItem.name }}
           </mat-option>
         </mat-select>
@@ -74,24 +70,21 @@
     mat-raised-button
     color="warn"
     (click)="submitDeleteForm()"
-    *ngIf="!isAdd"
-  >
+    *ngIf="!isAdd">
     Delete Booking
   </button>
   <button
     mat-raised-button
     (click)="submitAddForm()"
     *ngIf="isAdd"
-    color="accent"
-  >
+    color="accent">
     Add Booking
   </button>
   <button
     mat-raised-button
     (click)="submitUpdateForm()"
     *ngIf="!isAdd"
-    color="accent"
-  >
+    color="accent">
     Update Booking
   </button>
   <button mat-raised-button (click)="closeForm()">Close</button>

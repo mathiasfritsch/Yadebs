@@ -5,12 +5,10 @@
         <mat-label>Parent account</mat-label>
         <mat-select
           [(ngModel)]="selectedValue"
-          [ngModelOptions]="{ standalone: true }"
-        >
+          [ngModelOptions]="{ standalone: true }">
           <mat-option
             *ngFor="let accountListItem of accountList"
-            [value]="accountListItem.id"
-          >
+            [value]="accountListItem.id">
             {{ accountListItem.number }} - {{ accountListItem.name }}
           </mat-option>
         </mat-select>
@@ -39,24 +37,21 @@
     mat-raised-button
     color="warn"
     (click)="submitDeleteForm()"
-    *ngIf="!isAdd"
-  >
+    *ngIf="!isAdd">
     Delete Account
   </button>
   <button
     mat-raised-button
     (click)="submitAddForm()"
     *ngIf="isAdd"
-    color="accent"
-  >
+    color="accent">
     Add Account
   </button>
   <button
     mat-raised-button
     (click)="submitUpdateForm()"
     *ngIf="!isAdd"
-    color="accent"
-  >
+    color="accent">
     Update Account
   </button>
   <button mat-raised-button (click)="closeForm()">Close</button>

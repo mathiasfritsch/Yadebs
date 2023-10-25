@@ -23,7 +23,7 @@ export const reducer = createReducer(
   on(AccountActions.deleteAccountSuccess, (state, action) => {
     return adapter.removeOne(action.id, state);
   }),
-  on(AccountActions.loadAccounts, (state) => {
+  on(AccountActions.loadAccounts, state => {
     return { ...state, loading: true };
   }),
   on(AccountActions.loadAccountsSuccess, (state, action) => {

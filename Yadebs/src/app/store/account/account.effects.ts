@@ -12,17 +12,15 @@ export class AccountEffects {
   loadAccounts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AccountActions.loadAccounts),
-      tap((x) => {
+      tap(x => {
         console.log('loadAccounts called');
       }),
       switchMap(() =>
         this.accountService.getAccounts().pipe(
-          map((accounts) =>
+          map(accounts =>
             AccountActions.loadAccountsSuccess({ data: accounts })
           ),
-          catchError((error) =>
-            of(AccountActions.loadAccountsFailure({ error }))
-          )
+          catchError(error => of(AccountActions.loadAccountsFailure({ error })))
         )
       )
     );
@@ -31,10 +29,10 @@ export class AccountEffects {
   deleteAccount$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AccountActions.deleteAccount),
-      mergeMap((action) => {
+      mergeMap(action => {
         return this.accountService.deleteAccount(action.id).pipe(
-          map((data) => {
-            return AccountActions.deleteAccountSuccess({ id:action.id });
+          map(data => {
+            return AccountActions.deleteAccountSuccess({ id: action.id });
           })
         );
       })
@@ -44,9 +42,9 @@ export class AccountEffects {
   addAccount$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AccountActions.addAccount),
-      mergeMap((action) => {
+      mergeMap(action => {
         return this.accountService.addAccount(action.account).pipe(
-          map((data) => {
+          map(data => {
             const account = { ...action.account, id: data.id };
             return AccountActions.addAccountSuccess({ account });
           })
@@ -58,9 +56,9 @@ export class AccountEffects {
   updateAccount$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AccountActions.updateAccount),
-      mergeMap((action) => {
+      mergeMap(action => {
         return this.accountService.updateAccount(action.account).pipe(
-          map((data) => {
+          map(data => {
             const updateAccount: Update<AccountUpdate> = {
               id: action.account.id,
               changes: {

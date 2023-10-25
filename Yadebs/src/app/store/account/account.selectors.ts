@@ -9,7 +9,7 @@ export const selectAccountState =
 
 export const selectSelectorsLoading = createSelector(
   selectAccountState,
-  (state) => state.loading
+  state => state.loading
 );
 
 export const selectAllAccounts = createSelector(
@@ -18,9 +18,9 @@ export const selectAllAccounts = createSelector(
 );
 
 export const selectEntity = (id: number) =>
-  createSelector(selectAccountState, (state) => state.entities[id]);
+  createSelector(selectAccountState, state => state.entities[id]);
 
-export const selectAccountTree = createSelector(selectAllAccounts, (accounts) =>
+export const selectAccountTree = createSelector(selectAllAccounts, accounts =>
   getTree(accounts)
 );
 
@@ -28,16 +28,16 @@ function getTree(nodes: Account[]): Account[] {
   var mutableNodes: Account[] = JSON.parse(JSON.stringify(nodes));
   var tree = new Array<Account>();
   mutableNodes
-    .filter((n) => n.parentId === null)
-    .forEach((n) => tree.push(getNodeWithChildren(mutableNodes, n)));
+    .filter(n => n.parentId === null)
+    .forEach(n => tree.push(getNodeWithChildren(mutableNodes, n)));
   return tree;
 }
 
 function getNodeWithChildren(nodes: Account[], node: Account): Account {
   var children = new Array<Account>();
   nodes
-    .filter((n) => n.parentId === node.id)
-    .forEach((n) => children.push(getNodeWithChildren(nodes, n)));
+    .filter(n => n.parentId === node.id)
+    .forEach(n => children.push(getNodeWithChildren(nodes, n)));
 
   if (children.length > 0) {
     node.children = children;

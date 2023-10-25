@@ -21,11 +21,9 @@ export class AccountService {
   }
 
   deleteAccount(id: string) {
-    return this.httpClient.delete(
-      `https://localhost:7211/api/Accounts/${id}`,
-    );
+    return this.httpClient.delete(`https://localhost:7211/api/Accounts/${id}`);
   }
-  
+
   updateAccount(account: Account): Observable<Account> {
     return this.httpClient.put<Account>(
       `https://localhost:7211/api/Accounts/${account.id}`,

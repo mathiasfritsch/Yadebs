@@ -1,30 +1,41 @@
-@use "@angular/material" as mat;
+@use '@angular/material' as mat;
 
 @include mat.core();
 
-$my-app-primary: mat.define-palette(mat.$grey-palette,A400
-);
+$my-app-primary: mat.define-palette(mat.$grey-palette, A400);
 $my-app-accent: mat.define-palette(mat.$indigo-palette);
 $my-app-warn: mat.define-palette(mat.$red-palette);
 $my-typography: mat.define-typography-config();
 
-$my-app-theme: mat.define-light-theme((color: (primary: $my-app-primary,
-                accent: $my-app-accent,
-                warn: $my-app-warn,
-            ),
-            typography: $my-typography,
-        ));
+$my-app-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-app-primary,
+      accent: $my-app-accent,
+      warn: $my-app-warn,
+    ),
+    typography: $my-typography,
+  )
+);
 
 @include mat.all-component-themes($my-app-theme);
 
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-.padding-header{ padding-left: 10px;padding-right: 10px;}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+.padding-header {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 
 mat-form-field {
-    width: 100%;
+  width: 100%;
 }
 .mat-mdc-button-base {
-    margin: 8px 8px 8px 0;
+  margin: 8px 8px 8px 0;
 }

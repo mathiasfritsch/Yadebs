@@ -56,7 +56,6 @@ export const deleteAccountFailure = createAction(
   props<{ error: HttpErrorResponse }>()
 );
 
-
 export const addAccountFailure = createAction(
   '[Account] Add Account Failure',
   props<{ error: HttpErrorResponse }>()

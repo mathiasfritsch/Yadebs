@@ -51,15 +51,15 @@ export class AccountListComponent implements OnInit {
   };
   private ngUnsubscribe = new Subject<void>();
   treeControl = new FlatTreeControl<AcccountFlatNode>(
-    (node) => node.level,
-    (node) => node.expandable
+    node => node.level,
+    node => node.expandable
   );
 
   treeFlattener = new MatTreeFlattener(
     this._transformer,
-    (node) => node.level,
-    (node) => node.expandable,
-    (node) => node.children
+    node => node.level,
+    node => node.expandable,
+    node => node.children
   );
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   accounts: Account[] = [];
@@ -73,14 +73,14 @@ export class AccountListComponent implements OnInit {
   ) {
     this.store
       .pipe(select(selectAccountTree), takeUntil(this.ngUnsubscribe))
-      .subscribe((accountsAsTree) => {
+      .subscribe(accountsAsTree => {
         this.dataSource.data = accountsAsTree;
         this.treeControl.expandAll();
       });
 
     this.store
       .pipe(select(selectAllAccounts), takeUntil(this.ngUnsubscribe))
-      .subscribe((accounts) => {
+      .subscribe(accounts => {
         this.accounts = accounts;
       });
 
@@ -95,8 +95,8 @@ export class AccountListComponent implements OnInit {
             e.url != '/accounts/list/0'
         ),
         filter(() => this.accounts.length > 0),
-        map((ne) => Number(ne.url.split('/')[3])),
-        map((id) => this.accounts.find((a) => a.id === id)!),
+        map(ne => Number(ne.url.split('/')[3])),
+        map(id => this.accounts.find(a => a.id === id)!),
         switchMap((a: Account) =>
           openEditAccountDialog(this.dialog, a, this.accounts, false)
         ),

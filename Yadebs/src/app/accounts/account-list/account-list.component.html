@@ -2,16 +2,14 @@
   mat-raised-button
   (click)="addAccountDialog()"
   class="button"
-  color="accent"
->
+  color="accent">
   Add Account
 </button>
 <mat-tree
   #tree
   [dataSource]="dataSource"
   [treeControl]="treeControl"
-  class="account-tree"
->
+  class="account-tree">
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
     <a [routerLink]="['/accounts/list', node.id]" style="padding-left: 20px">
       {{ node.number }} -
@@ -23,10 +21,9 @@
     <button
       mat-icon-button
       matTreeNodeToggle
-      [attr.aria-label]="'Toggle ' + node.name"
-    >
+      [attr.aria-label]="'Toggle ' + node.name">
       <mat-icon class="mat-icon-rtl-mirror">
-        {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
+        {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
       </mat-icon>
     </button>
     <a [routerLink]="['/accounts/list', node.id]">

@@ -26,7 +26,7 @@ export const reducer = createReducer(
   on(JournalActions.deleteJournalSuccess, (state, action) => {
     return adapter.removeOne(action.id, state);
   }),
-  on(JournalActions.loadJournals, (state) => {
+  on(JournalActions.loadJournals, state => {
     return { ...state, loading: true };
   }),
   on(JournalActions.loadJournalsSuccess, (state, action) => {

@@ -49,13 +49,13 @@ export class JournalListComponent implements OnInit {
   ) {
     this.store
       .pipe(select(selectJournalListViewModel), takeUntil(this.ngUnsubscribe))
-      .subscribe((journalListViewModel) => {
+      .subscribe(journalListViewModel => {
         this.journalItems = journalListViewModel;
       });
 
     this.store
       .pipe(select(selectAllJournals), takeUntil(this.ngUnsubscribe))
-      .subscribe((journals) => {
+      .subscribe(journals => {
         this.journals = journals;
       });
 
@@ -68,8 +68,8 @@ export class JournalListComponent implements OnInit {
             e.url != '/journal/list/0'
         ),
         filter(() => this.journalItems.length > 0),
-        map((ne) => Number(ne.url.split('/')[3])),
-        map((id) => this.journals.find((a) => a.id === id)!),
+        map(ne => Number(ne.url.split('/')[3])),
+        map(id => this.journals.find(a => a.id === id)!),
         switchMap((j: Journal) => openEditDialog(this.dialog, j, false)),
         takeUntil(this.ngUnsubscribe)
       )

@@ -12,7 +12,7 @@ export const selectJournalState =
 
 export const selectSelectorsLoading = createSelector(
   selectJournalState,
-  (state) => state.loading
+  state => state.loading
 );
 
 export const selectAllJournals = createSelector(
@@ -21,7 +21,7 @@ export const selectAllJournals = createSelector(
 );
 export const selectJournal = createSelector(
   selectJournalState,
-  (state) => state.entities[1]
+  state => state.entities[1]
 );
 
 export const selectJournalsWithAccounts = createSelector(
@@ -35,7 +35,7 @@ export const selectJournalListViewModel = createSelector(
   selectAllAccounts,
   (journals, accounts) =>
     journals && accounts
-      ? journals.map((j) => mapJournalListViewModel(j, accounts))
+      ? journals.map(j => mapJournalListViewModel(j, accounts))
       : []
 );
 export interface JournalListViewModel {
@@ -60,11 +60,11 @@ function mapJournalListViewModel(
     bookId: journal.bookId,
     debitAmount: journal.transactions[0].amount,
     debitAccountName: accounts.find(
-      (a) => a.id === journal.transactions[0].account.id
+      a => a.id === journal.transactions[0].account.id
     )!.name,
     creditAmount: journal.transactions[1].amount,
     creditAccountName: accounts.find(
-      (a) => a.id === journal.transactions[1].account.id
+      a => a.id === journal.transactions[1].account.id
     )!.name,
   };
 }

@@ -12,17 +12,15 @@ export class JournalEffects {
   loadJournals$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(JournalActions.loadJournals),
-      tap((x) => {
+      tap(x => {
         console.log('loadJournals called');
       }),
       switchMap(() =>
         this.journalService.getJournals().pipe(
-          map((journals) =>
+          map(journals =>
             JournalActions.loadJournalsSuccess({ data: journals })
           ),
-          catchError((error) =>
-            of(JournalActions.loadJournalsFailure({ error }))
-          )
+          catchError(error => of(JournalActions.loadJournalsFailure({ error })))
         )
       )
     );
@@ -31,9 +29,9 @@ export class JournalEffects {
   deleteJournal$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(JournalActions.deleteJournal),
-      mergeMap((action) => {
+      mergeMap(action => {
         return this.journalService.deleteJournal(action.id).pipe(
-          map((data) => {
+          map(data => {
             return JournalActions.deleteJournalSuccess({ id: action.id });
           })
         );
@@ -44,9 +42,9 @@ export class JournalEffects {
   addJournal$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(JournalActions.addJournal),
-      mergeMap((action) => {
+      mergeMap(action => {
         return this.journalService.addJournal(action.journal).pipe(
-          map((data) => {
+          map(data => {
             const journal = { ...action.journal, id: data.id };
             return JournalActions.addJournalSuccess({ journal });
           })
@@ -58,9 +56,9 @@ export class JournalEffects {
   updateJournal$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(JournalActions.updateJournal),
-      mergeMap((action) => {
+      mergeMap(action => {
         return this.journalService.updateJournal(action.journal).pipe(
-          map((data) => {
+          map(data => {
             const updateJournal: Update<JournalUpdate> = {
               id: action.journal.id,
               changes: {

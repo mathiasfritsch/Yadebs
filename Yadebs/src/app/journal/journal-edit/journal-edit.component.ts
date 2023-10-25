@@ -47,7 +47,7 @@ export class JournalEditComponent {
     this.store.dispatch(loadAccounts());
     this.store
       .pipe(select(selectAllAccounts), takeUntil(this.ngUnsubscribe))
-      .subscribe((accounts) => {
+      .subscribe(accounts => {
         this.accountList = accounts;
       });
     this.isAdd = modalData.isAdd;
