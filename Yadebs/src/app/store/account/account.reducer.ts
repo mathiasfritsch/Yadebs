@@ -1,4 +1,4 @@
-import { createReducer, on, createFeatureSelector } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as AccountActions from './account.actions';
 import { Account } from 'src/app/shared/account';
 export const accountFeatureKey = 'account';
@@ -32,7 +32,7 @@ export const reducer = createReducer(
       loading: false,
     };
   }),
-  on(AccountActions.loadAccountsFailure, (state, action) => {
+  on(AccountActions.loadAccountsFailure, state => {
     return { ...state, loading: false };
   })
 );

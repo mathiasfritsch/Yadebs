@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap, tap, mergeMap } from 'rxjs/operators';
+import { catchError, map, switchMap, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as AccountActions from './account.actions';
 import { AccountService } from 'src/app/shared/account.service';
@@ -12,9 +12,6 @@ export class AccountEffects {
   loadAccounts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AccountActions.loadAccounts),
-      tap(x => {
-        console.log('loadAccounts called');
-      }),
       switchMap(() =>
         this.accountService.getAccounts().pipe(
           map(accounts =>
@@ -31,7 +28,7 @@ export class AccountEffects {
       ofType(AccountActions.deleteAccount),
       mergeMap(action => {
         return this.accountService.deleteAccount(action.id).pipe(
-          map(data => {
+          map(() => {
             return AccountActions.deleteAccountSuccess({ id: action.id });
           })
         );
@@ -58,7 +55,7 @@ export class AccountEffects {
       ofType(AccountActions.updateAccount),
       mergeMap(action => {
         return this.accountService.updateAccount(action.account).pipe(
-          map(data => {
+          map(() => {
             const updateAccount: Update<AccountUpdate> = {
               id: action.account.id,
               changes: {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -18,7 +18,7 @@ import { Store, select } from '@ngrx/store';
 import { Account } from 'src/app/shared/account';
 import { selectAllAccounts } from '../../store/account/account.selectors';
 import { loadAccounts } from '../../store/account/account.actions';
-import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-journal-edit',
@@ -42,7 +42,7 @@ export class JournalEditComponent {
     public dialogRef: MatDialogRef<JournalEditComponent>,
     private router: Router,
     private store: Store,
-    @Inject(MAT_DIALOG_DATA) public modalData: any
+    @Inject(MAT_DIALOG_DATA) public modalData: MAT_DIALOG_DATA
   ) {
     this.store.dispatch(loadAccounts());
     this.store

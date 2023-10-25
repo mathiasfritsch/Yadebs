@@ -7,5 +7,4 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   public title = 'Test Title1';
-  constructor() {}
 }

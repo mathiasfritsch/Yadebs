@@ -1,14 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import {
-  loadJournals,
-  loadJournalsSuccess,
-} from '../../store/journal/journal.actions';
+import { loadJournals } from '../../store/journal/journal.actions';
 
 import {
-  selectJournalState,
   selectAllJournals,
-  selectJournalsWithAccounts,
   selectJournalListViewModel,
   JournalListViewModel,
 } from '../../store/journal/journal.selectors';
@@ -16,7 +11,6 @@ import {
 import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
 import { Journal } from 'src/app/shared/journal';
 import { Router, NavigationEnd, Event } from '@angular/router';
-import { Account } from 'src/app/shared/account';
 import { openEditDialog } from '../journal-edit/journal-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { loadAccounts } from 'src/app/store/account/account.actions';
@@ -25,7 +19,7 @@ import { loadAccounts } from 'src/app/store/account/account.actions';
   templateUrl: './journal-list.component.html',
   styleUrls: ['./journal-list.component.scss'],
 })
-export class JournalListComponent implements OnInit {
+export class JournalListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'id',
     'edit',

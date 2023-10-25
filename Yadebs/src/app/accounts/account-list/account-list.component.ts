@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import {
@@ -6,10 +6,7 @@ import {
   selectAccountTree,
   selectAllAccounts,
 } from '../../store/account/account.selectors';
-import {
-  AccountEditComponent,
-  openEditAccountDialog,
-} from '../account-edit/account-edit.component';
+import { openEditAccountDialog } from '../account-edit/account-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, NavigationEnd, Event } from '@angular/router';
 import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
@@ -34,12 +31,13 @@ interface AcccountFlatNode {
   id: number;
   number: number;
 }
+
 @Component({
   selector: 'app-account-list',
   templateUrl: './account-list.component.html',
   styleUrls: ['./account-list.component.scss'],
 })
-export class AccountListComponent implements OnInit {
+export class AccountListComponent implements OnInit, OnDestroy {
   private _transformer = (node: AccountNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -96,7 +94,9 @@ export class AccountListComponent implements OnInit {
         ),
         filter(() => this.accounts.length > 0),
         map(ne => Number(ne.url.split('/')[3])),
-        map(id => this.accounts.find(a => a.id === id)!),
+        map(id => {
+          return this.accounts.find(a => a.id === id)!;
+        }),
         switchMap((a: Account) =>
           openEditAccountDialog(this.dialog, a, this.accounts, false)
         ),

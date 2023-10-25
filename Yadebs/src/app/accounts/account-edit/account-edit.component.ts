@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import {
   MatDialogRef,
@@ -20,7 +20,7 @@ import { Store } from '@ngrx/store';
   templateUrl: './account-edit.component.html',
   styleUrls: ['./account-edit.component.scss'],
 })
-export class AccountEditComponent implements OnInit {
+export class AccountEditComponent {
   isAdd = false;
   account: Account;
   accountForm: FormGroup;
@@ -33,7 +33,7 @@ export class AccountEditComponent implements OnInit {
     public dialogRef: MatDialogRef<AccountEditComponent>,
     private router: Router,
     private store: Store,
-    @Inject(MAT_DIALOG_DATA) public modalData: any
+    @Inject(MAT_DIALOG_DATA) public modalData: AccountEditComponent
   ) {
     this.isAdd = modalData.isAdd;
     this.account = modalData.account;
@@ -48,8 +48,6 @@ export class AccountEditComponent implements OnInit {
     );
     this.selectedValue = this.account.parentId;
   }
-
-  ngOnInit(): void {}
 
   closeForm(): void {
     this.dialogRef.close();

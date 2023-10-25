@@ -1,10 +1,8 @@
-import { Action, createReducer, on, createFeatureSelector } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as JournalActions from './journal.actions';
 import { Journal } from 'src/app/shared/journal';
-import { state } from '@angular/animations';
 export const journalFeatureKey = 'journal';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { createSelector } from '@ngrx/store';
 
 export const adapter: EntityAdapter<Journal> = createEntityAdapter<Journal>({});
 
@@ -35,7 +33,7 @@ export const reducer = createReducer(
       loading: false,
     };
   }),
-  on(JournalActions.loadJournalsFailure, (state, action) => {
+  on(JournalActions.loadJournalsFailure, state => {
     return { ...state, loading: false };
   })
 );

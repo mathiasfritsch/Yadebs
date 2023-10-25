@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap, tap, mergeMap } from 'rxjs/operators';
+import { catchError, map, switchMap, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as JournalActions from './journal.actions';
 import { JournalService } from 'src/app/shared/journal.service';
@@ -12,9 +12,6 @@ export class JournalEffects {
   loadJournals$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(JournalActions.loadJournals),
-      tap(x => {
-        console.log('loadJournals called');
-      }),
       switchMap(() =>
         this.journalService.getJournals().pipe(
           map(journals =>
@@ -31,7 +28,7 @@ export class JournalEffects {
       ofType(JournalActions.deleteJournal),
       mergeMap(action => {
         return this.journalService.deleteJournal(action.id).pipe(
-          map(data => {
+          map(() => {
             return JournalActions.deleteJournalSuccess({ id: action.id });
           })
         );
@@ -58,7 +55,7 @@ export class JournalEffects {
       ofType(JournalActions.updateJournal),
       mergeMap(action => {
         return this.journalService.updateJournal(action.journal).pipe(
-          map(data => {
+          map(() => {
             const updateJournal: Update<JournalUpdate> = {
               id: action.journal.id,
               changes: {
