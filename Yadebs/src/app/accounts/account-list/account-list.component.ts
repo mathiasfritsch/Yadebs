@@ -9,7 +9,7 @@ import {
 import { openEditAccountDialog } from '../account-edit/account-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, NavigationEnd, Event } from '@angular/router';
-import { switchMap, filter, Subject, map, takeUntil } from 'rxjs';
+import { switchMap, filter, Subject, map, takeUntil, Observable } from 'rxjs';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
   MatTreeFlatDataSource,
@@ -17,6 +17,7 @@ import {
 } from '@angular/material/tree';
 import { Account } from 'src/app/shared/account';
 import { loadAccounts } from '../../store/account/account.actions';
+import { AccountState } from 'src/app/store/account/account.reducer';
 interface AccountNode {
   name: string;
   id: number;
@@ -61,7 +62,8 @@ export class AccountListComponent implements OnInit, OnDestroy {
   );
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   accounts: Account[] = [];
-  loading$ = this.store.pipe(select(selectAccountState));
+
+  loading$: Observable<AccountState>;
   hasChild = (_: number, node: AcccountFlatNode) => node.expandable;
 
   constructor(
@@ -69,6 +71,8 @@ export class AccountListComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private router: Router
   ) {
+    this.loading$ = this.store.pipe(select(selectAccountState));
+
     this.store
       .pipe(select(selectAccountTree), takeUntil(this.ngUnsubscribe))
       .subscribe(accountsAsTree => {
