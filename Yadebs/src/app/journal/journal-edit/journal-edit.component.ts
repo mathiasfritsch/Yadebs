@@ -42,7 +42,7 @@ export class JournalEditComponent {
     public dialogRef: MatDialogRef<JournalEditComponent>,
     private router: Router,
     private store: Store,
-    @Inject(MAT_DIALOG_DATA) public modalData: MAT_DIALOG_DATA
+    @Inject(MAT_DIALOG_DATA) public modalData: JournalEditComponent
   ) {
     this.store.dispatch(loadAccounts());
     this.store
