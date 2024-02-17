@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Yadebs.Bll.Services;
 using Yadebs.Db;
-using Yadebs.Models.Dto;
 using Yadebs.Models.Dto.Journal;
 
 namespace Yadebs.Bll.Tests
@@ -69,7 +68,7 @@ namespace Yadebs.Bll.Tests
 
 
             journalUpdate.Description = "Updated Description";
-            journalUpdate.Date = new DateTime(2020,4,13);
+            journalUpdate.Date = new DateTime(2020, 4, 13);
 
             journalUpdate.Transactions[0].AccountId = 4235;
             journalUpdate.Transactions[0].Amount = (decimal)56.34;
@@ -125,10 +124,10 @@ namespace Yadebs.Bll.Tests
 
             Assert.AreEqual(2, journal.Transactions.Count());
 
-            Assert.AreEqual(accountInStore1.Id, journal.Transactions[0].Account.Id);
+            Assert.AreEqual(accountInStore1.Id, journal.Transactions[0].AccountId);
             Assert.AreEqual(transactionInStore1.Amount, journal.Transactions[0].Amount);
 
-            Assert.AreEqual(accountInStore2.Id, journal.Transactions[1].Account.Id);
+            Assert.AreEqual(accountInStore2.Id, journal.Transactions[1].AccountId);
             Assert.AreEqual(transactionInStore2.Amount, journal.Transactions[1].Amount);
         }
 
@@ -237,36 +236,33 @@ namespace Yadebs.Bll.Tests
 
             var transactionService = new TransactionService(context);
 
-            var journalToAdd = new JournalDto
+            var journalToAdd = new JournalAddDto
             {
-                Id=558,
                 Description = "SomeDescription1",
                 Date = new DateTime(2020, 10, 15),
-                Transactions = new List<TransactionDto>
+                Transactions = new TransactionAddDto[]
                 {
-                    new TransactionDto
+                    new()
                     {
                         Amount = (decimal)205.15,
                         AccountId = accountInStore1.Id,
-                        IsDebit = true,
                     },
-                    new TransactionDto
+                    new()
                     {
                         Amount = (decimal)698.50,
                         AccountId = accountInStore2.Id,
-                        IsDebit = false
                     }
                 }
             };
 
-            _ = await transactionService.AddJournalAsync(journalToAdd);
+            var journalAdded = await transactionService.AddJournalAsync(journalToAdd);
 
             var journals = await context.Journals.ToListAsync();
 
             var journalsAfterAdd = await context.Journals
                 .Include(j => j.Transactions)
                 .ThenInclude(t => t.Account)
-                .SingleAsync(j => j.Id == journalToAdd.Id);
+                .SingleAsync(j => j.Id == journalAdded.Id);
 
             Assert.AreEqual(journalToAdd.Description, journalsAfterAdd.Description);
             Assert.AreEqual(journalToAdd.Date, journalsAfterAdd.Date);

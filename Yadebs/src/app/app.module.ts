@@ -55,6 +55,7 @@ const DE_DATE_FORMAT = {
     AppRoutingModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
+      name:'yadebs store',
       maxAge: 25,
     }),
     EffectsModule.forRoot([AccountEffects, JournalEffects]),

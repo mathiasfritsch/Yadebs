@@ -1,11 +1,6 @@
-﻿namespace Yadebs.Models.Dto.Journal
+﻿namespace Yadebs.Models.Dto.Journal;
+
+public class TransactionUpdateDto : TransactionAddDto
 {
-    public class TransactionUpdateDto
-    {
-        public int Id { get; set; }
-
-        public decimal Amount { get; set; }
-
-        public int AccountId { get; set; }
-    }
+    public int Id { get; set; }
 }

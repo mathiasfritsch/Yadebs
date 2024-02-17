@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Yadebs.Bll;
 using Yadebs.Bll.Interfaces;
 using Yadebs.Models.Dto.Journal;
 
@@ -30,7 +29,10 @@ namespace Yadebs.Api.Controllers
         public async Task<JournalDto> Get(int id) => await this.transactionService.GetJournalAsync(id);
 
         [HttpPost]
-        public async Task<JournalDto> PostAsync([FromBody] JournalDto value) => await this.transactionService.AddJournalAsync(value);
+        public async Task<JournalDto> PostAsync([FromBody] JournalAddDto journalAdd)
+        {
+            return await this.transactionService.AddJournalAsync(journalAdd);
+        }
 
         [HttpDelete("{id}")]
         public async Task DeleteAsync(int id) => await this.transactionService.DeleteJournalAsync(id);

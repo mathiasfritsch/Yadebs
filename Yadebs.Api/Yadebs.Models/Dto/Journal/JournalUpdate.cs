@@ -1,22 +1,15 @@
 ﻿using Mapster;
 
-namespace Yadebs.Models.Dto.Journal
+namespace Yadebs.Models.Dto.Journal;
+
+public class JournalUpdateDto : JournalAddDto
 {
-    public class JournalUpdateDto
+    public int Id { get; set; }
+
+
+    [AdaptIgnore(MemberSide.Source)]
+    public new TransactionAddDto[] Transactions
     {
-        public int Id { get; set; }
-
-        public string Description
-        {
-            get; set;
-        }
-
-        public DateTime Date { get; set; }
-
-        [AdaptIgnore(MemberSide.Source)]
-        public TransactionUpdateDto[] Transactions
-        {
-            get; set;
-        }
+        get; set;
     }
 }

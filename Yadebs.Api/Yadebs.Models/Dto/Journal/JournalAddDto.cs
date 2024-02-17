@@ -1,14 +1,16 @@
 ﻿namespace Yadebs.Models.Dto.Journal;
 
-public class JournalDto
+public class JournalAddDto
 {
-    public int Id { get; set; }
-
     public required string Description
     {
         get; set;
     }
 
     public DateTime Date { get; set; }
-    public required List<TransactionDto> Transactions { get; set; }
+
+    public TransactionAddDto[] Transactions
+    {
+        get; set;
+    }
 }

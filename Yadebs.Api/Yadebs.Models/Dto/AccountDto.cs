@@ -1,12 +1,11 @@
-﻿namespace Yadebs.Models.Dto
+﻿namespace Yadebs.Models.Dto;
+
+public class AccountDto
 {
-    public class AccountDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Number { get; set; }
-        public int BookId { get; set; }
-        public int? ParentId { get; set; }
-        public bool IncreasesDebitWhenMoneyAdded { get; set; }
-    }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int Number { get; set; }
+    public int BookId { get; set; }
+    public int? ParentId { get; set; }
+    public bool IncreasesDebitWhenMoneyAdded { get; set; }
 }

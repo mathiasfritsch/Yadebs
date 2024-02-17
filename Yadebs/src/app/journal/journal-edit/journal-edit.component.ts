@@ -30,12 +30,7 @@ export class JournalEditComponent {
   public sourceAccountId = 0;
   public targetAccountId = 0;
   private ngUnsubscribe = new Subject<void>();
-  public state = 'NY';
 
-  options = [
-    { value: 'NY', label: 'Option NY' },
-    { value: 'WA', label: 'Option WA' },
-  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,12 +47,11 @@ export class JournalEditComponent {
       });
     this.isAdd = modalData.isAdd;
     this.journal = modalData.journal;
-    this.state = 'WA';
+
     if (!this.isAdd) {
       this.journalForm = this.formBuilder.group({
-        state: [this.state],
-        sourceAccountId: [this.journal.transactions[0].account.id],
-        targetAccountId: [this.journal.transactions[1].account.id],
+        sourceAccountId: [this.journal.transactions[0].accountId],
+        targetAccountId: [this.journal.transactions[1].accountId],
         sourceTransactionId: [this.journal.transactions[0].id],
         targetTransactionId: [this.journal.transactions[1].id],
         date: [this.journal.date, Validators.required],
@@ -66,7 +60,6 @@ export class JournalEditComponent {
       });
     } else {
       this.journalForm = this.formBuilder.group({
-        state: [this.state],
         sourceAccountId: this.accountList[0].id,
         targetAccountId: this.accountList[0].id,
         sourceTransactionId: null,

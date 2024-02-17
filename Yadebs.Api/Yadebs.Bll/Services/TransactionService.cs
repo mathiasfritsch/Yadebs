@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Yadebs.Bll.Interfaces;
 using Yadebs.Db;
-using Yadebs.Models.Dto;
 using Yadebs.Models.Dto.Journal;
 
 namespace Yadebs.Bll.Services
@@ -30,12 +29,12 @@ namespace Yadebs.Bll.Services
                 .ProjectToType<JournalDto>()
                 .ToListAsync();
 
-        public async Task<JournalDto> AddJournalAsync(JournalDto journalDto)
+        public async Task<JournalDto> AddJournalAsync(JournalAddDto journalAdd)
         {
-            var journal = journalDto.Adapt<Journal>();
+            var journal = journalAdd.Adapt<Journal>();
             await this.context.Journals.AddAsync(journal);
             await this.context.SaveChangesAsync();
-            return  await this.GetJournalAsync(journal.Id);
+            return await this.GetJournalAsync(journal.Id);
         }
 
         public async Task<JournalDto> UpdateJournalAsync(int id, JournalUpdateDto journal)
