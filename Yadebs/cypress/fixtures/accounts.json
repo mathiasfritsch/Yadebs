@@ -1,5 +1,26 @@
-{
-    "name": "Using fixtures to represent data",
-    "email": "hello@cypress.io"
-}
- 
+[
+  {
+    "id": 101,
+    "name": "account1",
+    "number": 1122,
+    "bookId": 1,
+    "parentId": null,
+    "increasesDebitWhenMoneyAdded": false
+  },
+  {
+    "id": 22,
+    "name": "account2",
+    "number": 2233,
+    "bookId": 1,
+    "parentId": 101,
+    "increasesDebitWhenMoneyAdded": true
+  },
+  {
+    "id": 37,
+    "name": "account2",
+    "number": 3344,
+    "bookId": 1,
+    "parentId": 101,
+    "increasesDebitWhenMoneyAdded": true
+  }
+]

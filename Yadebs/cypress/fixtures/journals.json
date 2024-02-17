@@ -1,0 +1,19 @@
+[
+  {
+    "id": 7,
+    "description": "booking1",
+    "date": "2024-02-12T23:00:00Z",
+    "transactions": [
+      {
+        "id": 3,
+        "amount": 22.00,
+        "accountId": 101
+      },
+      {
+        "id": 4,
+        "amount": 22.00,
+        "accountId": 22
+      }
+    ]
+  }
+]
