@@ -22,4 +22,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore Yadebs.Api/Yadebs.Api.sln
     - name: Test
-      run: dotnet test --no-build --verbosity normal Yadebs.Bll.Tests/Yadebs.Bll.Tests.csproj
+      run: dotnet test --no-build --verbosity normal Yadebs.Api/Yadebs.Bll.Tests/Yadebs.Bll.Tests.csproj
