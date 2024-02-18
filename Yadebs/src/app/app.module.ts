@@ -29,6 +29,8 @@ import {
   MAT_DATE_LOCALE,
   MAT_DATE_FORMATS,
 } from '@angular/material/core';
+import { BanktransfersListComponent } from './banktransfers/banktransfers-list/banktransfers-list.component';
+import { BanktransfersEditComponent } from './banktransfers/banktransfers-edit/banktransfers-edit.component';
 
 const DE_DATE_FORMAT = {
   parse: {
@@ -49,6 +51,8 @@ const DE_DATE_FORMAT = {
     JournalEditComponent,
     AccountListComponent,
     AccountEditComponent,
+    BanktransfersListComponent,
+    BanktransfersEditComponent,
   ],
   imports: [
     BrowserModule,
