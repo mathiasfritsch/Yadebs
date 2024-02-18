@@ -11,14 +11,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yadebs.Bll", "Yadebs.Bll\Ya
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yadebs.Models", "Yadebs.Models\Yadebs.Models.csproj", "{43CEA762-D823-422C-B3E1-7DE68D5E66D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yadebs.Bll.Tests", "Yadebs.Bll.Tests\Yadebs.Bll.Tests.csproj", "{8F3C66FF-87BC-4B2A-B412-46F3EE36B520}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yadebs.Bll.Tests", "Yadebs.Bll.Tests\Yadebs.Bll.Tests.csproj", "{8F3C66FF-87BC-4B2A-B412-46F3EE36B520}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rootitems", "rootitems", "{27DD4EA6-E212-4FF3-9551-05B6DE2386FA}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
-		..\README.md = ..\README.md
-		Directory.Packages.props = Directory.Packages.props
+		..\.github\workflows\api_workflow.yml = ..\.github\workflows\api_workflow.yml
 		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Global
