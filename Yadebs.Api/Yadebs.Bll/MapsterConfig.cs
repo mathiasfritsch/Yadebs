@@ -1,7 +1,6 @@
 ﻿using Mapster;
 using Yadebs.Db;
 using Yadebs.Models.Dto;
-using Yadebs.Models.Dto.Journal;
 
 namespace Yadebs.Bll
 {

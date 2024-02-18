@@ -1,6 +1,6 @@
 ﻿using Mapster;
 
-namespace Yadebs.Models.Dto.Journal;
+namespace Yadebs.Models.Dto;
 
 public class JournalUpdateDto : JournalAddDto
 {

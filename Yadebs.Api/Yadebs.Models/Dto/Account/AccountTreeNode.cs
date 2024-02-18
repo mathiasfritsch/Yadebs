@@ -1,4 +1,4 @@
-﻿namespace Yadebs.Models.Dto;
+﻿namespace Yadebs.Models.Dto.Account;
 
 public class AccountTreeNode
 {
