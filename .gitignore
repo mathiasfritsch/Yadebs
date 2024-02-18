@@ -397,3 +397,17 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 /Yadebs.Api/.idea/.idea.Yadebs.Api/.idea
+
+Yadebs.Api/Yadebs.Api/bin/Debug/net8.0/
+
+Yadebs/.vscode/
+
+Yadebs.Api/Yadebs.Api/bin/
+
+Yadebs.Api/Yadebs.Bll/bin/
+
+Yadebs.Api/Yadebs.Bll.Tests/bin/
+
+Yadebs.Api/Yadebs.Db/bin/
+
+Yadebs.Api/Yadebs.Models/bin/
