@@ -1,9 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <PackageReference Include="Mapster"  />
+    <PackageReference Include="Mapster" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yadebs.Db\Yadebs.Db.csproj" />
     <ProjectReference Include="..\Yadebs.Models\Yadebs.Models.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mappings\" />
   </ItemGroup>
 </Project>
