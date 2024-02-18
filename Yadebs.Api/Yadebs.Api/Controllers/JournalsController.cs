@@ -10,7 +10,6 @@ public class JournalsController : ControllerBase
 {
     private readonly ITransactionService _transactionService;
 
-
     public JournalsController(ITransactionService accountingService)
     {
         this._transactionService = accountingService;

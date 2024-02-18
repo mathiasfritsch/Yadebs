@@ -14,6 +14,7 @@ builder.Services.AddCors();
 
 builder.Services.AddScoped<IAccountingService, AccountingService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IIncomeSurplusService, IncomeSurplusService>();
 
 var app = builder.Build();
 

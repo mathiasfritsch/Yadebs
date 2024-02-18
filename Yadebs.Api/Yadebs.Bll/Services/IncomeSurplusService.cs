@@ -9,15 +9,15 @@ namespace Yadebs.Bll.Services;
 
 public class IncomeSurplusService : IIncomeSurplusService
 {
-    private AccountingContext context;
+    private readonly AccountingContext _context;
 
     public IncomeSurplusService(AccountingContext context)
     {
-        this.context = context;
+        this._context = context;
     }
 
     public async Task<List<BankTransferDto>> GetBankTransfersAsync() =>
-        await this.context
+        await this._context
             .Journals
             .OrderBy(a => a.Date)
             .ProjectToType<BankTransferDto>()
@@ -26,14 +26,14 @@ public class IncomeSurplusService : IIncomeSurplusService
     public async Task<BankTransferDto> AddBankTransfer(BankTransferAddDto bankTransferAdd)
     {
         var bankTransfer = bankTransferAdd.Adapt<BankTransfer>();
-        await this.context.BankTransfers.AddAsync(bankTransfer);
-        await this.context.SaveChangesAsync();
+        await this._context.BankTransfers.AddAsync(bankTransfer);
+        await this._context.SaveChangesAsync();
         return await this.GetBankTransferAsync(bankTransfer.Id);
     }
 
     public async Task<BankTransferDto> GetBankTransferAsync(int id)
     {
-        var bankTransfer = await this.context.BankTransfers
+        var bankTransfer = await this._context.BankTransfers
             .SingleAsync(j => j.Id == id);
 
         return bankTransfer.Adapt<BankTransferDto>();
@@ -41,21 +41,21 @@ public class IncomeSurplusService : IIncomeSurplusService
 
     public async Task DeleteBankTransferAsync(int id)
     {
-        var journal = await this.context.BankTransfers.SingleAsync(a => a.Id == id);
-        this.context.BankTransfers.Remove(journal);
-        await this.context.SaveChangesAsync();
+        var journal = await this._context.BankTransfers.SingleAsync(a => a.Id == id);
+        this._context.BankTransfers.Remove(journal);
+        await this._context.SaveChangesAsync();
     }
 
     public async Task<BankTransferDto> UpdateBankTransferAsync(int id, BankTransferUpdateDto bankTransfer)
     {
         var bankTransferToUpdate = await this
-            .context
+            ._context
             .BankTransfers
             .SingleAsync(a => a.Id == id);
 
         bankTransfer.Adapt(bankTransferToUpdate);
 
-        await this.context.SaveChangesAsync();
+        await this._context.SaveChangesAsync();
 
         return await GetBankTransferAsync(id);
     }
