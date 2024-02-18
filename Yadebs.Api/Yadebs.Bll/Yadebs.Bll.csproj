@@ -1,18 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="Mapster"  />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Yadebs.Db\Yadebs.Db.csproj" />
     <ProjectReference Include="..\Yadebs.Models\Yadebs.Models.csproj" />
   </ItemGroup>
-
 </Project>

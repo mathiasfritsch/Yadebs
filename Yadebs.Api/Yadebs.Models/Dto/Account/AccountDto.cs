@@ -2,7 +2,7 @@
 
 public class AccountDto
 {
-    public int Id { get; set; }
+    public int Id { get; init; }
     public string Name { get; set; }
     public int Number { get; set; }
     public int BookId { get; set; }

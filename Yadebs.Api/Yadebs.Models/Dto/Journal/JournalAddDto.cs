@@ -11,6 +11,6 @@ public class JournalAddDto
 
     public TransactionAddDto[] Transactions
     {
-        get; set;
+        get; init;
     }
 }
