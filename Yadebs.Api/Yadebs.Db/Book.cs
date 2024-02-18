@@ -9,8 +9,7 @@ public class Book
         this.Accounts = new List<Account>();
     }
     public int Id { get; set; }
-
     [MaxLength(100)]
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
     public IEnumerable<Account> Accounts { get; set; }
 }

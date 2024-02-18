@@ -2,15 +2,7 @@
 
 public class JournalAddDto
 {
-    public required string Description
-    {
-        get; set;
-    }
-
+    public string Description { get; set; } = default!;
     public DateTime Date { get; set; }
-
-    public TransactionAddDto[] Transactions
-    {
-        get; init;
-    }
+    public TransactionAddDto[] Transactions { get; init; } = default!;
 }

@@ -43,13 +43,12 @@ public class AccountingContext : DbContext
 
     }
 
-    public DbSet<Book> Books { get; set; }
-    public DbSet<Account> Accounts { get; set; }
-    public DbSet<Journal> Journals { get; set; }
-    public DbSet<Transaction> Transactions { get; set; }
-
-    public DbSet<BankTransfer> BankTransfers { get; set; }
-    public DbSet<Booking> Bookings { get; set; }
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<Document> Documents { get; set; }
+    public DbSet<Book> Books { get; set; } = default!;
+    public DbSet<Account> Accounts { get; set; } = default!;
+    public DbSet<Journal> Journals { get; set; } = default!;
+    public DbSet<Transaction> Transactions { get; set; } = default!;
+    public DbSet<BankTransfer> BankTransfers { get; set; } = default!;
+    public DbSet<Booking> Bookings { get; set; } = default!;
+    public DbSet<Category> Categories { get; set; } = default!;
+    public DbSet<Document> Documents { get; set; } = default!;
 }
