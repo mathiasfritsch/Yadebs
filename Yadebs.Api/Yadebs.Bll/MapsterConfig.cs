@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Yadebs.Db;
+using Yadebs.Db.IncomeSurplusCalculation;
 using Yadebs.Models.Dto;
 
 namespace Yadebs.Bll
@@ -15,6 +16,7 @@ namespace Yadebs.Bll
             TypeAdapterConfig<TransactionUpdateDto, Transaction>.NewConfig();
             TypeAdapterConfig<TransactionAddDto, Transaction>.NewConfig();
             TypeAdapterConfig<Transaction, TransactionDto>.NewConfig();
+            TypeAdapterConfig<BankTransfer, BankTransferDto>.NewConfig();
         }
     }
 }

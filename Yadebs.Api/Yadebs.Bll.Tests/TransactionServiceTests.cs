@@ -62,10 +62,9 @@ public class TransactionServiceTests
         var transactionService = new TransactionService(context);
 
 
-        var journalFromStoree = await transactionService.GetJournalAsync(journalInStore.Id);
+        var journalFromStore = await transactionService.GetJournalAsync(journalInStore.Id);
 
-        var journalUpdate = journalFromStoree.Adapt<JournalUpdateDto>();
-
+        var journalUpdate = journalFromStore.Adapt<JournalUpdateDto>();
 
         journalUpdate.Description = "Updated Description";
         journalUpdate.Date = new DateTime(2020, 4, 13);
@@ -77,8 +76,6 @@ public class TransactionServiceTests
         journalUpdate.Transactions[1].Amount = (decimal)321.78;
 
         var journalUpdated = await transactionService.UpdateJournalAsync(journalInStore.Id, journalUpdate);
-
-        var trans = await context.Transactions.ToListAsync();
 
         Assert.AreEqual(journalUpdate.Id, journalUpdated.Id);
         Assert.AreEqual(journalUpdate.Description, journalUpdated.Description);
@@ -150,7 +147,7 @@ public class TransactionServiceTests
             Id = 254,
             Number = 658,
             Name = "Account1",
-            IncreasesDebitWhenMoneyAdded = true
+            IncreasesDebitWhenMoneyAdded = true,
         };
         accountInStore2 = new Account
         {
