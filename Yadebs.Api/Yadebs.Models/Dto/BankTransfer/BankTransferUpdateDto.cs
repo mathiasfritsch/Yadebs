@@ -1,6 +1,6 @@
 ﻿namespace Yadebs.Models.Dto;
 
-public class BankTransferDto
+public class BankTransferUpdateDto : BankTransferAddDto
 {
     public int Id { get; set; }
 }

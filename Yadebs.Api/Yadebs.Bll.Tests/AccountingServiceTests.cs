@@ -1,6 +1,8 @@
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Yadebs.Bll.Services;
 using Yadebs.Db;
+using Yadebs.Models.Dto;
 
 namespace Yadebs.Bll.Tests;
 
@@ -108,9 +110,9 @@ public class AccountingServiceTests
         context.Add(account);
 
         await context.SaveChangesAsync();
-        AccountingService accountingService = new AccountingService(context);
+        var accountingService = new AccountingService(context);
 
-        var accountToUpdate = await accountingService.GetAccountAsync(account.Id);
+        var accountToUpdate = (await accountingService.GetAccountAsync(account.Id)).Adapt<AccountUpdateDto>();
 
         accountToUpdate.ParentId = 58;
         accountToUpdate.BookId = 2;

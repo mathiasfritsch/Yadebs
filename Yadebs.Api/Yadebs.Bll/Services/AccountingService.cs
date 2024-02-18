@@ -14,7 +14,7 @@ public class AccountingService : IAccountingService
         this.context = context;
     }
 
-    public async Task<AccountDto> AddAccountAsync(AccountDto accountDto)
+    public async Task<AccountDto> AddAccountAsync(AccountAddDto accountDto)
     {
         var account = accountDto.Adapt<Account>();
         await this.context.Accounts.AddAsync(account);
@@ -22,7 +22,7 @@ public class AccountingService : IAccountingService
         return await this.GetAccountAsync(account.Id);
     }
 
-    public async Task UpdateAccountAsync(int id, AccountDto accountDto)
+    public async Task UpdateAccountAsync(int id, AccountUpdateDto accountDto)
     {
         var accountToUpdate = await this.context.Accounts.SingleAsync(a => a.Id == id);
         accountDto.Adapt(accountToUpdate);

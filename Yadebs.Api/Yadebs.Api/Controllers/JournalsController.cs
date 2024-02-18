@@ -15,6 +15,7 @@ public class JournalsController : ControllerBase
     {
         this._transactionService = accountingService;
     }
+
     [HttpPut("{id}")]
     public async Task PutAsync(int id, [FromBody] JournalUpdateDto value)
     {

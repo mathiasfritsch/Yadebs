@@ -8,25 +8,25 @@ namespace Yadebs.Api.Controllers;
 [ApiController]
 public class AccountsController : ControllerBase
 {
-    private IAccountingService accountingService;
+    private readonly IAccountingService _accountingService;
 
     public AccountsController(IAccountingService accountingService)
     {
-        this.accountingService = accountingService;
+        this._accountingService = accountingService;
     }
 
     [HttpDelete("{id}")]
-    public async Task Delete(int id) => await this.accountingService.DeleteAccountAsync(id);
+    public async Task Delete(int id) => await this._accountingService.DeleteAccountAsync(id);
 
     [HttpGet]
-    public async Task<IEnumerable<AccountDto>> GetAsync() => await this.accountingService.GetAccountsAsync();
+    public async Task<IEnumerable<AccountDto>> GetAsync() => await this._accountingService.GetAccountsAsync();
 
     [HttpGet("{id}")]
-    public async Task<AccountDto> Get(int id) => await this.accountingService.GetAccountAsync(id);
+    public async Task<AccountDto> Get(int id) => await this._accountingService.GetAccountAsync(id);
 
     [HttpPost]
-    public async Task<AccountDto> PostAsync([FromBody] AccountDto value) => await this.accountingService.AddAccountAsync(value);
+    public async Task<AccountDto> PostAsync([FromBody] AccountAddDto value) => await this._accountingService.AddAccountAsync(value);
 
     [HttpPut("{id}")]
-    public async Task PutAsync(int id, [FromBody] AccountDto value) => await this.accountingService.UpdateAccountAsync(id, value);
+    public async Task PutAsync(int id, [FromBody] AccountUpdateDto value) => await this._accountingService.UpdateAccountAsync(id, value);
 }
