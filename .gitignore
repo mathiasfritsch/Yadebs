@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/Yadebs.Api/.idea/.idea.Yadebs.Api/.idea

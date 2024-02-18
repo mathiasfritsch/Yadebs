@@ -17,7 +17,7 @@ namespace Yadebs.Db.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -75,6 +75,110 @@ namespace Yadebs.Db.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("Yadebs.Db.IncomeSurplusCalculation.BankTransfer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("GrossAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<bool>("IsIncome")
+                        .HasColumnType("boolean");
+
+                    b.Property<decimal?>("NetAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("Tax")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("TaxAmount")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("banktransfers", "incomesurpluscalculation");
+                });
+
+            modelBuilder.Entity("Yadebs.Db.IncomeSurplusCalculation.Booking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("BankTransferId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("DocumentId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankTransferId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("DocumentId");
+
+                    b.ToTable("bookings", "incomesurpluscalculation");
+                });
+
+            modelBuilder.Entity("Yadebs.Db.IncomeSurplusCalculation.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("categories", "incomesurpluscalculation");
+                });
+
+            modelBuilder.Entity("Yadebs.Db.IncomeSurplusCalculation.Document", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<string>("DocumentReference")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<string>("InvoiceNumber")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("document", "incomesurpluscalculation");
                 });
 
             modelBuilder.Entity("Yadebs.Db.Journal", b =>
@@ -142,6 +246,27 @@ namespace Yadebs.Db.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("Yadebs.Db.IncomeSurplusCalculation.Booking", b =>
+                {
+                    b.HasOne("Yadebs.Db.IncomeSurplusCalculation.BankTransfer", "BankTransfer")
+                        .WithMany()
+                        .HasForeignKey("BankTransferId");
+
+                    b.HasOne("Yadebs.Db.IncomeSurplusCalculation.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("Yadebs.Db.IncomeSurplusCalculation.Document", "Document")
+                        .WithMany()
+                        .HasForeignKey("DocumentId");
+
+                    b.Navigation("BankTransfer");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Document");
                 });
 
             modelBuilder.Entity("Yadebs.Db.Transaction", b =>

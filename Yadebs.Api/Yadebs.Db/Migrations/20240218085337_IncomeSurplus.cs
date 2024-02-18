@@ -7,11 +7,33 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Yadebs.Db.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class IncomeSurplus : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "incomesurpluscalculation");
+
+            migrationBuilder.CreateTable(
+                name: "banktransfers",
+                schema: "incomesurpluscalculation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NetAmount = table.Column<decimal>(type: "numeric", nullable: true),
+                    TaxAmount = table.Column<decimal>(type: "numeric", nullable: true),
+                    GrossAmount = table.Column<decimal>(type: "numeric", nullable: false),
+                    Tax = table.Column<decimal>(type: "numeric", nullable: false),
+                    IsIncome = table.Column<bool>(type: "boolean", nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_banktransfers", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
@@ -23,6 +45,36 @@ namespace Yadebs.Db.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Books", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "categories",
+                schema: "incomesurpluscalculation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "document",
+                schema: "incomesurpluscalculation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Description = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    InvoiceNumber = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    DocumentReference = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_document", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -70,6 +122,40 @@ namespace Yadebs.Db.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "bookings",
+                schema: "incomesurpluscalculation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BankTransferId = table.Column<int>(type: "integer", nullable: true),
+                    DocumentId = table.Column<int>(type: "integer", nullable: true),
+                    CategoryId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_bookings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_bookings_banktransfers_BankTransferId",
+                        column: x => x.BankTransferId,
+                        principalSchema: "incomesurpluscalculation",
+                        principalTable: "banktransfers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_bookings_categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalSchema: "incomesurpluscalculation",
+                        principalTable: "categories",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_bookings_document_DocumentId",
+                        column: x => x.DocumentId,
+                        principalSchema: "incomesurpluscalculation",
+                        principalTable: "document",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transactions",
                 columns: table => new
                 {
@@ -108,6 +194,24 @@ namespace Yadebs.Db.Migrations
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_bookings_BankTransferId",
+                schema: "incomesurpluscalculation",
+                table: "bookings",
+                column: "BankTransferId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_bookings_CategoryId",
+                schema: "incomesurpluscalculation",
+                table: "bookings",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_bookings_DocumentId",
+                schema: "incomesurpluscalculation",
+                table: "bookings",
+                column: "DocumentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Transactions_AccountId",
                 table: "Transactions",
                 column: "AccountId");
@@ -122,7 +226,23 @@ namespace Yadebs.Db.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "bookings",
+                schema: "incomesurpluscalculation");
+
+            migrationBuilder.DropTable(
                 name: "Transactions");
+
+            migrationBuilder.DropTable(
+                name: "banktransfers",
+                schema: "incomesurpluscalculation");
+
+            migrationBuilder.DropTable(
+                name: "categories",
+                schema: "incomesurpluscalculation");
+
+            migrationBuilder.DropTable(
+                name: "document",
+                schema: "incomesurpluscalculation");
 
             migrationBuilder.DropTable(
                 name: "Accounts");

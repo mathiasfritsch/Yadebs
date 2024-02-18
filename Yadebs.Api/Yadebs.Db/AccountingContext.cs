@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Yadebs.Db.IncomeSurplusCalculation;
 
 namespace Yadebs.Db
 {
@@ -30,11 +31,26 @@ namespace Yadebs.Db
             {
                 entity.Property(x => x.Amount).HasPrecision(10, 2);
             });
+
+            modelBuilder.Entity<BankTransfer>()
+                .ToTable("banktransfers", schema: "incomesurpluscalculation");
+            modelBuilder.Entity<Booking>()
+                .ToTable("bookings", schema: "incomesurpluscalculation");
+            modelBuilder.Entity<Category>()
+                .ToTable("categories", schema: "incomesurpluscalculation");
+            modelBuilder.Entity<Document>()
+                .ToTable("document", schema: "incomesurpluscalculation");
+
         }
 
         public DbSet<Book> Books { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Journal> Journals { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+
+        public DbSet<BankTransfer> BankTransfers { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Document> Documents { get; set; }
     }
 }
