@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Yadebs.Bll.Repository;
 
 namespace Yadebs.Db;
 
-public class Account
+public class Account : IEntity
 {
     public Account()
     {

@@ -1,6 +1,8 @@
-﻿namespace Yadebs.Models.Dto;
+﻿using Yadebs.Bll.Repository;
 
-public class AccountUpdateDto : AccountAddDto
+namespace Yadebs.Models.Dto;
+
+public class AccountUpdateDto : AccountAddDto, IEntity
 {
-    public int Id { get; init; }
+    public int Id { get; set; }
 }

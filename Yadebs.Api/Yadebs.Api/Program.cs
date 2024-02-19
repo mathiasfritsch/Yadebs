@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Yadebs.Bll;
 using Yadebs.Bll.Interfaces;
+using Yadebs.Bll.Repository;
 using Yadebs.Bll.Services;
 using Yadebs.Db;
 
@@ -15,6 +16,9 @@ builder.Services.AddCors();
 builder.Services.AddScoped<IAccountingService, AccountingService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IIncomeSurplusService, IncomeSurplusService>();
+
+builder.Services.AddScoped(typeof(IRepository<,,,>), typeof(Repository<,,,>));
+
 
 var app = builder.Build();
 

@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.EntityFrameworkCore;
+using Yadebs.Bll.Repository;
 using Yadebs.Db;
 using Yadebs.Models.Dto;
 
@@ -8,10 +9,20 @@ namespace Yadebs.Bll.Services;
 public class AccountingService : IAccountingService
 {
     private AccountingContext context;
+    private IRepository<Account, AccountDto, AccountUpdateDto, AccountAddDto> _repository;
+
 
     public AccountingService(AccountingContext context)
     {
         this.context = context;
+
+    }
+
+    public AccountingService(AccountingContext context,
+        IRepository<Account, AccountDto, AccountUpdateDto, AccountAddDto> repository)
+    {
+        this.context = context;
+        _repository = repository;
     }
 
     public async Task<AccountDto> AddAccountAsync(AccountAddDto accountDto)
