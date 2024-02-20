@@ -1,10 +1,11 @@
-﻿using Mapster;
+﻿using Yadebs.Bll.Repository;
 
 namespace Yadebs.Models.Dto;
 
-public class JournalUpdateDto : JournalAddDto
+public class JournalUpdateDto : IEntity
 {
     public int Id { get; set; }
-    [AdaptIgnore(MemberSide.Source)]
-    public new TransactionUpdateDto[] Transactions { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public DateTime Date { get; set; }
+    public TransactionUpdateDto[] Transactions { get; init; } = default!;
 }

@@ -30,6 +30,7 @@ export class JournalService {
       {
         id: journal.id,
         description: journal.description,
+        date: journal.date,
         transactions: [
           {
             id: journal.transactions[0].id,

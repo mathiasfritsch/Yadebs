@@ -1,5 +1,4 @@
-﻿using Mapster;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Yadebs.Bll.Repository;
 using Yadebs.Db;
 using Yadebs.Models.Dto;
@@ -26,40 +25,25 @@ public class AccountingService : IAccountingService
     }
 
     public async Task<AccountDto> AddAccountAsync(AccountAddDto accountDto)
-    {
-        var account = accountDto.Adapt<Account>();
-        await this.context.Accounts.AddAsync(account);
-        await this.context.SaveChangesAsync();
-        return await this.GetAccountAsync(account.Id);
-    }
+        => await _repository.Add(accountDto);
 
-    public async Task UpdateAccountAsync(int id, AccountUpdateDto accountDto)
-    {
-        var accountToUpdate = await this.context.Accounts.SingleAsync(a => a.Id == id);
-        accountDto.Adapt(accountToUpdate);
+    public async Task UpdateAccountAsync(int id, AccountUpdateDto accountUpdate)
+        => await _repository.Update(accountUpdate);
 
-        await this.context.SaveChangesAsync();
-    }
+    public async Task<AccountDto> GetAccountAsync(int id)
+        => await _repository.GetAsync(id);
 
-    public async Task<AccountDto> GetAccountAsync(int id) =>
-        (await this.context.Accounts.SingleAsync(a => a.Id == id))
-        .Adapt<AccountDto>();
-
-    public async Task<IEnumerable<AccountDto>> GetAccountsAsync() =>
-        await this.context
-            .Accounts
-            .OrderBy(a => a.Number)
-            .ProjectToType<AccountDto>()
-            .ToListAsync();
+    public async Task<IEnumerable<AccountDto>> GetAccountsAsync()
+        => await _repository.GetAllAsync();
 
     public async Task DeleteAccountAsync(int id)
     {
-        var account = await this.context.Accounts.SingleAsync(a => a.Id == id);
+        var account = await _repository.GetAsync(id);
 
         var childAccounts = await this.context.Accounts.Where(a => a.ParentId == id).ToListAsync();
         childAccounts.ForEach(a => a.ParentId = account.ParentId);
-
-        this.context.Accounts.Remove(account);
         await this.context.SaveChangesAsync();
+
+        await _repository.Delete(id);
     }
 }

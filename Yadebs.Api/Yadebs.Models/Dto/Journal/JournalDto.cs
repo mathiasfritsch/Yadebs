@@ -1,6 +1,11 @@
-﻿namespace Yadebs.Models.Dto;
+﻿using Yadebs.Bll.Repository;
 
-public class JournalDto : JournalAddDto
+namespace Yadebs.Models.Dto;
+
+public class JournalDto : IEntity
 {
     public int Id { get; set; }
+    public TransactionDto[] Transactions { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public DateTime Date { get; set; }
 }

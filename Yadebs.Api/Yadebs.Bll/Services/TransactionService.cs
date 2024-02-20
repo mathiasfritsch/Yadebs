@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Yadebs.Bll.Interfaces;
+using Yadebs.Bll.Repository;
 using Yadebs.Db;
 using Yadebs.Models.Dto;
 
@@ -9,33 +10,29 @@ namespace Yadebs.Bll.Services;
 public class TransactionService : ITransactionService
 {
     private AccountingContext context;
+    private IRepository<Journal, JournalDto, JournalUpdateDto, JournalAddDto> _repository;
 
     public TransactionService(AccountingContext context)
     {
         this.context = context;
     }
 
-    public async Task DeleteJournalAsync(int id)
+    public TransactionService(AccountingContext context,
+        IRepository<Journal, JournalDto, JournalUpdateDto, JournalAddDto> repository)
     {
-        var journal = await this.context.Journals.SingleAsync(a => a.Id == id);
-        this.context.Journals.Remove(journal);
-        await this.context.SaveChangesAsync();
+        this.context = context;
+        _repository = repository;
     }
 
-    public async Task<List<JournalDto>> GetJournalsAsync() =>
-        await this.context
-            .Journals
-            .OrderBy(a => a.Date)
-            .ProjectToType<JournalDto>()
-            .ToListAsync();
+    public async Task DeleteJournalAsync(int id)
+        => await _repository.Delete(id);
+
+    public async Task<List<JournalDto>> GetJournalsAsync()
+        => await _repository.GetAllAsync();
 
     public async Task<JournalDto> AddJournalAsync(JournalAddDto journalAdd)
-    {
-        var journal = journalAdd.Adapt<Journal>();
-        await this.context.Journals.AddAsync(journal);
-        await this.context.SaveChangesAsync();
-        return await this.GetJournalAsync(journal.Id);
-    }
+        => await _repository.Add(journalAdd);
+
 
     public async Task<JournalDto> UpdateJournalAsync(int id, JournalUpdateDto journal)
     {

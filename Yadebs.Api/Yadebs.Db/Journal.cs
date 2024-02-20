@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Yadebs.Bll.Repository;
 
 namespace Yadebs.Db;
 
-public class Journal
+public class Journal : IEntity
 {
     public int Id { get; set; }
     [MaxLength(100)]

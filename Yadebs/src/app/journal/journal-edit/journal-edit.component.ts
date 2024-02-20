@@ -125,14 +125,14 @@ export class JournalEditComponent {
       bookId: 1,
       transactions: [
         {
-          id: this.journalForm.value.sourceTransactionId,
+          id: this.journal.transactions[0].id,
           journalId: this.journal.id,
           accountId: this.journalForm.value.sourceAccountId,
           amount: this.journalForm.value.amount,
           account: this.accountList[0],
         },
         {
-          id: this.journalForm.value.targetTransactionId,
+          id: this.journal.transactions[1].id,
           journalId: this.journal.id,
           accountId: this.journalForm.value.targetAccountId,
           amount: this.journalForm.value.amount,

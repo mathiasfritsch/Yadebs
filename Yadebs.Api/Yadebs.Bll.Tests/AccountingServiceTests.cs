@@ -1,5 +1,6 @@
 using Mapster;
 using Microsoft.EntityFrameworkCore;
+using Yadebs.Bll.Repository;
 using Yadebs.Bll.Services;
 using Yadebs.Db;
 using Yadebs.Models.Dto;
@@ -9,12 +10,22 @@ namespace Yadebs.Bll.Tests;
 [TestClass]
 public class AccountingServiceTests
 {
-    [TestMethod]
-    public async Task GetAccountsGetsResultsAsync()
-    {
-        var context = InMemoryContext.GetContext();
+    private AccountingService _accountingService = null!;
+    private AccountingContext _accountingContext = null!;
+    private Repository<Account, AccountDto, AccountUpdateDto, AccountAddDto> _accountingRepository = null!;
 
-        context.Add(
+    [TestInitialize]
+    public void Init()
+    {
+        _accountingContext = InMemoryContext.GetContext();
+        _accountingRepository = new Repository<Account, AccountDto, AccountUpdateDto, AccountAddDto>(_accountingContext);
+        _accountingService = new AccountingService(_accountingContext, _accountingRepository);
+    }
+
+    [TestMethod]
+    public async Task GetAccountsGetsResults_Test()
+    {
+        _accountingContext.Add(
             new Account
             {
                 Id = 13,
@@ -23,7 +34,7 @@ public class AccountingServiceTests
                 Number = 123445
             }
         );
-        context.Add(
+        _accountingContext.Add(
             new Account
             {
                 Id = 21,
@@ -33,20 +44,17 @@ public class AccountingServiceTests
                 ParentId = 13
             }
         );
-        await context.SaveChangesAsync();
-        AccountingService accountingService = new AccountingService(context);
+        await _accountingContext.SaveChangesAsync();
 
-        var accounts = await accountingService.GetAccountsAsync();
+        var accounts = await _accountingService.GetAccountsAsync();
 
         Assert.AreEqual(2, accounts.Count());
     }
 
     [TestMethod]
-    public async Task GetAccountGetsResult()
+    public async Task GetAccountGetsResult_Test()
     {
-        var context = InMemoryContext.GetContext();
-
-        context.Add(
+        _accountingContext.Add(
             new Account
             {
                 Id = 13,
@@ -56,10 +64,9 @@ public class AccountingServiceTests
             }
         );
 
-        await context.SaveChangesAsync();
-        AccountingService accountingService = new AccountingService(context);
+        await _accountingContext.SaveChangesAsync();
 
-        var account = await accountingService.GetAccountAsync(13);
+        var account = await _accountingService.GetAccountAsync(13);
 
         Assert.AreEqual(13, account.Id);
         Assert.AreEqual(1, account.BookId);
@@ -68,11 +75,8 @@ public class AccountingServiceTests
     }
 
     [TestMethod]
-    public async Task AddAccountAddsAccount()
+    public async Task AddAccountAddsAccount_Test()
     {
-        var context = InMemoryContext.GetContext();
-        var accountingService = new AccountingService(context);
-
         var accountAdd = new Models.Dto.AccountDto()
         {
             Id = 13,
@@ -82,9 +86,9 @@ public class AccountingServiceTests
             ParentId = 256
         };
 
-        _ = await accountingService.AddAccountAsync(accountAdd);
+        _ = await _accountingService.AddAccountAsync(accountAdd);
 
-        var accountReload = await accountingService.GetAccountAsync(accountAdd.Id);
+        var accountReload = await _accountingService.GetAccountAsync(accountAdd.Id);
 
         Assert.AreEqual(accountAdd.Id, accountReload.Id);
         Assert.AreEqual(accountAdd.BookId, accountReload.BookId);
@@ -95,10 +99,8 @@ public class AccountingServiceTests
     }
 
     [TestMethod]
-    public async Task UpdateAccountUpdatesAccount()
+    public async Task UpdateAccountUpdatesAccount_Test()
     {
-        var context = InMemoryContext.GetContext();
-
         var account = new Account
         {
             Id = 13,
@@ -107,21 +109,20 @@ public class AccountingServiceTests
             Number = 123445
         };
 
-        context.Add(account);
+        _accountingContext.Add(account);
 
-        await context.SaveChangesAsync();
-        var accountingService = new AccountingService(context);
+        await _accountingContext.SaveChangesAsync();
 
-        var accountToUpdate = (await accountingService.GetAccountAsync(account.Id)).Adapt<AccountUpdateDto>();
+        var accountToUpdate = (await _accountingService.GetAccountAsync(account.Id)).Adapt<AccountUpdateDto>();
 
         accountToUpdate.ParentId = 58;
         accountToUpdate.BookId = 2;
         accountToUpdate.Number = 54987;
         accountToUpdate.Name = "SomeUpdatedAccount";
 
-        await accountingService.UpdateAccountAsync(account.Id, accountToUpdate);
+        await _accountingService.UpdateAccountAsync(account.Id, accountToUpdate);
 
-        var accountReload = await accountingService.GetAccountAsync(account.Id);
+        var accountReload = await _accountingService.GetAccountAsync(account.Id);
 
         Assert.AreEqual(accountToUpdate.Id, accountReload.Id);
         Assert.AreEqual(accountToUpdate.BookId, accountReload.BookId);
@@ -130,10 +131,8 @@ public class AccountingServiceTests
     }
 
     [TestMethod]
-    public async Task DeleteAccountDeletesAccount()
+    public async Task DeleteAccountDeletesAccount_Test()
     {
-        var context = InMemoryContext.GetContext();
-
         var accountToStay = new Account
         {
             Id = 13,
@@ -150,14 +149,13 @@ public class AccountingServiceTests
             ParentId = 13
         };
 
-        context.AddRange(new[] { accountToStay, accountToDelete });
+        _accountingContext.AddRange(accountToStay, accountToDelete);
 
-        await context.SaveChangesAsync();
-        var accountingService = new AccountingService(context);
+        await _accountingContext.SaveChangesAsync();
 
-        await accountingService.DeleteAccountAsync(accountToDelete.Id);
+        await _accountingService.DeleteAccountAsync(accountToDelete.Id);
 
-        var accountsInStore = await context.Accounts.ToListAsync();
+        var accountsInStore = await _accountingContext.Accounts.ToListAsync();
 
         Assert.AreEqual(0, accountsInStore.Count(a => a.Id == accountToDelete.Id));
         Assert.AreEqual(1, accountsInStore.Count(a => a.Id == accountToStay.Id));
