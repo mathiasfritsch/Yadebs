@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.EntityFrameworkCore;
+using Yadebs.Bll.Repository;
 using Yadebs.Bll.Services;
 using Yadebs.Db;
 using Yadebs.Models.Dto;
@@ -9,12 +10,25 @@ namespace Yadebs.Bll.Tests;
 [TestClass]
 public class TransactionServiceTests
 {
+
+    private TransactionService _transactionService = null!;
+    private AccountingContext _accountingContext = null!;
+    private Repository<Journal, JournalDto, JournalUpdateDto, JournalAddDto> _journalRepository = null!;
+
+    [TestInitialize]
+    public void Init()
+    {
+        _accountingContext = InMemoryContext.GetContext();
+        _journalRepository = new Repository<Journal, JournalDto, JournalUpdateDto, JournalAddDto>(_accountingContext);
+        _transactionService = new TransactionService(_accountingContext, _journalRepository);
+        MapsterConfig.ConfigureMapster();
+    }
+
+
     [TestMethod]
     public async Task GetJournalsAsyncGetsJournals()
     {
-        var context = InMemoryContext.GetContext();
-        MapsterConfig.ConfigureMapster();
-        context.Add(
+        _accountingContext.Add(
             new Journal
             {
                 Id = 13,
@@ -23,7 +37,7 @@ public class TransactionServiceTests
             }
         );
 
-        context.Add(
+        _accountingContext.Add(
             new Journal
             {
                 Id = 59,
@@ -33,38 +47,20 @@ public class TransactionServiceTests
         );
 
 
+        await _accountingContext.SaveChangesAsync();
 
-        await context.SaveChangesAsync();
-        var transactionService = new TransactionService(context);
-
-        var journals = await transactionService.GetJournalsAsync();
+        var journals = await _transactionService.GetJournalsAsync();
 
         Assert.AreEqual(2, journals.Count());
     }
     [TestMethod]
     public async Task UpdateJournalAsyncUpdatesJournal()
     {
-        var context = InMemoryContext.GetContext();
-        MapsterConfig.ConfigureMapster();
+        CreateJournal(out var journalInStore);
 
-        Journal journalInStore;
-        Account accountInStore1, accountInStore2;
-        Transaction transactionInStore1, transactionInStore2;
-        CreateJournal(
-            context,
-            out journalInStore,
-            out accountInStore1,
-            out accountInStore2,
-            out transactionInStore1,
-            out transactionInStore2);
+        await _accountingContext.SaveChangesAsync();
 
-        context.Add(journalInStore);
-
-        await context.SaveChangesAsync();
-        var transactionService = new TransactionService(context);
-
-
-        var journalFromStore = await transactionService.GetJournalAsync(journalInStore.Id);
+        var journalFromStore = await _transactionService.GetJournalAsync(journalInStore.Id);
 
         var journalUpdate = journalFromStore.Adapt<JournalUpdateDto>();
 
@@ -77,13 +73,13 @@ public class TransactionServiceTests
         journalUpdate.Transactions[1].AccountId = 343;
         journalUpdate.Transactions[1].Amount = (decimal)321.78;
 
-        var journalUpdated = await transactionService.UpdateJournalAsync(journalInStore.Id, journalUpdate);
+        var journalUpdated = await _transactionService.UpdateJournalAsync(journalInStore.Id, journalUpdate);
 
         Assert.AreEqual(journalUpdate.Id, journalUpdated.Id);
         Assert.AreEqual(journalUpdate.Description, journalUpdated.Description);
         Assert.AreEqual(journalUpdate.Date, journalUpdated.Date);
 
-        Assert.AreEqual(2, journalUpdated.Transactions.Count());
+        Assert.AreEqual(2, journalUpdated.Transactions.Length);
 
         Assert.AreEqual(journalUpdate.Transactions[0].AccountId, journalUpdated.Transactions[0].AccountId);
         Assert.AreEqual(journalUpdate.Transactions[0].Amount, journalUpdated.Transactions[0].Amount);
@@ -95,92 +91,71 @@ public class TransactionServiceTests
     [TestMethod]
     public async Task GetJournalAsyncGetsJournal()
     {
-        var context = InMemoryContext.GetContext();
-        MapsterConfig.ConfigureMapster();
+        CreateJournal(out var journalInStore);
 
-        Journal journalInStore;
-        Account accountInStore1, accountInStore2;
-        Transaction transactionInStore1, transactionInStore2;
-        CreateJournal(
-            context,
-            out journalInStore,
-            out accountInStore1,
-            out accountInStore2,
-            out transactionInStore1,
-            out transactionInStore2);
+        await _accountingContext.SaveChangesAsync();
 
-        context.Add(journalInStore);
+        var journal = await _transactionService.GetJournalAsync(journalInStore.Id);
 
-        await context.SaveChangesAsync();
-        var transactionService = new TransactionService(context);
-
-        var journal = await transactionService.GetJournalAsync(journalInStore.Id);
-
-        Assert.AreEqual(journalInStore.Id, journal.Id);
         Assert.AreEqual(journalInStore.Description, journal.Description);
         Assert.AreEqual(journalInStore.Date, journal.Date);
         Assert.AreEqual(journalInStore.Id, journal.Id);
 
-        Assert.AreEqual(2, journal.Transactions.Count());
+        Assert.AreEqual(2, journal.Transactions.Length);
 
-        Assert.AreEqual(accountInStore1.Id, journal.Transactions[0].AccountId);
-        Assert.AreEqual(transactionInStore1.Amount, journal.Transactions[0].Amount);
-
-        Assert.AreEqual(accountInStore2.Id, journal.Transactions[1].AccountId);
-        Assert.AreEqual(transactionInStore2.Amount, journal.Transactions[1].Amount);
+        Assert.AreEqual(journalInStore.Transactions[0].AccountId, journal.Transactions[0].AccountId);
+        Assert.AreEqual(journalInStore.Transactions[0].Amount, journal.Transactions[0].Amount);
+        Assert.AreEqual(journalInStore.Transactions[1].AccountId, journal.Transactions[1].AccountId);
+        Assert.AreEqual(journalInStore.Transactions[1].Amount, journal.Transactions[1].Amount);
     }
 
-    private static void CreateJournal(
-        AccountingContext context,
-        out Journal journalInStore,
-        out Account accountInStore1,
-        out Account accountInStore2,
-        out Transaction transactionInStore1,
-        out Transaction transactionInStore2)
+    private void CreateJournal(out Journal journalInStore)
     {
-        journalInStore = new Journal
-        {
-            Id = 13,
-            Description = "SomeDescription1",
-            Date = new DateTime(2020, 10, 15)
-        };
-        accountInStore1 = new Account
+        var accountInStore1 = new Account
         {
             Id = 254,
             Number = 658,
             Name = "Account1",
             IncreasesDebitWhenMoneyAdded = true,
         };
-        accountInStore2 = new Account
+        var accountInStore2 = new Account
         {
             Id = 98,
             Number = 235,
             Name = "Account2",
             IncreasesDebitWhenMoneyAdded = false
         };
-        transactionInStore1 = new Transaction
+        var transactionInStore1 = new Transaction
         {
             Id = 458,
-            JournalId = journalInStore.Id,
             AccountId = accountInStore1.Id,
-            Amount = (decimal)205.25
+            Amount = (decimal)205.25,
+            Account = accountInStore1
         };
-        transactionInStore2 = new Transaction
+        var transactionInStore2 = new Transaction
         {
             Id = 987,
-            JournalId = journalInStore.Id,
             AccountId = accountInStore2.Id,
-            Amount = (decimal)587.15
+            Amount = (decimal)587.15,
+            Account = accountInStore2
         };
-        context.AddRange(new[] { accountInStore1, accountInStore2 });
-        context.AddRange(new[] { transactionInStore1, transactionInStore2 });
+
+        journalInStore = new Journal
+        {
+            Id = 13,
+            Description = "SomeDescription1",
+            Date = new DateTime(2020, 10, 15),
+            Transactions = new List<Transaction>()
+        };
+        journalInStore.Transactions.Add(transactionInStore1);
+        journalInStore.Transactions.Add(transactionInStore2);
+
+        _accountingContext.AddRange(journalInStore);
     }
 
     [TestMethod]
     public async Task DeleteJournalsAsyncDeletesJournal()
     {
-        var context = InMemoryContext.GetContext();
-
         var journalInStoreToDelete = new Journal
         {
             Id = 13,
@@ -194,14 +169,13 @@ public class TransactionServiceTests
             Date = new DateTime(2022, 4, 11)
         };
 
-        await context.AddRangeAsync(new[] { journalInStoreToDelete, journalInStoreToKeep });
+        await _accountingContext.AddRangeAsync(journalInStoreToDelete, journalInStoreToKeep);
 
-        await context.SaveChangesAsync();
-        var transactionService = new TransactionService(context);
+        await _accountingContext.SaveChangesAsync();
 
-        await transactionService.DeleteJournalAsync(journalInStoreToDelete.Id);
+        await _transactionService.DeleteJournalAsync(journalInStoreToDelete.Id);
 
-        var journalsAfterDelete = await context.Journals.ToListAsync();
+        var journalsAfterDelete = await _accountingContext.Journals.ToListAsync();
 
         Assert.AreEqual(0, journalsAfterDelete.Count(j => j.Id == journalInStoreToDelete.Id));
         Assert.AreEqual(1, journalsAfterDelete.Count(j => j.Id == journalInStoreToKeep.Id));
@@ -210,9 +184,6 @@ public class TransactionServiceTests
     [TestMethod]
     public async Task AddJournalAsyncAddsJournal()
     {
-        var context = InMemoryContext.GetContext();
-        MapsterConfig.ConfigureMapster();
-
         var accountInStore1 = new Account
         {
             Id = 254,
@@ -227,26 +198,22 @@ public class TransactionServiceTests
             Name = "Account2",
             IncreasesDebitWhenMoneyAdded = false
         };
-        await context.AddRangeAsync(new[]
-        {
-            accountInStore1,accountInStore2
-        });
-        await context.SaveChangesAsync();
 
-        var transactionService = new TransactionService(context);
+        await _accountingContext.AddRangeAsync(accountInStore1, accountInStore2);
+        await _accountingContext.SaveChangesAsync();
 
         var journalToAdd = new JournalAddDto
         {
             Description = "SomeDescription1",
             Date = new DateTime(2020, 10, 15),
-            Transactions = new TransactionAddDto[]
+            Transactions = new[]
             {
-                new()
+                new TransactionAddDto()
                 {
                     Amount = (decimal)205.15,
                     AccountId = accountInStore1.Id,
                 },
-                new()
+                new TransactionAddDto()
                 {
                     Amount = (decimal)698.50,
                     AccountId = accountInStore2.Id,
@@ -254,11 +221,11 @@ public class TransactionServiceTests
             }
         };
 
-        var journalAdded = await transactionService.AddJournalAsync(journalToAdd);
+        var journalAdded = await _transactionService.AddJournalAsync(journalToAdd);
 
-        var journals = await context.Journals.ToListAsync();
+        await _accountingContext.Journals.ToListAsync();
 
-        var journalsAfterAdd = await context.Journals
+        var journalsAfterAdd = await _accountingContext.Journals
             .Include(j => j.Transactions)
             .ThenInclude(t => t.Account)
             .SingleAsync(j => j.Id == journalAdded.Id);
