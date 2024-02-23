@@ -1,8 +1,7 @@
-﻿using Mapster;
-using Microsoft.EntityFrameworkCore;
-using Yadebs.Bll.Interfaces;
+﻿using Yadebs.Bll.Interfaces;
 using Yadebs.Bll.Repository;
 using Yadebs.Db;
+using Yadebs.Db.Specifications;
 using Yadebs.Models.Dto;
 
 namespace Yadebs.Bll.Services;
@@ -36,31 +35,10 @@ public class TransactionService : ITransactionService
 
     public async Task<JournalDto> UpdateJournalAsync(int id, JournalUpdateDto journal)
     {
-        var journalToUpdate = await this
-            .context
-            .Journals
-            .Include(t => t.Transactions)
-            .SingleAsync(a => a.Id == id);
-
-        journal.Adapt(journalToUpdate);
-
-        //journalToUpdate.Transactions[0].Amount = journal.Transactions[0].Amount;
-        //journalToUpdate.Transactions[1].Amount = journal.Transactions[1].Amount;
-        //journalToUpdate.Transactions[0].AccountId = journal.Transactions[0].AccountId;
-        //journalToUpdate.Transactions[1].AccountId = journal.Transactions[1].AccountId;
-
-        await this.context.SaveChangesAsync();
-
+        await _repository.UpdateS(journal, new JournalWithTransactionsSpec());
         return await GetJournalAsync(id);
     }
 
     public async Task<JournalDto> GetJournalAsync(int id)
-    {
-        var journal = await this.context.Journals
-            .Include(j => j.Transactions)
-            .ThenInclude(t => t.Account)
-            .SingleAsync(j => j.Id == id);
-
-        return journal.Adapt<JournalDto>();
-    }
+        => await _repository.GetAsyncS(id, new JournalWithTransactionsAndAccountsSpec());
 }

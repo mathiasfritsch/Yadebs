@@ -1,8 +1,8 @@
-﻿using Mapster;
-using Microsoft.EntityFrameworkCore;
-using Yadebs.Bll.Interfaces;
+﻿using Yadebs.Bll.Interfaces;
+using Yadebs.Bll.Repository;
 using Yadebs.Db;
 using Yadebs.Db.IncomeSurplusCalculation;
+using Yadebs.Db.IncomeSurplusCalculation.Specifications;
 using Yadebs.Models.Dto;
 
 namespace Yadebs.Bll.Services;
@@ -10,53 +10,32 @@ namespace Yadebs.Bll.Services;
 public class IncomeSurplusService : IIncomeSurplusService
 {
     private readonly AccountingContext _context;
-
-    public IncomeSurplusService(AccountingContext context)
+    private IRepository<BankTransfer, BankTransferDto, BankTransferUpdateDto, BankTransferAddDto> _repository;
+    public IncomeSurplusService(AccountingContext context,
+        IRepository<BankTransfer, BankTransferDto, BankTransferUpdateDto, BankTransferAddDto> repository)
     {
         this._context = context;
+        this._repository = repository;
     }
 
     public async Task<List<BankTransferDto>> GetBankTransfersAsync() =>
-        await this._context
-            .Journals
-            .OrderBy(a => a.Date)
-            .ProjectToType<BankTransferDto>()
-            .ToListAsync();
+        await this._repository.GetAllAsyncS(new BankTransfersOrderedByDateSpec());
 
     public async Task<BankTransferDto> AddBankTransfer(BankTransferAddDto bankTransferAdd)
     {
-        var bankTransfer = bankTransferAdd.Adapt<BankTransfer>();
-        await this._context.BankTransfers.AddAsync(bankTransfer);
-        await this._context.SaveChangesAsync();
+        var bankTransfer = await _repository.Add(bankTransferAdd);
         return await this.GetBankTransferAsync(bankTransfer.Id);
     }
 
     public async Task<BankTransferDto> GetBankTransferAsync(int id)
-    {
-        var bankTransfer = await this._context.BankTransfers
-            .SingleAsync(j => j.Id == id);
-
-        return bankTransfer.Adapt<BankTransferDto>();
-    }
+        => await _repository.GetAsync(id);
 
     public async Task DeleteBankTransferAsync(int id)
-    {
-        var journal = await this._context.BankTransfers.SingleAsync(a => a.Id == id);
-        this._context.BankTransfers.Remove(journal);
-        await this._context.SaveChangesAsync();
-    }
+        => await _repository.Delete(id);
 
     public async Task<BankTransferDto> UpdateBankTransferAsync(int id, BankTransferUpdateDto bankTransfer)
     {
-        var bankTransferToUpdate = await this
-            ._context
-            .BankTransfers
-            .SingleAsync(a => a.Id == id);
-
-        bankTransfer.Adapt(bankTransferToUpdate);
-
-        await this._context.SaveChangesAsync();
-
+        await _repository.Update(bankTransfer);
         return await GetBankTransferAsync(id);
     }
 }

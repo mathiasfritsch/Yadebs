@@ -1,6 +1,8 @@
-﻿namespace Yadebs.Db.IncomeSurplusCalculation;
+﻿using Yadebs.Bll.Repository;
 
-public class BankTransfer
+namespace Yadebs.Db.IncomeSurplusCalculation;
+
+public class BankTransfer : IEntity
 {
     public int Id { get; set; }
     public decimal? NetAmount { get; set; }

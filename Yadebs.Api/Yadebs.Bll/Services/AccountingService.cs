@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Yadebs.Bll.Repository;
 using Yadebs.Db;
+using Yadebs.Db.Specifications;
 using Yadebs.Models.Dto;
 
 namespace Yadebs.Bll.Services;
@@ -34,7 +35,7 @@ public class AccountingService : IAccountingService
         => await _repository.GetAsync(id);
 
     public async Task<IEnumerable<AccountDto>> GetAccountsAsync()
-        => await _repository.GetAllAsync();
+        => await _repository.GetAllAsyncS(new AccountListOrderedByNumberSpec());
 
     public async Task DeleteAccountAsync(int id)
     {
