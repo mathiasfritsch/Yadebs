@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using NodaTime;
+using NodaTime.Serialization.SystemTextJson;
 using Yadebs.Bll;
 using Yadebs.Bll.Interfaces;
 using Yadebs.Bll.Repository;
@@ -7,7 +9,13 @@ using Yadebs.Db;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+
+
+
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(opt => opt.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AccountingContext>(options =>

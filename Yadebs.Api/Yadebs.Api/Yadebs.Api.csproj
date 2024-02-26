@@ -3,10 +3,11 @@
     <UserSecretsId>8acf4e5c-7df6-4c02-900a-0d725ae70b01</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" >
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
+	  <PackageReference Include="NodaTime.Serialization.SystemTextJson" />
 	  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" />
     <PackageReference Include="Npgsql.NodaTime" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
