@@ -10,7 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<AccountingContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("AccountingContext")));
+builder.Services.AddDbContext<AccountingContext>(options =>
+    options.UseNpgsql(
+            builder.Configuration.GetConnectionString("AccountingContext"),
+            o => o.UseNodaTime()
+        )
+    );
 builder.Services.AddCors();
 
 builder.Services.AddScoped<IAccountingService, AccountingService>();

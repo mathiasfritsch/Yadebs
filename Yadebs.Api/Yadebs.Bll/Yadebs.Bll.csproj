@@ -2,6 +2,8 @@
   <ItemGroup>
     <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" />
     <PackageReference Include="Mapster" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" />
+    <PackageReference Include="Npgsql.NodaTime" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yadebs.Db\Yadebs.Db.csproj" />

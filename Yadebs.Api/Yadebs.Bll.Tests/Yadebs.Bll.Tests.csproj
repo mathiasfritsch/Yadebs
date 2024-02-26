@@ -4,10 +4,15 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk"  />
-    <PackageReference Include="MSTest.TestAdapter"  />
-    <PackageReference Include="MSTest.TestFramework"  />
-    <PackageReference Include="coverlet.collector"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="MSTest.TestAdapter" />
+    <PackageReference Include="MSTest.TestFramework" />
+    <PackageReference Include="coverlet.collector">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" />
+    <PackageReference Include="Npgsql.NodaTime" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yadebs.Bll\Yadebs.Bll.csproj" />

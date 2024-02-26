@@ -1,5 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-	  <PackageReference Include="Mapster"/>
+	  <PackageReference Include="Mapster" />
+	  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" />
+	  <PackageReference Include="Npgsql.NodaTime" />
   </ItemGroup>
 </Project>

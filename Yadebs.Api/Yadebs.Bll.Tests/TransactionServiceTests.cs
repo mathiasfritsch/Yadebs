@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.EntityFrameworkCore;
+using NodaTime;
 using Yadebs.Bll.Repository;
 using Yadebs.Bll.Services;
 using Yadebs.Db;
@@ -33,7 +34,7 @@ public class TransactionServiceTests
             {
                 Id = 13,
                 Description = "SomeDescription1",
-                Date = new DateTime(2020, 10, 15)
+                Date = new LocalDate(2020, 10, 15)
             }
         );
 
@@ -42,7 +43,7 @@ public class TransactionServiceTests
             {
                 Id = 59,
                 Description = "SomeDescription2",
-                Date = new DateTime(2020, 5, 20)
+                Date = new LocalDate(2020, 5, 20)
             }
         );
 
@@ -65,7 +66,7 @@ public class TransactionServiceTests
         var journalUpdate = journalFromStore.Adapt<JournalUpdateDto>();
 
         journalUpdate.Description = "Updated Description";
-        journalUpdate.Date = new DateTime(2020, 4, 13);
+        journalUpdate.Date = new LocalDate(2020, 4, 13);
 
         journalUpdate.Transactions[0].AccountId = 4235;
         journalUpdate.Transactions[0].Amount = (decimal)56.34;
@@ -144,7 +145,7 @@ public class TransactionServiceTests
         {
             Id = 13,
             Description = "SomeDescription1",
-            Date = new DateTime(2020, 10, 15),
+            Date = new LocalDate(2020, 10, 15),
             Transactions = new List<Transaction>()
         };
         journalInStore.Transactions.Add(transactionInStore1);
@@ -160,13 +161,13 @@ public class TransactionServiceTests
         {
             Id = 13,
             Description = "SomeDescription1",
-            Date = new DateTime(2020, 10, 15)
+            Date = new LocalDate(2020, 10, 15)
         };
         var journalInStoreToKeep = new Journal
         {
             Id = 234,
             Description = "SomeDescription2",
-            Date = new DateTime(2022, 4, 11)
+            Date = new LocalDate(2022, 4, 11)
         };
 
         await _accountingContext.AddRangeAsync(journalInStoreToDelete, journalInStoreToKeep);
@@ -205,7 +206,7 @@ public class TransactionServiceTests
         var journalToAdd = new JournalAddDto
         {
             Description = "SomeDescription1",
-            Date = new DateTime(2020, 10, 15),
+            Date = new LocalDate(2020, 10, 15),
             Transactions = new[]
             {
                 new TransactionAddDto()
