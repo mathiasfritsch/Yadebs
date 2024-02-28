@@ -32,11 +32,12 @@ export const selectJournalsWithAccounts = createSelector(
 export const selectJournalListViewModel = createSelector(
   selectAllJournals,
   selectAllAccounts,
-  (journals, accounts) =>
-    journals && accounts
+  (journals, accounts): JournalListViewModel[] =>
+     journals && accounts && journals.length > 0 && accounts.length > 0
       ? journals.map(j => mapJournalListViewModel(j, accounts))
       : []
 );
+
 export interface JournalListViewModel {
   id: number;
   date: Date;
