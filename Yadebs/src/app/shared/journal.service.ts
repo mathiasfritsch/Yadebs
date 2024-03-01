@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Journal } from './journal';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
+import * as moment from 'moment';
 @Injectable({
   providedIn: 'root',
 })
@@ -16,7 +16,21 @@ export class JournalService {
   addJournal(journal: Journal): Observable<Journal> {
     return this.httpClient.post<Journal>(
       'https://localhost:7211/api/Journals',
-      journal
+      {
+        bookId: journal.bookId,
+        description: journal.description,
+        date: moment(journal.date).format('YYYY-MM-DD'),
+        transactions: [
+          {
+            amount: journal.transactions[0].amount,
+            accountId: journal.transactions[0].accountId,
+          },
+          {
+            amount: journal.transactions[1].amount,
+            accountId: journal.transactions[1].accountId,
+          },
+        ],
+      }
     );
   }
 
@@ -25,12 +39,13 @@ export class JournalService {
   }
 
   updateJournal(journal: Journal): Observable<Journal> {
+
     return this.httpClient.put<Journal>(
       `https://localhost:7211/api/Journals/${journal.id}`,
       {
         id: journal.id,
         description: journal.description,
-        date: journal.date,
+        date: moment(journal.date).format('YYYY-MM-DD'),
         transactions: [
           {
             id: journal.transactions[0].id,

@@ -32,6 +32,7 @@ import {
 import { BanktransfersListComponent } from './banktransfers/banktransfers-list/banktransfers-list.component';
 import { BanktransfersEditComponent } from './banktransfers/banktransfers-edit/banktransfers-edit.component';
 
+
 const DE_DATE_FORMAT = {
   parse: {
     dateInput: 'DD.MM.YYYY',
@@ -69,7 +70,7 @@ const DE_DATE_FORMAT = {
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    LayoutModule,
+    LayoutModule
   ],
   providers: [
     {
