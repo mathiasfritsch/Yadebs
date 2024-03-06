@@ -7,7 +7,8 @@
           matInput
           id="description"
           type="text"
-          formControlName="description" />
+          formControlName="description"
+          data-cy="booking-edit-description"/>
         <mat-hint>Beschreibung</mat-hint>
         <mat-error *ngIf="journalForm.value.description">
           Beschreibung error
@@ -18,7 +19,7 @@
     <p>
       <mat-form-field appearance="fill">
         <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="date" />
+        <input matInput [matDatepicker]="picker" formControlName="date"     data-cy="booking-edit-date" />
         <mat-hint>DD.MM.YYYY</mat-hint>
         <mat-datepicker-toggle
           matIconSuffix
@@ -31,7 +32,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Amount</mat-label>
 
-        <input matInput id="amount" type="number" formControlName="amount" />
+        <input matInput id="amount" type="number" formControlName="amount"   data-cy="booking-edit-date" />
         <mat-hint>0.00</mat-hint>
         <mat-error *ngIf="journalForm.value.amount">Amount error</mat-error>
       </mat-form-field>
@@ -42,7 +43,8 @@
         <mat-select formControlName="sourceAccountId">
           <mat-option
             *ngFor="let accountListItem of accountList"
-            [value]="accountListItem.id">
+            [value]="accountListItem.id"
+             data-cy="booking-edit-account-source" >
             {{ accountListItem.name }}
           </mat-option>
         </mat-select>
@@ -56,7 +58,8 @@
         <mat-select formControlName="targetAccountId">
           <mat-option
             *ngFor="let accountListItem of accountList"
-            [value]="accountListItem.id">
+            [value]="accountListItem.id"
+            data-cy="booking-edit-account-target">
             {{ accountListItem.name }}
           </mat-option>
         </mat-select>
@@ -70,22 +73,25 @@
     mat-raised-button
     color="warn"
     (click)="submitDeleteForm()"
-    *ngIf="!isAdd">
+    *ngIf="!isAdd"
+      data-cy="booking-edit-submit-delete">
     Delete Booking
   </button>
   <button
     mat-raised-button
     (click)="submitAddForm()"
     *ngIf="isAdd"
-    color="accent">
+    color="accent"
+    data-cy="booking-edit-submit-add">
     Add Booking
   </button>
   <button
     mat-raised-button
     (click)="submitUpdateForm()"
     *ngIf="!isAdd"
-    color="accent">
+    color="accent"
+    data-cy="booking-edit-submit-update">
     Update Booking
   </button>
-  <button mat-raised-button (click)="closeForm()">Close</button>
+  <button mat-raised-button (click)="closeForm()"    data-cy="booking-edit-close">Close</button>
 </div>

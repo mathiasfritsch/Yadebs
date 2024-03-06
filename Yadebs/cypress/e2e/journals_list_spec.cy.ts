@@ -1,5 +1,4 @@
-describe('Account list tests', () => {
-
+describe('Booking list tests', () => {
   beforeEach(() => {
     cy.intercept('GET', '/api/Accounts',
       {
@@ -11,6 +10,6 @@ describe('Account list tests', () => {
 
   it('shows list off bookings', () => {
     cy.visit('/journal/list');
-
+    cy.wait('@accounts').its('request.url').should('include', 'api/Accounts')
   })
 })
