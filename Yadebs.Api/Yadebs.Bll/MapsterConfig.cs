@@ -2,13 +2,12 @@
 using Yadebs.Db;
 using Yadebs.Models.Dto;
 
-namespace Yadebs.Bll
+namespace Yadebs.Bll;
+
+public static class MapsterConfig
 {
-    public static class MapsterConfig
+    public static void ConfigureMapster()
     {
-        public static void ConfigureMapster()
-        {
-            TypeAdapterConfig<Journal, JournalDto>.NewConfig().MaxDepth(3);
-        }
+        TypeAdapterConfig<Journal, JournalDto>.NewConfig().MaxDepth(3);
     }
 }

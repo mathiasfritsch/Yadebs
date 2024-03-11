@@ -3,6 +3,7 @@
     <UserSecretsId>8acf4e5c-7df6-4c02-900a-0d725ae70b01</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+	  <InternalsVisibleTo Include ="Yadebs.IntegrationTests"/>
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

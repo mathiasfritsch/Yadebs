@@ -1,6 +1,5 @@
-﻿namespace Yadebs.Bll.Tests
+﻿namespace Yadebs.Bll.Tests;
+
+public class IncomeSurplusService
 {
-    public class IncomeSurplusService
-    {
-    }
 }
