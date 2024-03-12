@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Yadebs.Bll.Repository;
 
 namespace Yadebs.Db;
@@ -10,7 +11,12 @@ public class Account : IEntity
         this.Children = new List<Account>();
     }
     public int Id { get; set; }
+
+    public Book Book { get; set; }
+
+    [ForeignKey(nameof(Book))]
     public int BookId { get; set; }
+
     [MaxLength(100)]
     public string Name { get; set; } = default!;
     public int? Number { get; set; }

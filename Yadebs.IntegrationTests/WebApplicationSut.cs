@@ -8,6 +8,7 @@ class WebApplicationSut : WebApplicationFactory<Program>
 
     protected override IHost CreateHost(IHostBuilder builder)
     {
+        builder.ConfigureServices(_ => { });
         return base.CreateHost(builder);
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Yadebs.Bll;
+using Yadebs.Models.Configuration;
 using Yadebs.Models.Dto;
 
 namespace Yadebs.Api.Controllers;
@@ -8,6 +10,10 @@ namespace Yadebs.Api.Controllers;
 [ApiController]
 public class AccountsController : ControllerBase
 {
+    private IOptions<DbSettings> _options;
+
+
+
     private readonly IAccountingService _accountingService;
 
     public AccountsController(IAccountingService accountingService)
@@ -20,6 +26,7 @@ public class AccountsController : ControllerBase
 
     [HttpGet]
     public async Task<IEnumerable<AccountDto>> GetAsync() => await this._accountingService.GetAccountsAsync();
+
 
     [HttpGet("{id}")]
     public async Task<AccountDto> Get(int id) => await this._accountingService.GetAccountAsync(id);
