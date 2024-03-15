@@ -77,20 +77,19 @@ public class AccountingServiceTests
     [TestMethod]
     public async Task AddAccountAddsAccount_Test()
     {
-        var accountAdd = new Models.Dto.AccountDto()
+        var accountAdd = new AccountAddDto()
         {
-            Id = 13,
             BookId = 1,
             Name = "SomeAccount1",
             Number = 123445,
             ParentId = 256
         };
 
-        _ = await _accountingService.AddAccountAsync(accountAdd);
+        var accountAdded = await _accountingService.AddAccountAsync(accountAdd);
 
-        var accountReload = await _accountingService.GetAccountAsync(accountAdd.Id);
+        var accountReload = await _accountingService.GetAccountAsync(accountAdded.Id);
 
-        Assert.AreEqual(accountAdd.Id, accountReload.Id);
+        Assert.AreEqual(accountAdded.Id, accountReload.Id);
         Assert.AreEqual(accountAdd.BookId, accountReload.BookId);
         Assert.AreEqual(accountAdd.Name, accountReload.Name);
         Assert.AreEqual(accountAdd.Number, accountReload.Number);

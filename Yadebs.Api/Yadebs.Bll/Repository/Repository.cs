@@ -13,19 +13,15 @@ public class Repository<T, TDto, TUpdate, TAdd>(AccountingContext context) : IRe
     where TAdd : class
 {
     public async Task<TDto> GetAsync(int id)
-    {
-        return (await context.Set<T>().SingleAsync(e => e.Id == id))
+        => (await context.Set<T>().SingleAsync(e => e.Id == id))
             .Adapt<TDto>();
-    }
 
 
     public async Task<TDto> GetAsyncS(int id, ISpecification<T> specification)
-    {
-        return (await context.Set<T>()
+        => (await context.Set<T>()
                 .WithSpecification(specification)
                 .SingleAsync(e => e.Id == id))
             .Adapt<TDto>();
-    }
 
     public async Task<List<TDto>> GetAllAsync() =>
         await context.Set<T>().ProjectToType<TDto>().ToListAsync();
